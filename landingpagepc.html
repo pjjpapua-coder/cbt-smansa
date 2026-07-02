@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SMP NEGERI 2 Sentani</title>
+    <title>SMA Negeri 1 Sentani</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -173,12 +173,12 @@
 <body oncontextmenu="return false;">
 
     <div id="start-overlay">
-        <p class="start-text">Selamat Datang di Halaman Assesment<br>SMP NEGERI 2 Sentani</p>
+        <p class="start-text">Selamat Datang di Halaman Assesment<br>SMA Negeri 1 Sentani</p>
         <button class="start-btn" id="start-btn">Mulai</button>
     </div>
 
     <audio id="local-audio" loop crossorigin="anonymous">
-        <source src="https://smpn2sentani.id/SAMSON.mp3" type="audio/mpeg">
+        <source src="https://github.com/pjjpapua-coder/samson/raw/refs/heads/main/laskrpelangi.MP3" type="audio/mpeg">
     </audio>
 
     <!-- Canvas untuk RGB Spectrum -->
@@ -207,7 +207,7 @@
 
         <p class="status-text" id="status-message">Menghubungkan ke sistem...</p>
 
-        <a href="https://smpn2sentani.id/webujian/modepc.html" class="btn" id="masuk-btn">Masuk ke
+        <a href="https://pjjpapua-coder.github.io/cbt-smansa/modepc.html" class="btn" id="masuk-btn">Masuk ke
             Jadwal Ujian</a>
     </div>
 
@@ -229,7 +229,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        const targetUrl = "https://smpn2sentani.id/webujian/modepc.html";
+        const targetUrl = "https://pjjpapua-coder.github.io/cbt-smansa/modepc.html";
         const statusMessage = document.getElementById("status-message");
         const masukBtn = document.getElementById("masuk-btn");
         const audioPlayer = document.getElementById('local-audio');
