@@ -2079,10 +2079,24 @@
                         <option value="">-- Pilih Mata Pelajaran --</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label>Pilihan Kelas</label>
-                    <div class="checkbox-group-container" id="editKelasContainer"></div>
+                    <label style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            Pilihan Kelas
+                        </span>
+                        <button type="button" id="btnToggleEditKelas" onclick="toggleEditKelasContainer()" 
+                            style="width: auto; padding: 4px 10px; font-size: 12px; font-weight: normal; margin-top: 0; background-color: var(--primary-color); border: none; color: #ffffff; border-radius: 4px; box-shadow: none; cursor: pointer; text-transform: lowercase; transition: all 0.2s ease;">tampilkan</button>
+                    </label>
+                    <div class="checkbox-group-container" id="editKelasContainer" style="display: none; margin-top: 6px;"></div>
                 </div>
+
                 <div class="form-row">
                     <div class="form-col">
                         <label>Tanggal</label>
@@ -2167,6 +2181,9 @@
         window.copyActiveToken = copyActiveToken;
         
         window.toggleKelasContainer = toggleKelasContainer;
+        
+        // PERUBAHAN: Ekspos fungsi ke window object global
+        window.toggleEditKelasContainer = toggleEditKelasContainer;
 
         document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
 
@@ -2560,6 +2577,10 @@
 
         async function openEditModal(docId) {
             try {
+                // PERUBAHAN: Reset tampilan kelas setiap kali modal edit dibuka
+                document.getElementById('editKelasContainer').style.display = 'none';
+                document.getElementById('btnToggleEditKelas').textContent = 'tampilkan';
+
                 const docRef = doc(db, "exams", docId);
                 const docSnap = await getDoc(docRef);
 
@@ -2632,6 +2653,19 @@
         function toggleKelasContainer() {
             const container = document.getElementById("kelasContainer");
             const btn = document.getElementById("btnToggleKelas");
+            if (container.style.display === "none" || container.style.display === "") {
+                container.style.display = "block";
+                btn.textContent = "sembunyikan";
+            } else {
+                container.style.display = "none";
+                btn.textContent = "tampilkan";
+            }
+        }
+        
+        // PERUBAHAN: Fungsi script untuk mengontrol show/hide kelas di modal Edit Data
+        function toggleEditKelasContainer() {
+            const container = document.getElementById("editKelasContainer");
+            const btn = document.getElementById("btnToggleEditKelas");
             if (container.style.display === "none" || container.style.display === "") {
                 container.style.display = "block";
                 btn.textContent = "sembunyikan";
