@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1749,7 +1748,7 @@
                     </div>
                     <canvas id="visualizer"></canvas>
                     
-                    <audio id="nativeAudioPlayer" src="https://raw.githubusercontent.com/pjjpapua-coder/samson/e1a03cf22bf52aeafe20d3c9c06fc858edfa98ce/NOAH-Orchestra%20(1).mp3" preload="metadata"></audio>
+                    <audio id="nativeAudioPlayer" crossorigin="anonymous" src="https://raw.githubusercontent.com/pjjpapua-coder/samson/e1a03cf22bf52aeafe20d3c9c06fc858edfa98ce/NOAH-Orchestra%20(1).mp3" preload="metadata"></audio>
                 </div>
             </div>
 
@@ -2137,14 +2136,13 @@
         window.updateRedirectButtonUI = updateRedirectButtonUI;
         window.currentRedirectStatus = "OFF";
 
-        // Fitur Manajemen Token (Baru)
+        // Fitur Manajemen Token 
         window.openTokenAuth = openTokenAuth;
         window.closeTokenModal = closeTokenModal;
         window.verifyTokenPassword = verifyTokenPassword;
         window.generateNewTokenManual = generateNewTokenManual;
         window.copyActiveToken = copyActiveToken;
         
-        // PERBAIKAN: Registrasi Fungsi Toggle Checkbox Kelas ke Window Global
         window.toggleKelasContainer = toggleKelasContainer;
 
         document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
@@ -2162,6 +2160,11 @@
         let tokenTimerInterval;
         let tokenTimeLeft = 180;
 
+        // === VARIABEL GLOBAL UNTUK WEB AUDIO API (VISUALIZER) ===
+        let audioCtx;
+        let analyser;
+        let dataArray;
+
         document.addEventListener("DOMContentLoaded", function () {
             initNetworkBackground();
             generateKelasCheckboxes('kelasContainer', 'kelas_pilihan');
@@ -2169,7 +2172,6 @@
             initMusicPlayer();
             setDynamicGreeting();
 
-            // Listener enter untuk password token
             const tokenPassInput = document.getElementById("tokenPassword");
             if (tokenPassInput) {
                 tokenPassInput.addEventListener("keyup", function (event) {
@@ -2604,7 +2606,6 @@
             }
         }
 
-        // PERBAIKAN: Fungsi Logika Klik Toggle Menampilkan & Sembunyikan Pilihan Kelas
         function toggleKelasContainer() {
             const container = document.getElementById("kelasContainer");
             const btn = document.getElementById("btnToggleKelas");
@@ -2638,13 +2639,6 @@
                     document.getElementById("loginContent").style.display = "none";
                     document.getElementById("loadingStatus").style.display = "flex";
                     
-                    // Mainkan musik otomatis pasca-login berhasil (HMTL5 Audio)
-                    const audio = document.getElementById("nativeAudioPlayer");
-                    if (audio) {
-                        audio.play().catch(e => console.log("Autoplay dicegah oleh browser:", e));
-                        document.getElementById("btnPlayPause").textContent = "⏸";
-                    }
-
                     startRealTimeSync();
                 } else {
                     showPopUpModal("Akses Ditolak", "Username atau Password salah!", "error");
@@ -2772,7 +2766,6 @@
                 await addDoc(collection(db, 'exams'), formData);
                 showPopUpModal("Sukses", "Data assessment berhasil disimpan ke Cloud!", "success");
                 document.getElementById("soalForm").reset();
-                // Kembalikan ke mode tersembunyi setelah reset
                 document.getElementById("kelasContainer").style.display = "none";
                 document.getElementById("btnToggleKelas").textContent = "tampilkan";
             } catch (err) {
@@ -3281,7 +3274,7 @@
             if (unsubExams) unsubExams();
             if (unsubRedirect) unsubRedirect();
 
-            clearInterval(tokenTimerInterval); // Hentikan timer token saat logout
+            clearInterval(tokenTimerInterval); 
 
             document.getElementById("loginForm").reset();
             document.getElementById("soalForm").reset();
@@ -3291,7 +3284,6 @@
             document.getElementById("kelasContainer").style.display = "none";
             document.getElementById("btnToggleKelas").textContent = "tampilkan";
 
-            // Hentikan pemutaran lagu (HTML5) saat logout
             const audio = document.getElementById("nativeAudioPlayer");
             if (audio) {
                 audio.pause();
@@ -3301,7 +3293,9 @@
             showPopUpModal("Sesi Berakhir", "Anda telah keluar dari dashboard.", "success");
         }
 
-        // PERBAIKAN: Mengganti Youtube Player ke HTML5 Audio Player
+        // =============================================================
+        // KONTROL MUSIC PLAYER HTML5 & WEB AUDIO API
+        // =============================================================
         function initMusicPlayer() {
             const audio = document.getElementById("nativeAudioPlayer");
             const btnPlay = document.getElementById("btnPlayPause");
@@ -3312,6 +3306,29 @@
             const durationDisplay = document.getElementById("duration");
 
             btnPlay.addEventListener("click", () => {
+                
+                // Minta akses Audio Context ke browser SAAT USER KLIK PLAY PERTAMA KALI
+                if (!audioCtx) {
+                    // Cek kompabilitas browser
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioCtx.createAnalyser();
+                    const source = audioCtx.createMediaElementSource(audio);
+                    
+                    // Hubungkan source lagu -> analyser -> output (speaker)
+                    source.connect(analyser);
+                    analyser.connect(audioCtx.destination);
+                    
+                    // Semakin kecil fftSize, bar grafik semakin tebal/sedikit (contoh: 32, 64, 128, 256)
+                    analyser.fftSize = 128; 
+                    const bufferLength = analyser.frequencyBinCount;
+                    dataArray = new Uint8Array(bufferLength);
+                }
+
+                // Terkadang state Context suspend oleh browser, jadi harus kita resume
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
                 if (audio.paused) {
                     audio.play();
                     btnPlay.textContent = "⏸";
@@ -3377,13 +3394,10 @@
                 audio.currentTime = 0;
             });
 
-            // Jadikan objek audio global agar bisa diakses oleh visualizer
             window.audioElement = audio;
-
             drawVisualizer();
         }
 
-        // PERBAIKAN: Fungsi Menggambar Visualizer merespons status HTML5 Audio Player
         function drawVisualizer() {
             requestAnimationFrame(drawVisualizer);
             const canvas = document.getElementById("visualizer");
@@ -3403,27 +3417,37 @@
             gradient.addColorStop(0.75, '#0066ff');
             gradient.addColorStop(1, '#9900ff');
 
+            canvasCtx.fillStyle = gradient;
+
             const barCount = 40;
             const barWidth = (canvas.width / barCount) * 0.8;
             const gap = (canvas.width / barCount) * 0.2;
-            canvasCtx.fillStyle = gradient;
 
-            let isPlaying = false;
-            // Ambil status play dari elemen HTML5 audio
-            if (window.audioElement && !window.audioElement.paused) {
-                isPlaying = true;
-            }
+            // Jika Analyser sudah membaca dan musik sedang dimainkan: Gambar frekuensi ASLI
+            if (analyser && window.audioElement && !window.audioElement.paused) {
+                // Tarik data byte (0 hingga 255) yang ada saat ini
+                analyser.getByteFrequencyData(dataArray);
+                
+                const step = Math.floor(dataArray.length / barCount);
 
-            for (let i = 0; i < barCount; i++) {
-                let barHeight = 2;
-                if (isPlaying) {
-                    const time = Date.now() * 0.004;
-                    const wave = Math.sin(i * 0.3 + time) * Math.cos(i * 0.15 - time * 0.7);
-                    barHeight = Math.abs(wave) * canvas.height * 0.85 + Math.random() * 4;
+                for (let i = 0; i < barCount; i++) {
+                    const dataIndex = i * step;
+                    const audioValue = dataArray[dataIndex]; 
+                    
+                    // Ubah rentang frekuensi 0 - 255 menjadi rentang persentase tinggi canvas
+                    let barHeight = (audioValue / 255) * canvas.height;
+                    
+                    if (barHeight < 2) barHeight = 2; // Batas minimal
+
+                    const x = i * (barWidth + gap);
+                    canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
                 }
-                if (barHeight < 2) barHeight = 2;
-                const x = i * (barWidth + gap);
-                canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+            } else {
+                // Jika sedang pause atau idle: Tampilkan garis datar minimalis (Animasi standby)
+                for (let i = 0; i < barCount; i++) {
+                    const x = i * (barWidth + gap);
+                    canvasCtx.fillRect(x, canvas.height - 2, barWidth, 2);
+                }
             }
         }
     </script>
