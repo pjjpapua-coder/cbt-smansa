@@ -178,7 +178,6 @@
             align-items: center;
         }
 
-        /* PERBAIKAN TOMBOL REDIRECT MENJADI BULAT SEMPURNA */
         .btn-redirect-header {
             width: 36px;
             height: 36px;
@@ -204,7 +203,6 @@
             transform: scale(0.95);
         }
 
-        /* Token Header Button Style */
         .btn-token-header {
             width: 36px;
             height: 36px;
@@ -1788,15 +1786,15 @@
                             Tutor singkat
                         </div>
                         <div style="padding: 12px 14px;">
-                            <span id="greetingText">Hallo </span> Bapak/Ibu guru hebat...., untuk menambah data guru
-                            baru klik menu "tambah" disebelah label "nama guru" and simpan. sedangkan untuk menghapus
-                            data guru, pilih nama guru pada menu dropdown "pilih nama gurunya" lanjutkan klik "hapus",
-                            begitu juga untuk mata pelajaran. kemudian untuk edit data link assessment, klik icon edit
-                            dan lanjutkan simpan perubahannya. untuk menghapus data link soal bisa secara global atau
-                            beberapa link yang anda tandai pada checklist. terimakasih atas perhatian anda..
+                            <p style="margin-top: 0; margin-bottom: 10px;"><span id="greetingText" style="font-weight: bold; color: #ffffff;">Hallo </span> Bapak/Ibu guru hebat. Berikut adalah <strong>Panduan Pengelolaan Data</strong> pada C-Panel AMS:</p>
+                            <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+                                <li><strong>Menambah Data Guru Baru:</strong> Klik tombol "Tambah" yang terletak di sebelah label "Nama Guru", lengkapi data, lalu klik "Simpan".</li>
+                                <li><strong>Menghapus Data Guru dan Mata Pelajaran:</strong> Untuk menghapus data guru, silakan pilih nama guru pada menu dropdown "Pilih Nama Gurunya", kemudian klik tombol "Hapus". Langkah yang sama juga berlaku untuk menghapus data Mata Pelajaran.</li>
+                                <li><strong>Mengubah (Edit) Data Tautan Penilaian (Link Assessment):</strong> Buka fitur pencarian tautan aktif, pilih opsi tanggal yang sesuai, lalu klik ikon Edit. Setelah melakukan penyesuaian, pastikan untuk mengeklik "Simpan" guna menyimpan perubahan.</li>
+                                <li><strong>Menghapus Data Tautan Soal:</strong> Anda dapat menghapus data tautan soal secara keseluruhan (global) sekaligus, atau secara spesifik dengan mencentang beberapa tautan pilihan pada kotak checklist.</li>
+                            </ul>
                         </div>
                     </div>
-
                     <div class="header"
                         style="margin: 14px 18px 12px 18px; text-align: left; padding: 8px 12px; background: linear-gradient(to right, rgba(0, 186, 198, 0.4), rgba(255,255,255,0.05)); border-bottom: 1px solid rgba(255,255,255,0.15); border-radius: 6px;">
                         <h2
@@ -1973,9 +1971,11 @@
                 <div style="padding: 24px 20px; background: transparent;">
                     <div
                         style="background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                        
                         <div id="activeTokenDisplay"
-                            style="font-size: 24px; font-weight: 800; letter-spacing: 6px; color: #ffffff; flex: 1; text-align: center; margin-left: 36px;">
+                            style="font-size: 38px; font-weight: 900; letter-spacing: 8px; color: #ffffff; flex: 1; text-align: center; margin-left: 36px;">
                             ...</div>
+                            
                         <button id="btnCopyToken" onclick="copyActiveToken()" title="Salin Token"
                             style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #cbd5e1; transition: all 0.2s; margin: 0; padding: 0;">
                             <svg id="copyIcon" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -2181,8 +2181,6 @@
         window.copyActiveToken = copyActiveToken;
         
         window.toggleKelasContainer = toggleKelasContainer;
-        
-        // PERUBAHAN: Ekspos fungsi ke window object global
         window.toggleEditKelasContainer = toggleEditKelasContainer;
 
         document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
@@ -2577,7 +2575,6 @@
 
         async function openEditModal(docId) {
             try {
-                // PERUBAHAN: Reset tampilan kelas setiap kali modal edit dibuka
                 document.getElementById('editKelasContainer').style.display = 'none';
                 document.getElementById('btnToggleEditKelas').textContent = 'tampilkan';
 
@@ -2662,7 +2659,6 @@
             }
         }
         
-        // PERUBAHAN: Fungsi script untuk mengontrol show/hide kelas di modal Edit Data
         function toggleEditKelasContainer() {
             const container = document.getElementById("editKelasContainer");
             const btn = document.getElementById("btnToggleEditKelas");
