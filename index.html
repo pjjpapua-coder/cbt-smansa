@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2957,10 +2958,11 @@
             const container = document.getElementById(containerId);
             if (!container) return;
 
+            // Daftar kelas diperbarui sesuai dengan source gambar
             const daftarKelas = [
-                { tingkat: '10', opsi: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6'] },
-                { tingkat: '11', opsi: ['F1', 'F2', 'F3', 'F4', 'F5', 'F6'] },
-                { tingkat: '12', opsi: ['FA1', 'FA2', 'FA3', 'FA4', 'FA5', 'FA6'] }
+                { tingkat: 'X', opsi: ['X. F1', 'X. F2', 'X. F3', 'X. F4', 'X. F5', 'X. F6', 'X. F7', 'X. F8', 'X. F9', 'X. F10', 'X. F11', 'X. F12', 'X. F13', 'X. F14'] },
+                { tingkat: 'XI', opsi: ['XI. F1', 'XI. F2', 'XI. F3', 'XI. F4', 'XI. F5', 'XI. F6', 'XI. F7', 'XI. F8', 'XI. F9', 'XI. F10', 'XI. F11', 'XI. F12'] },
+                { tingkat: 'XII', opsi: ['XII. F1', 'XII. F2', 'XII. F3', 'XII. F4', 'XII. F5', 'XII. F6', 'XII. F7', 'XII. F8', 'XII. F9', 'XII. F10', 'XII. F11', 'XII. F12'] }
             ];
 
             daftarKelas.forEach(data => {
@@ -3068,25 +3070,26 @@
             printArea.innerHTML = "";
             printArea.style.display = "block";
 
+            // Susunan Fase untuk Layout Cetak Terbaru
             const phases = [
                 {
-                    id: 'EF',
-                    groups: [
-                        { name: 'FASE E', classes: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6'] },
-                        { name: 'FASE F', classes: ['F1', 'F2', 'F3', 'F4', 'F5', 'F6'] }
-                    ]
+                    id: 'X',
+                    groups: [{ name: 'KELAS X', classes: ['X. F1', 'X. F2', 'X. F3', 'X. F4', 'X. F5', 'X. F6', 'X. F7', 'X. F8', 'X. F9', 'X. F10', 'X. F11', 'X. F12', 'X. F13', 'X. F14'] }]
                 },
                 {
-                    id: 'FA',
-                    groups: [
-                        { name: 'FASE FA', classes: ['FA1', 'FA2', 'FA3', 'FA4', 'FA5', 'FA6'] }
-                    ]
+                    id: 'XI',
+                    groups: [{ name: 'KELAS XI', classes: ['XI. F1', 'XI. F2', 'XI. F3', 'XI. F4', 'XI. F5', 'XI. F6', 'XI. F7', 'XI. F8', 'XI. F9', 'XI. F10', 'XI. F11', 'XI. F12'] }]
+                },
+                {
+                    id: 'XII',
+                    groups: [{ name: 'KELAS XII', classes: ['XII. F1', 'XII. F2', 'XII. F3', 'XII. F4', 'XII. F5', 'XII. F6', 'XII. F7', 'XII. F8', 'XII. F9', 'XII. F10', 'XII. F11', 'XII. F12'] }]
                 }
             ];
 
             const schedule = {};
-            let hasFaseFA = false;
-            let hasFaseEF = false;
+            let hasKelasX = false;
+            let hasKelasXI = false;
+            let hasKelasXII = false;
 
             records.forEach(r => {
                 const tglBersih = formatStringDate(r.tanggal);
@@ -3103,8 +3106,10 @@
                 classes.forEach(c => {
                     if (c) {
                         schedule[dateKey][timeKey][c] = mapel;
-                        if (c.startsWith('FA')) hasFaseFA = true;
-                        else hasFaseEF = true;
+                        // Penanda kelas aktif untuk dicetak
+                        if (c.startsWith('XII.')) hasKelasXII = true;
+                        else if (c.startsWith('XI.')) hasKelasXI = true;
+                        else if (c.startsWith('X.')) hasKelasX = true;
                     }
                 });
             });
@@ -3123,14 +3128,14 @@
             <div class="print-kop">
                 <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo">
                 <div class="print-kop-text">
-                    <h2>JADWAL ASESMEN AKHIR SEMESTER</h2>
-                    <h2>SMA YPPK ST. FRANSISKUS ASISI SENTANI</h2>
+                    <h2>JADWAL ASSESSMENT UTS/UAS</h2>
+                    <h2>SMA NEGERI 1 SENTANI</h2>
                 </div>
             </div>
-        `;
+            `;
 
             function buildTableForPhase(phaseConfig) {
-                let tableHtml = `<table class="print-schedule-table">
+                let tableHtml = `<table class="print-schedule-table" style="margin-bottom: 25px;">
                 <thead>
                     <tr>
                         <th rowspan="2" style="width:25px;">NO</th>
@@ -3170,7 +3175,6 @@
                             g.classes.forEach(c => {
                                 const mapel = schedule[dateKey][time][c] || "";
                                 const bgColor = getSubjectColor(mapel);
-
                                 tableHtml += `<td style="background-color: ${bgColor} !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;">${mapel}</td>`;
                             });
                         });
@@ -3182,18 +3186,10 @@
                 return tableHtml;
             }
 
-            if (hasFaseEF) html += buildTableForPhase(phases[0]);
-            if (hasFaseFA) html += buildTableForPhase(phases[1]);
-
-            html += `
-            <div class="print-signature">
-                <p>Mengetahui,</p>
-                <p>Kepala SMA YPPK ASISI</p>
-                <div class="sig-space"></div>
-                <p style="text-decoration: underline; font-weight: bold;">Junita Hutapea, S.Pd.,M.Pd</p>
-                <p>NIP. 196806211994122005</p>
-            </div>
-        `;
+            // Render tabel HANYA jika ada jadwal terkait kelas tersebut
+            if (hasKelasX) html += buildTableForPhase(phases[0]);
+            if (hasKelasXI) html += buildTableForPhase(phases[1]);
+            if (hasKelasXII) html += buildTableForPhase(phases[2]);
 
             printArea.innerHTML = html;
 
