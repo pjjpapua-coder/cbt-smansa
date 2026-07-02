@@ -1265,6 +1265,19 @@
             box-shadow: 0 -4px 12px rgba(15, 23, 42, 0.2);
             letter-spacing: 0.01em;
         }
+        
+        /* CSS untuk styling link di dalam footer */
+        .floating-footer a {
+            color: #ffffff !important; /* Warna link menjadi putih solid */
+            text-decoration: none; 
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .floating-footer a:hover {
+            color: #cbd5e1 !important; /* Warna redup/abu-abu saat cursor hover */
+            text-decoration: underline; 
+        }
 
         body *:not(.page-header):not(.page-header *):not(.print-header):not(.print-header *):not(.floating-footer):not(.floating-footer *):not(.login-welcome-title):not(.info-title):not(.y-axis span):not(.bar-label):not(.bar-tooltip div) {
             font-weight: normal !important;
@@ -2090,8 +2103,8 @@
     </div>
 
     <div class="floating-footer">
-    &copy; 2026 Copyright by <a href="https://www.tiktok.com/@ekoyudhisusilo/video/7643096475689356564?is_from_webapp=1&sender_device=pc&web_id=7651977512873035272" target="_blank" rel="noopener noreferrer">Eko Yudhi, S.T.</a>
-</div>
+        &copy; 2026 Copyright by <a href="https://www.facebook.com/share/1HrDvZrzZx/" target="_blank" rel="noopener noreferrer">Eko Yudhi, S.T.</a>
+    </div>
 
     <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;"
         onchange="handleExcelImport(event)">
