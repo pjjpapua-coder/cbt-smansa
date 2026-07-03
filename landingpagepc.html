@@ -63,6 +63,13 @@
             padding: 20px;
         }
 
+        .start-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
         .start-btn {
             padding: 12px 28px;
             font-size: 15px;
@@ -80,6 +87,21 @@
             gap: 8px;
         }
 
+        /* --- CSS untuk Jam --- */
+        .waktu-sekarang {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding: 8px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 2;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
         .card {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             padding: 30px 25px;
@@ -95,6 +117,24 @@
 
         .logo {
             width: 100px;
+            margin-bottom: 5px;
+        }
+
+        /* --- CSS untuk Copyright --- */
+        .copyright-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .info-text {
             margin-bottom: 15px;
         }
 
@@ -122,6 +162,12 @@
             border-radius: 50px;
             font-size: 14px;
             font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #f3f4f6;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
         }
 
         /* Audio Visualizer Canvas */
@@ -178,45 +224,77 @@
     </div>
 
     <audio id="local-audio" loop crossorigin="anonymous">
-        <source src="https://github.com/pjjpapua-coder/samson/raw/refs/heads/main/laskrpelangi.MP3" type="audio/mpeg">
+        <source src="https://raw.githubusercontent.com/pjjpapua-coder/samson/refs/heads/main/laskrpelangi.MP3" type="audio/mpeg">
     </audio>
 
-    <!-- Canvas untuk RGB Spectrum -->
     <canvas id="audio-visualizer"></canvas>
 
-    <!-- Speaker Button Mute / Unmute -->
     <div id="audio-control" title="Mute/Unmute">
-        <!-- Icon Unmute (Speaker Menyala) -->
         <svg id="icon-unmute" viewBox="0 0 24 24" style="display: none;">
-            <path
-                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
         </svg>
-        <!-- Icon Mute (Speaker Mati) -->
         <svg id="icon-mute" viewBox="0 0 24 24">
-            <path
-                d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
         </svg>
     </div>
 
+    <div class="waktu-sekarang" id="waktu-display">
+        Waktu Sekarang: Memuat...
+    </div>
+
     <div class="card">
-        <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" class="logo">
-        <h1>Selamt datang peserta Assesment UTS/UAS</h1>
+        <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" class="logo" alt="Logo Smansa">
+        
+        <div class="copyright-label">@2026 Copyright Eko Yudhi, S.T, Gr</div>
+
+        <h1>Selamat datang peserta Assesment UTS/UAS</h1>
         <p class="info-text">
             <span class="date-highlight">Sistem Terhubung ke Server</span>
         </p>
 
         <p class="status-text" id="status-message">Menghubungkan ke sistem...</p>
 
-        <a href="https://pjjpapua-coder.github.io/cbt-smansa/modepc.html" class="btn" id="masuk-btn">Masuk ke
-            Jadwal Ujian</a>
+        <a href="https://pjjpapua-coder.github.io/cbt-smansa/modepc.html" class="btn" id="masuk-btn">Masuk ke Jadwal Ujian</a>
     </div>
+
+    <script>
+        function updateWaktu() {
+            const now = new Date();
+            
+            // Array nama hari
+            const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const namaHari = hari[now.getDay()];
+            
+            // Array nama bulan
+            const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const tanggal = now.getDate();
+            const namaBulan = bulan[now.getMonth()];
+            const tahun = now.getFullYear();
+            
+            // Format Tanggal Lengkap
+            const formatTanggal = `${tanggal} ${namaBulan} ${tahun}`;
+
+            // Format jam, menit, detik (tambah angka 0 di depan jika di bawah 10)
+            const jam = String(now.getHours()).padStart(2, '0');
+            const menit = String(now.getMinutes()).padStart(2, '0');
+            const detik = String(now.getSeconds()).padStart(2, '0');
+            const formatJam = `${jam}:${menit}:${detik}`;
+            
+            // Tampilkan ke elemen HTML sesuai urutan: Hari, Tanggal, Jam
+            document.getElementById('waktu-display').innerText = `Waktu Sekarang: ${namaHari}, ${formatTanggal}, ${formatJam}`;
+        }
+
+        // Jalankan fungsi updateWaktu setiap detik (1000 ms)
+        setInterval(updateWaktu, 1000);
+        updateWaktu(); // Panggilan pertama agar tidak delay
+    </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // --- KONFIGURASI FIREBASE CLOUD FIRESTORE ---
-       const firebaseConfig = {
+        // --- KONFIGURASI FIREBASE CLOUD FIRESTORE ---
+        const firebaseConfig = {
             apiKey: "AIzaSyDSSqyRJxxDjW7sJttHJzZ85t0bwpG6i18",
             authDomain: "smansa-stn.firebaseapp.com",
             projectId: "smansa-stn",
@@ -224,7 +302,7 @@
             messagingSenderId: "942856203234",
             appId: "1:942856203234:web:26f61cb6a795e601ada7bb",
             measurementId: "G-1WZE2HPMW7"
-       };
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -234,18 +312,7 @@
         const masukBtn = document.getElementById("masuk-btn");
         const audioPlayer = document.getElementById('local-audio');
 
-        // Tombol Start
-        document.getElementById('start-btn').addEventListener('click', function () {
-            document.getElementById("start-overlay").style.display = 'none';
-            // Start audio
-            initAudioContext();
-            audioPlayer.play().catch(e => console.log("Autoplay blocked:", e));
-            audioPlayer.muted = false;
-            document.getElementById('icon-unmute').style.display = 'block';
-            document.getElementById('icon-mute').style.display = 'none';
-        });
-
-        // Audio Visualizer Script
+        // Audio Visualizer Setup
         const audioControl = document.getElementById('audio-control');
         const iconUnmute = document.getElementById('icon-unmute');
         const iconMute = document.getElementById('icon-mute');
@@ -303,12 +370,35 @@
             }
         }
 
-        function toggleMute() {
+        // Tombol Start (Mengaktifkan Audio & AudioContext sekaligus dari interaksi user)
+        document.getElementById('start-btn').addEventListener('click', async function () {
+            document.getElementById("start-overlay").style.display = 'none';
+            
+            // Inisialisasi AudioContext
+            initAudioContext();
+            
+            // Membangunkan AudioContext yang disuspended oleh policy browser
+            if (audioContext && audioContext.state === 'suspended') {
+                await audioContext.resume();
+            }
+            
+            // Putar audio
+            audioPlayer.muted = false;
+            audioPlayer.play().catch(e => console.log("Autoplay blocked:", e));
+            
+            iconUnmute.style.display = 'block';
+            iconMute.style.display = 'none';
+        });
+
+        // Toggle Fungsi Mute/Unmute manual
+        async function toggleMute() {
             if (!isInitialized) initAudioContext();
-            if (audioContext && audioContext.state === 'suspended') audioContext.resume();
+            if (audioContext && audioContext.state === 'suspended') {
+                await audioContext.resume();
+            }
 
             if (audioPlayer.paused) {
-                audioPlayer.play();
+                audioPlayer.play().catch(e => console.log(e));
                 audioPlayer.muted = false;
                 iconUnmute.style.display = 'block';
                 iconMute.style.display = 'none';
