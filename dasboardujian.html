@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal CBT - SMA Negeri 1 Sentani</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            /* Diganti ke Slate 200 agar jauh lebih redup dan nyaman di mata */
+            background-color: #e2e8f0; 
+        }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        
+        /* Custom Scrollbar Minimalis */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; } /* Thumb digelapkan sedikit */
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* Dekorasi Background SVG Animasi */
+        .bg-pattern {
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="font-inter text-slate-800 antialiased min-h-screen flex items-center justify-center overflow-x-hidden">
+
+    <div class="flex flex-col lg:flex-row w-full min-h-screen">
+        
+        <div class="lg:w-5/12 bg-gradient-to-br from-blue-900 via-indigo-800 to-blue-900 p-8 lg:p-16 flex flex-col justify-between relative overflow-hidden shadow-2xl z-10 rounded-b-[3rem] lg:rounded-none lg:rounded-r-[3rem]">
+            
+            <div class="absolute inset-0 bg-pattern opacity-30"></div>
+            <div class="absolute -top-24 -left-24 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-48 h-48 bg-indigo-500/30 rounded-full blur-3xl"></div>
+
+            <div class="relative z-10 flex flex-col items-center lg:items-start text-center lg:text-left mt-8 lg:mt-0">
+                <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo SMAN 1 Sentani" class="w-24 h-24 mb-6 drop-shadow-xl hover:scale-105 transition-transform duration-500">
+                
+                <span class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-blue-100 text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm">
+                    Tahun Ajaran Berjalan
+                </span>
+
+                <h1 class="font-poppins text-3xl md:text-5xl font-bold text-white mb-3 leading-tight">
+                    Portal Evaluasi <br class="hidden lg:block"/> Digital
+                </h1>
+                <h2 class="text-lg md:text-xl text-blue-200 font-medium mb-6">
+                    SMA Negeri 1 Sentani
+                </h2>
+                
+                <p class="text-blue-100/80 text-sm md:text-base leading-relaxed max-w-md">
+                    Assessment Management System. Otomatisasi Tata Kelola Soal Ujian Sekolah.
+                </p>
+            </div>
+
+            <div class="relative z-10 mt-16 hidden lg:block text-blue-200/50 text-sm">
+                &copy; <span id="year-desktop"></span> SMA Negeri 1 Sentani.
+            </div>
+        </div>
+
+        <div class="lg:w-7/12 p-6 lg:p-16 flex flex-col justify-center bg-slate-200 relative">
+            
+            <div class="max-w-2xl w-full mx-auto">
+                <h3 class="font-poppins text-2xl font-bold text-slate-800 mb-2">Pilih Menu</h3>
+                <p class="text-slate-600 text-sm mb-8">Silakan pilih portal sesuai dengan peran dan kebutuhan Anda hari ini.</p>
+
+                <div class="space-y-4">
+                    
+                    <button onclick="openModal()" class="w-full group flex items-center p-5 bg-white border border-slate-200 hover:border-blue-300 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.12)] transition-all duration-300 transform hover:-translate-y-1 text-left focus:outline-none">
+                        <div class="flex-shrink-0 w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 mr-5">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-poppins text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">Petunjuk Teknis</h4>
+                            <p class="text-sm text-slate-500 mt-0.5">Android & Iphone</p>
+                        </div>
+                        <div class="flex-shrink-0 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </button>
+
+                    <a href="https://pjjpapua-coder.github.io/cbt-smansa/landingpagepc.html" class="group flex items-center p-5 bg-white border border-slate-200 hover:border-emerald-300 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(16,185,129,0.12)] transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex-shrink-0 w-14 h-14 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300 mr-5">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-poppins text-lg font-bold text-slate-800 group-hover:text-emerald-600 transition-colors">Ujian Siswa (PC)</h4>
+                            <p class="text-sm text-slate-500 mt-0.5">Login CBT khusus pengguna Komputer/Laptop</p>
+                        </div>
+                        <div class="flex-shrink-0 text-slate-300 group-hover:text-emerald-500 group-hover:translate-x-1 transition-all">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+
+                    <a href="https://pjjpapua-coder.github.io/cbt-smansa/inputsoal.html" class="group flex items-center p-5 bg-white border border-slate-200 hover:border-purple-300 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(168,85,247,0.12)] transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex-shrink-0 w-14 h-14 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300 mr-5">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="font-poppins text-lg font-bold text-slate-800 group-hover:text-purple-600 transition-colors">Portal Guru</h4>
+                            <p class="text-sm text-slate-500 mt-0.5">Manajemen pembuatan dan input soal ujian</p>
+                        </div>
+                        <div class="flex-shrink-0 text-slate-300 group-hover:text-purple-500 group-hover:translate-x-1 transition-all">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+
+                </div>
+
+                <div class="mt-12 text-center lg:hidden text-slate-400 text-sm">
+                    &copy; <span id="year-mobile"></span> SMA Negeri 1 Sentani.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-juknis" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm cursor-pointer" onclick="closeModal()"></div>
+        
+        <div id="modal-content" class="relative w-full max-w-4xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col transform scale-95 transition-all duration-300 h-[85vh]">
+            
+            <div class="flex justify-between items-center p-4 md:p-6 border-b border-slate-200 bg-white z-20">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-poppins text-lg font-bold text-slate-800">Petunjuk Teknis (Juknis)</h3>
+                        <p class="text-xs text-slate-500">Tata tertib pelaksanaan ujian CBT</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2.5 rounded-full transition-all focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="flex-grow w-full h-full relative bg-slate-200">
+                <div class="absolute inset-0 flex flex-col items-center justify-center z-0 bg-slate-100">
+                    <div class="w-10 h-10 border-4 border-slate-300 border-t-blue-600 rounded-full animate-spin mb-3"></div>
+                    <p class="text-slate-600 text-sm font-medium">Memuat panduan...</p>
+                </div>
+                
+                <iframe src="https://pjjpapua-coder.github.io/cbt-smansa/juknis-cbt.html" class="relative z-10 w-full h-full border-0" title="Petunjuk Teknis CBT"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set tahun otomatis
+        const year = new Date().getFullYear();
+        document.getElementById('year-desktop').textContent = year;
+        document.getElementById('year-mobile').textContent = year;
+
+        // Logika Modal Pop-up
+        const modal = document.getElementById('modal-juknis');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal() {
+            modal.classList.remove('pointer-events-none');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none');
+            }, 300);
+        }
+    </script>
+</body>
+</html>
