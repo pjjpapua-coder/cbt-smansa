@@ -87,6 +87,21 @@
             gap: 8px;
         }
 
+        /* --- CSS untuk Jam --- */
+        .waktu-sekarang {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding: 8px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 2;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
         .card {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             padding: 30px 25px;
@@ -102,7 +117,15 @@
 
         .logo {
             width: 100px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
+        }
+
+        /* --- CSS untuk Copyright --- */
+        .copyright-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            font-weight: 300;
         }
 
         h1 {
@@ -215,8 +238,15 @@
         </svg>
     </div>
 
+    <div class="waktu-sekarang" id="waktu-display">
+        Waktu Sekarang: Memuat...
+    </div>
+
     <div class="card">
         <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" class="logo" alt="Logo Smansa">
+        
+        <div class="copyright-label">@2026 Copyright Eko Yudhi, S.T, Gr</div>
+
         <h1>Selamat datang peserta Assesment UTS/UAS</h1>
         <p class="info-text">
             <span class="date-highlight">Sistem Terhubung ke Server</span>
@@ -226,6 +256,38 @@
 
         <a href="https://pjjpapua-coder.github.io/cbt-smansa/modehp.html" class="btn" id="masuk-btn">Masuk ke Jadwal Ujian</a>
     </div>
+
+    <script>
+        function updateWaktu() {
+            const now = new Date();
+            
+            // Array nama hari
+            const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const namaHari = hari[now.getDay()];
+            
+            // Array nama bulan
+            const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const tanggal = now.getDate();
+            const namaBulan = bulan[now.getMonth()];
+            const tahun = now.getFullYear();
+            
+            // Format Tanggal Lengkap
+            const formatTanggal = `${tanggal} ${namaBulan} ${tahun}`;
+
+            // Format jam, menit, detik (tambah angka 0 di depan jika di bawah 10)
+            const jam = String(now.getHours()).padStart(2, '0');
+            const menit = String(now.getMinutes()).padStart(2, '0');
+            const detik = String(now.getSeconds()).padStart(2, '0');
+            const formatJam = `${jam}:${menit}:${detik}`;
+            
+            // Tampilkan ke elemen HTML sesuai urutan: Hari, Tanggal, Jam
+            document.getElementById('waktu-display').innerText = `Waktu Sekarang: ${namaHari}, ${formatTanggal}, ${formatJam}`;
+        }
+
+        // Jalankan fungsi updateWaktu setiap detik (1000 ms)
+        setInterval(updateWaktu, 1000);
+        updateWaktu(); // Panggilan pertama agar tidak delay
+    </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -315,7 +377,7 @@
             // Inisialisasi AudioContext
             initAudioContext();
             
-            // Membangunkan AudioContext yang disuspended oleh policy browser browser
+            // Membangunkan AudioContext yang disuspended oleh policy browser
             if (audioContext && audioContext.state === 'suspended') {
                 await audioContext.resume();
             }
