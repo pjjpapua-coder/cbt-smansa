@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+ <head><script src="/_sdk/telemetry_sdk.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Petunjuk Teknis Ujian Online</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'Work Sans', sans-serif; }
+    .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); }
+    .step-card { background: rgba(255,255,255,0.95); border: 1px solid rgba(0,0,0,0.06); }
+    .tab-pill { transition: all 0.3s ease; }
+    .tab-pill.active { background: #fff; color: #0f172a; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .tab-pill.inactive { background: transparent; color: rgba(255,255,255,0.7); }
+    .tab-pill.inactive:hover { color: #fff; }
+    .step-badge { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+    .fade-in { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
+ </head>
+ <body data-template-id="__page-root" class="min-h-screen w-full" style="background: linear-gradient(to right, #6b1c23 0%, #0f0f0f 100%);">
+  <header class="pt-12 pb-10 px-4 text-center">
+   <div class="glass max-w-2xl mx-auto rounded-2xl p-8">
+    <h1 data-template-id="main-title" class="canva-text font-bold text-white text-3xl">Petunjuk Teknis Ujian Online UAS/UTS</h1>
+    <p data-template-id="subtitle" class="canva-text mt-3 text-slate-200 text-base">SMA Negeri 1 Sentani</p>
+   </div>
+  </header>
+  <main class="max-w-2xl mx-auto px-4 pb-12">
+   <div data-template-id="tab-container" class="canva-section flex gap-2 p-1.5 rounded-full mb-8 w-fit mx-auto" style="background:rgba(255,255,255,0.1);"><button id="tab-android" class="tab-pill active px-6 py-2.5 rounded-full font-medium text-sm flex items-center gap-2" onclick="switchTab('android')"><i data-lucide="smartphone" class="w-4 h-4"></i> Android</button> <button id="tab-iphone" class="tab-pill inactive px-6 py-2.5 rounded-full font-medium text-sm flex items-center gap-2" onclick="switchTab('iphone')"><i data-lucide="smartphone" class="w-4 h-4"></i> iPhone</button>
+   </div><!-- Android -->
+   <section id="section-android" class="fade-in space-y-5">
+    <div class="step-card rounded-2xl p-6 shadow-sm">
+     <div class="flex items-start gap-4"><span class="step-badge bg-emerald-100 text-emerald-700">1</span>
+      <div class="flex-1">
+       <h3 data-template-id="android-step1-title" class="canva-text font-semibold mb-2 text-slate-900">Download Aplikasi CBT Pro</h3>
+       <p data-template-id="android-step1-desc" class="canva-text mb-4 text-slate-600">Download aplikasi CBT Pro dari Google Play Store, kemudian install ke HP Anda.</p><a href="https://play.google.com/store/apps/details?id=com.cbt.exam.browser.pro&amp;pli=1" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-emerald-700 transition shadow-sm"><i data-lucide="download" class="w-4 h-4"></i> Download CBT Pro</a>
+      </div>
+     </div>
+    </div>
+    <div class="step-card rounded-2xl p-6 shadow-sm">
+     <div class="flex items-start gap-4"><span class="step-badge bg-blue-100 text-blue-700">2</span>
+      <div class="flex-1">
+       <h3 data-template-id="android-step2-title" class="canva-text font-semibold mb-2 text-slate-900">Download File Jadwal Ujian</h3>
+       <p data-template-id="android-step2-desc" class="canva-text mb-4 text-slate-600">Download file jadwal ujian dengan format .cbt melalui link berikut.</p><a href="https://smpn2sentani.id/smansa/Jadwal_Smansa_1783054207160.cbt" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-blue-700 transition shadow-sm"><i data-lucide="file-down" class="w-4 h-4"></i> Download Jadwal Ujian</a>
+      </div>
+     </div>
+    </div>
+    <div class="step-card rounded-2xl p-6 shadow-sm">
+     <div class="flex items-start gap-4"><span class="step-badge bg-violet-100 text-violet-700">3</span>
+      <div class="flex-1">
+       <h3 data-template-id="android-step3-title" class="canva-text font-semibold mb-2 text-slate-900">Cara Mulai Ujian</h3>
+       <p data-template-id="android-step3a" class="canva-text mb-3 text-slate-600">a. Buka aplikasi CBT ExamBro Anda, kemudian buka Config:</p><img data-template-id="android-img1" class="canva-image w-full max-w-xs rounded-xl border border-slate-200 mb-4" loading="lazy" src="https://smpn2sentani.id/webujian/juknis-cbt/cbt.jpeg" alt="Tampilan aplikasi CBT ExamBro - buka config">
+       <p data-template-id="android-step3b" class="canva-text mb-3 text-slate-600">b. Pilih nama file yang tadi Anda download yaitu "Jadwal_Smansa_1783054207160.cbt":</p><img data-template-id="android-img2" class="canva-image w-full max-w-xs rounded-xl border border-slate-200 mb-4" loading="lazy" src="https://smpn2sentani.id/smansa/gb2.jpeg" alt="Pilih file jadwal ujian CBT">
+       <p data-template-id="android-step3c" class="canva-text mb-3 text-slate-600">c. Lanjutkan dengan klik "Masuk Ujian":</p><img data-template-id="android-img3" class="canva-image w-full max-w-xs rounded-xl border border-slate-200" loading="lazy" src="https://smpn2sentani.id/smansa/gb3.jpeg" alt="Klik masuk ujian untuk memulai">
+      </div>
+     </div>
+    </div>
+   </section><!-- iPhone -->
+   <section id="section-iphone" class="hidden space-y-5">
+    <div class="step-card rounded-2xl p-6 shadow-sm fade-in">
+     <div class="flex items-start gap-4"><span class="step-badge bg-gray-100 text-gray-700">1</span>
+      <div class="flex-1">
+       <h3 data-template-id="iphone-step1-title" class="canva-text font-semibold mb-2 text-slate-900">Download Safe Exam Browser</h3>
+       <p data-template-id="iphone-step1-desc" class="canva-text mb-4 text-slate-600">Download aplikasi Safe Exam Browser dari App Store. Setelah download, tutup aplikasinya.</p><a href="https://apps.apple.com/us/app/safeexambrowser/id1155002964" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-black transition shadow-sm"><i data-lucide="download" class="w-4 h-4"></i> Download Safe Exam Browser</a>
+      </div>
+     </div>
+    </div>
+    <div class="step-card rounded-2xl p-6 shadow-sm fade-in">
+     <div class="flex items-start gap-4"><span class="step-badge bg-blue-100 text-blue-700">2</span>
+      <div class="flex-1">
+       <h3 data-template-id="iphone-step2-title" class="canva-text font-semibold mb-2 text-slate-900">Download Jadwal Ujian</h3>
+       <p data-template-id="iphone-step2-desc" class="canva-text mb-4 text-slate-600">Download file jadwal Jadwal_smansa.seb. Kemudian buka penyimpanan file Anda dan klik nama file jadwal tersebut.</p><a href="https://smpn2sentani.id/smansa/Jadwal_smansa.seb" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-full font-medium text-sm hover:bg-blue-700 transition shadow-sm"><i data-lucide="file-down" class="w-4 h-4"></i> Download Jadwal (.seb)</a>
+      </div>
+     </div>
+    </div>
+    <div class="step-card rounded-2xl p-6 shadow-sm fade-in">
+     <div class="flex items-start gap-4"><span class="step-badge bg-violet-100 text-violet-700">3</span>
+      <div class="flex-1">
+       <h3 data-template-id="iphone-step3-title" class="canva-text font-semibold mb-2 text-slate-900">Keluar dari Aplikasi</h3>
+       <p data-template-id="iphone-step3-desc" class="canva-text text-slate-600">Untuk keluar dari aplikasi Safe Exam Browser, gunakan password: 1234</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Tata Cara -->
+   <section class="mt-10">
+    <div data-template-id="tata-cara-box" class="canva-section rounded-2xl p-6" style="background:rgba(255,255,255,0.05);">
+     <h2 data-template-id="tata-cara-title" class="canva-text font-bold mb-5 text-amber-400 text-xl">Tata Cara Ujian</h2>
+     <ol class="space-y-4">
+      <li class="flex items-start gap-3"><span class="step-badge bg-amber-100 text-amber-700 text-xs mt-0.5">1</span><p data-template-id="tata-cara-1" class="canva-text text-slate-100">Aktifkan aplikasi dan masuk ke jadwal. Masukkan token jadwal yang diminta (minta ke pengawas ruang).</p></li>
+      <li class="flex items-start gap-3"><span class="step-badge bg-amber-100 text-amber-700 text-xs mt-0.5">2</span><p data-template-id="tata-cara-2" class="canva-text text-slate-100">Perhatikan jadwal mata pelajaran yang tersedia. Jika indikator link soal sudah aktif (berwarna hijau), klik link tersebut dan mulai kerjakan soal.</p></li>
+      <li class="flex items-start gap-3"><span class="step-badge bg-amber-100 text-amber-700 text-xs mt-0.5">3</span><p data-template-id="tata-cara-3" class="canva-text text-slate-100">Dalam mode ujian, perhatikan waktu yang tertera di kanan atas layar. Jika waktu sudah berkedip, segera simpan dan kirim hasil ujian Anda.</p></li>
+      <li class="flex items-start gap-3"><span class="step-badge bg-amber-100 text-amber-700 text-xs mt-0.5">4</span><p data-template-id="tata-cara-4" class="canva-text text-slate-100">Klik tombol "Keluar" di kanan layar, kemudian keluar dari aplikasi ExamBro Anda.</p></li>
+     </ol>
+    </div>
+   </section>
+  </main>
+  <footer class="text-center py-8 px-4">
+   <p data-template-id="footer-text" class="canva-text text-slate-400">© 2026 SMA Negeri 1 Sentani — Selamat Mengerjakan Ujian!</p>
+  </footer>
+  <script src="/_sdk/editing_sdk.js"></script>
+  <script>
+    function switchTab(tab) {
+      const androidBtn = document.getElementById('tab-android');
+      const iphoneBtn = document.getElementById('tab-iphone');
+      const androidSection = document.getElementById('section-android');
+      const iphoneSection = document.getElementById('section-iphone');
+      if (tab === 'android') {
+        androidBtn.className = 'tab-pill active px-6 py-2.5 rounded-full font-medium text-sm flex items-center gap-2';
+        iphoneBtn.className = 'tab-pill inactive px-6 py-2.5 rounded-full font-medium text-sm flex items-center gap-2';
+        androidSection.classList.remove('hidden');
+        androidSection.classList.add('fade-in');
+        iphoneSection.classList.add('hidden');
+      } else {
+        iphoneBtn.className = 'tab-pill active px-6 py-2.5 rounded-full font-medium text-sm flex items-center gap-2';
+        androidBtn.className = 'tab-pill inactive px-6 py-2.5 rounded-full font-medium text-sm flex items-center gap-2';
+        iphoneSection.classList.remove('hidden');
+        iphoneSection.classList.add('fade-in');
+        androidSection.classList.add('hidden');
+      }
+    }
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a132acaf9763b29b',t:'MTc4MjcxMjQ0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
