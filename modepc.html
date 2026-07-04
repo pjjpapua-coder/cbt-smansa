@@ -8,15 +8,15 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
     <style>
-:root {
+        :root {
             --primary-color: #6366f1;
             --primary-hover: #4f46e5;
-            --secondary-color: #ffffff; /* Judul menjadi putih */
+            --secondary-color: #ffffff;
             --bg-color: #0f172a;
-            --card-bg: rgba(20, 20, 25, 0.75); /* Hitam transparan elegan */
-            --text-main: #f8fafc; /* Teks utama terang */
-            --text-muted: #94a3b8; /* Teks abu-abu */
-            --border-color: rgba(255, 255, 255, 0.15); /* Garis batas transparan */
+            --card-bg: rgba(20, 20, 25, 0.75);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.15);
             --success-color: #10b981;
             --error-color: #ef4444;
             --error-hover: #dc2626;
@@ -47,7 +47,6 @@
             font-size: clamp(12px, 0.95vw + 8px, 14px);
         }
 
-        /* --- Tampilan Dropdown --- */
         select {
             background-color: rgba(0, 0, 0, 0.5) !important;
             color: #ffffff !important;
@@ -57,7 +56,6 @@
             color: #ffffff;
         }
 
-        /* Tampilan Pemilihan Kelas Awal */
         .class-select-wrapper {
             display: flex;
             justify-content: center;
@@ -175,7 +173,6 @@
         .modern-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); vertical-align: top; color: var(--text-main); }
         .modern-table tr:hover td { background-color: rgba(255, 255, 255, 0.03); }
         
-        /* Timpa warna teks bawaan JS agar terbaca di tema gelap */
         td[colspan="2"] { color: var(--text-muted) !important; }
 
         .info-group { display: flex; flex-direction: column; gap: 4px; }
@@ -191,7 +188,6 @@
         } 
         .info-row svg { color: var(--text-muted); flex-shrink: 0; } 
          
-        /* Tombol Ujian */
         .btn-exam {
             display: inline-flex;
             align-items: center;
@@ -300,7 +296,6 @@
          
         .floating-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); text-align: center; padding: 10px 0; font-size: clamp(10px, 0.4vw + 8px, 11.5px); color: #94a3b8; font-weight: 500; z-index: 9999; box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3); letter-spacing: 0.01em; }
 
-        /* STRUKTUR STRATEGI IFRAME DUAL VIEW */
         .exam-workspace-layout {
             position: fixed;
             top: 0;
@@ -331,10 +326,9 @@
             width: 100%;
             height: calc(100vh - 65px);
             border: none;
-            background-color: #ffffff; /* Ruang ujian tetap putih untuk soal */
+            background-color: #ffffff; 
         }
 
-        /* ANIMASI BERKEDIP TERANG SISA WAKTU 5 MENIT */
         @keyframes bright-critical-blink {
             0%, 100% { background-color: #dc2626; color: #ffffff; box-shadow: 0 0 15px #ef4444; transform: scale(1.05); }
             50% { background-color: rgba(239, 68, 68, 0.2); color: #ef4444; box-shadow: none; transform: scale(1); }
@@ -503,7 +497,7 @@
 </div>
 
 <div class="floating-footer">
-    &copy; 2026 Copyright by Eko Yudhi, S.T.</a>
+    &copy; 2026 Copyright by Eko Yudhi, S.T.
 </div>
 
 <script>
@@ -538,8 +532,6 @@
     let isBlockerModalActive = false;
 
     document.addEventListener("DOMContentLoaded", function() {
-        // PERUBAHAN: Fungsi animasi background telah dihapus
-         
         const savedLink = sessionStorage.getItem("ams_exam_link");
         if (savedLink) {
             tampilkanHalamanPemulihanSesi();
@@ -597,6 +589,7 @@
         muatIframeWorkspaceUjian(savedLink, savedMapel, savedGuru, savedRawDate, savedJam);
     }
 
+    // ====== FUNGSI XAMBRO ======
     function muatIframeWorkspaceUjian(link, mapel, guru, rawDate, jam) {
         if (realTimeTimerLoop) clearInterval(realTimeTimerLoop);
         if (examCountdownInterval) clearInterval(examCountdownInterval);
@@ -609,18 +602,25 @@
         sessionStorage.setItem("ams_exam_jam", jam);
 
         const elem = document.documentElement;
+        const enterFullscreen = () => {
+            if (navigator.keyboard && navigator.keyboard.lock) {
+                navigator.keyboard.lock();
+            }
+        };
+
         if (elem.requestFullscreen) {
-            elem.requestFullscreen().catch(()=>{});
+            elem.requestFullscreen().then(enterFullscreen).catch(()=>{});
         } else if (elem.webkitRequestFullscreen) {
-            elem.webkitRequestFullscreen();
+            elem.webkitRequestFullscreen(); enterFullscreen();
         } else if (elem.msRequestFullscreen) {
-            elem.msRequestFullscreen();
+            elem.msRequestFullscreen(); enterFullscreen();
         }
 
         isXambroModeActive = true;
         jumlahPelanggaran = 0; 
         isBlockerModalActive = false;
         document.getElementById("xambroBlockerModal").classList.remove("active");
+        document.getElementById("xambroBlockerModal").onclick = null;
 
         document.getElementById("examSubjectTitle").textContent = mapel.toUpperCase();
         document.getElementById("examTeacherTitle").textContent = "Guru: " + guru;
@@ -679,12 +679,26 @@
         jumlahPelanggaran++;
 
         if (jumlahPelanggaran >= MAKSIMAL_PELANGGARAN) {
+            // PERUBAHAN: Teks "Tekan CTRL+B" dihapus dari tampilan siswa
             msgElement.innerHTML = `<span style="color:var(--error-color); font-weight:800; font-size:15px;">AKSES DIKUNCI PERMANEN!</span><br><br>Anda terdeteksi sengaja melakukan Alt+Tab / keluar dari lembar ujian sebanyak <b>${jumlahPelanggaran} kali</b>.<br><br>Silakan laporkan ke Pengawas Ruangan untuk membuka blokir sistem.`;
             btnElement.style.display = "none"; 
             document.getElementById("examIframeView").src = "about:blank"; 
             sessionStorage.clear();
+
+            modal.onclick = function() {
+                const elem = document.documentElement;
+                if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+                    if (elem.requestFullscreen) {
+                        elem.requestFullscreen().then(() => { if(navigator.keyboard && navigator.keyboard.lock) navigator.keyboard.lock(); }).catch(()=>{});
+                    } else if (elem.webkitRequestFullscreen) {
+                        elem.webkitRequestFullscreen();
+                    } else if (elem.msRequestFullscreen) {
+                        elem.msRequestFullscreen();
+                    }
+                }
+            };
         } else {
-            msgElement.innerHTML = `Peringatan Ke-<b>${jumlahPelanggaran} dari ${MAKSIMAL_PELANGGARAN}</b>!<br><br>klik kembali ke halaman kerja ujian.<br>Jika melebihi batas batas toleransi, ujian Anda otomatis akan diblokir!`;
+            msgElement.innerHTML = `Peringatan Ke-<b>${jumlahPelanggaran} dari ${MAKSIMAL_PELANGGARAN}</b>!<br><br>klik kembali ke halaman kerja ujian.<br>Jika melebihi batas toleransi, ujian Anda otomatis akan diblokir!`;
             btnElement.style.display = "inline-block";
         }
 
@@ -696,6 +710,10 @@
         const successHandler = () => {
             isBlockerModalActive = false;
             document.getElementById("xambroBlockerModal").classList.remove("active");
+            
+            if (navigator.keyboard && navigator.keyboard.lock) {
+                navigator.keyboard.lock();
+            }
         };
 
         if (elem.requestFullscreen) {
@@ -711,9 +729,14 @@
         if (examCountdownInterval) clearInterval(examCountdownInterval);
         if (annoyingPopUpInterval) clearInterval(annoyingPopUpInterval); 
 
+        if (navigator.keyboard && navigator.keyboard.unlock) {
+            navigator.keyboard.unlock();
+        }
+
         isXambroModeActive = false; 
         isBlockerModalActive = false;
         document.getElementById("xambroBlockerModal").classList.remove("active");
+        document.getElementById("xambroBlockerModal").onclick = null;
 
         if (document.exitFullscreen) {
             document.exitFullscreen().catch(()=>{});
@@ -767,45 +790,38 @@
     document.addEventListener('keydown', function(e) {
         if (!isXambroModeActive) return;
 
-        if (e.key === 'Alt' || e.key === 'Meta' || e.key === 'OS' || e.code === 'MetaLeft' || e.code === 'MetaRight' || e.key === 'F11') {
+        // Guru tetap bisa menekan CTRL + B, hanya saja instruksinya tidak ditampilkan ke siswa
+        if (e.ctrlKey && (e.key === 'b' || e.key === 'B')) {
+            e.preventDefault();
+            keluarWorkspaceUjian(); 
+            return;
+        }
+
+        if (e.key === 'Escape' || e.key === 'Esc' || e.key === 'Alt' || e.key === 'Meta' || e.key === 'OS' || e.code === 'MetaLeft' || e.code === 'MetaRight' || e.key === 'F11') {
             e.preventDefault();
             catatPelanggaranUjian();
         }
-
-        if (e.ctrlKey && (e.key === 'b' || e.key === 'B')) {
-            e.preventDefault();
-            isXambroModeActive = false; 
-            window.close();
-            window.location.href = "about:blank"; 
-        }
     });
 
-    // PERUBAHAN: Fungsi Dropdown Berdasarkan Kelas Kurikulum Merdeka (X, XI, XII)
     function buildInitialDropdown() {
         const select = document.getElementById("initialSelectKelas");
         if(!select) return;
         select.innerHTML = '<option value="">-- Pilih Opsi Kelas --</option>';
 
-        // Konfigurasi jumlah kelas berdasarkan gambar
         const strukturKelas = [
             { tingkat: 'X', jumlah: 14 },
             { tingkat: 'XI', jumlah: 12 },
             { tingkat: 'XII', jumlah: 12 }
         ];
 
-        // Looping untuk men-generate pilihan kelas secara otomatis
         strukturKelas.forEach(grup => {
             for (let i = 1; i <= grup.jumlah; i++) {
-                // Menghasilkan teks seperti "X. F1", "XI. F2", "XII. F10", dst.
                 const kodeKelas = `${grup.tingkat}. F${i}`; 
-                
-                // Menambahkan pilihan ke dalam dropdown HTML
                 select.add(new Option("Kelas " + kodeKelas, kodeKelas));
             }
         });
     }
 
-    // --- SEKARANG BERJALAN INSTAN TANPA LOAD DARI CACHE DULU ---
     function submitClassChoice() {
         const val = document.getElementById("initialSelectKelas").value;
         if(!val) {
@@ -824,7 +840,6 @@
         document.getElementById("tokenModal").classList.remove("active");
     }
 
-    // --- FIX UTAMA: PAKSA MEMBACA LANGSUNG DARI CLOUD SERVER SAAT VERIFIKASI ---
     function verifikasiTokenAksesKelas() {
         const inputVal = document.getElementById("inputTokenText").value.trim().toUpperCase();
         const btnVerifikasi = document.getElementById("btnVerifikasiToken");
@@ -834,13 +849,11 @@
             return;
         }
 
-        // Tampilkan feedback memproses ke siswa
         const originalText = btnVerifikasi.textContent;
         btnVerifikasi.textContent = "Memproses...";
         btnVerifikasi.disabled = true;
         document.getElementById("tokenErrorMsg").style.display = "none";
 
-        // { source: 'server' } melewati cache browser dan mengambil data murni dari Firestore Cloud
         db.collection("settings").doc("security").get({ source: 'server' })
             .then((doc) => {
                 btnVerifikasi.textContent = originalText;
@@ -1002,7 +1015,6 @@
 
     function closePopUpModal() { document.getElementById("customModal").classList.remove("active"); }
 
-    // --- REALTIME REAL SYNC JADWAL TABEL ---
     function loadData() {
         firestoreUnsubscribe = db.collection("exams").onSnapshot((querySnapshot) => {
             rawUjianRecords = [];
