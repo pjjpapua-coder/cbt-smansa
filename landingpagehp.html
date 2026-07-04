@@ -16,9 +16,8 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(-45deg, #000000, #ffffff, #222222, #dddddd);
-            background-size: 400% 400%;
-            animation: gradientBG 12s ease infinite;
+            background: url('https://pjjpapua-coder.github.io/cbt-smansa/bg661.png') no-repeat center center fixed;
+            background-size: cover;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -30,20 +29,6 @@
             -webkit-user-select: none;
             -ms-user-select: none;
             user-select: none;
-        }
-
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
         }
 
         #start-overlay {
@@ -93,7 +78,7 @@
             font-weight: 600;
             margin-bottom: 20px;
             padding: 8px 20px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -103,15 +88,16 @@
         }
 
         .card {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            /* Mengubah warna ungu menjadi Dark Glassmorphism */
+            background: rgba(15, 23, 42, 0.85); /* Warna slate gelap semi-transparan */
             padding: 30px 25px;
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             text-align: center;
             width: 100%;
             max-width: 450px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px); /* Efek kaca */
+            border: 1px solid rgba(255, 255, 255, 0.2);
             z-index: 2;
         }
 
@@ -123,7 +109,7 @@
         /* --- CSS untuk Copyright --- */
         .copyright-label {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.6);
             margin-bottom: 20px;
             font-weight: 300;
         }
@@ -140,7 +126,7 @@
 
         .date-highlight {
             display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             padding: 8px 15px;
             border-radius: 15px;
             font-size: 13px;
@@ -157,7 +143,7 @@
             display: none;
             padding: 12px 25px;
             background: #ffffff;
-            color: #4f46e5;
+            color: #0f172a; /* Mengubah teks ungu menjadi gelap agar serasi */
             text-decoration: none;
             border-radius: 50px;
             font-size: 14px;
@@ -168,6 +154,7 @@
         .btn:hover {
             background: #f3f4f6;
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
 
         /* Audio Visualizer Canvas */
@@ -261,39 +248,32 @@
         function updateWaktu() {
             const now = new Date();
             
-            // Array nama hari
             const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
             const namaHari = hari[now.getDay()];
             
-            // Array nama bulan
             const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
             const tanggal = now.getDate();
             const namaBulan = bulan[now.getMonth()];
             const tahun = now.getFullYear();
             
-            // Format Tanggal Lengkap
             const formatTanggal = `${tanggal} ${namaBulan} ${tahun}`;
 
-            // Format jam, menit, detik (tambah angka 0 di depan jika di bawah 10)
             const jam = String(now.getHours()).padStart(2, '0');
             const menit = String(now.getMinutes()).padStart(2, '0');
             const detik = String(now.getSeconds()).padStart(2, '0');
             const formatJam = `${jam}:${menit}:${detik}`;
             
-            // Tampilkan ke elemen HTML sesuai urutan: Hari, Tanggal, Jam
             document.getElementById('waktu-display').innerText = `Waktu Sekarang: ${namaHari}, ${formatTanggal}, ${formatJam}`;
         }
 
-        // Jalankan fungsi updateWaktu setiap detik (1000 ms)
         setInterval(updateWaktu, 1000);
-        updateWaktu(); // Panggilan pertama agar tidak delay
+        updateWaktu(); 
     </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // --- KONFIGURASI FIREBASE CLOUD FIRESTORE ---
         const firebaseConfig = {
             apiKey: "AIzaSyDSSqyRJxxDjW7sJttHJzZ85t0bwpG6i18",
             authDomain: "smansa-stn.firebaseapp.com",
@@ -312,7 +292,6 @@
         const masukBtn = document.getElementById("masuk-btn");
         const audioPlayer = document.getElementById('local-audio');
 
-        // Audio Visualizer Setup
         const audioControl = document.getElementById('audio-control');
         const iconUnmute = document.getElementById('icon-unmute');
         const iconMute = document.getElementById('icon-mute');
@@ -370,19 +349,15 @@
             }
         }
 
-        // Tombol Start (Mengaktifkan Audio & AudioContext sekaligus dari interaksi user)
         document.getElementById('start-btn').addEventListener('click', async function () {
             document.getElementById("start-overlay").style.display = 'none';
             
-            // Inisialisasi AudioContext
             initAudioContext();
             
-            // Membangunkan AudioContext yang disuspended oleh policy browser
             if (audioContext && audioContext.state === 'suspended') {
                 await audioContext.resume();
             }
             
-            // Putar audio
             audioPlayer.muted = false;
             audioPlayer.play().catch(e => console.log("Autoplay blocked:", e));
             
@@ -390,7 +365,6 @@
             iconMute.style.display = 'none';
         });
 
-        // Toggle Fungsi Mute/Unmute manual
         async function toggleMute() {
             if (!isInitialized) initAudioContext();
             if (audioContext && audioContext.state === 'suspended') {
@@ -419,7 +393,6 @@
             toggleMute();
         });
 
-        // Listener Real-time Firestore
         onSnapshot(doc(db, "settings", "security"), (docSnapshot) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
