@@ -179,7 +179,6 @@
             align-items: center;
         }
 
-        /* PERBAIKAN TOMBOL REDIRECT MENJADI BULAT SEMPURNA */
         .btn-redirect-header {
             width: 36px;
             height: 36px;
@@ -204,7 +203,6 @@
             transform: scale(0.95);
         }
 
-        /* Token Header Button Style */
         .btn-token-header {
             width: 36px;
             height: 36px;
@@ -720,7 +718,6 @@
             margin-top: 3px;
         }
 
-        /* PERBAIKAN: Hilangkan scrollbar max-height agar tampil semua */
         .checkbox-group-container {
             border: 1px solid rgba(255, 255, 255, 0.2) !important;
             border-radius: 6px;
@@ -730,7 +727,7 @@
         }
 
         .tingkat-row {
-            margin-bottom: 4px;
+            margin-bottom: 12px;
         }
 
         .tingkat-row:last-child {
@@ -741,32 +738,37 @@
             font-weight: normal;
             font-size: 13px;
             color: #93c5fd !important;
-            margin-bottom: 3px;
+            margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
+         /* PERBAIKAN: Mengatur Grid menjadi 4 kolom dengan gap seimbang */
         .checkbox-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 4px;
         }
 
+        /* PERBAIKAN: Menyelaraskan teks dan Checkbox */
         .checkbox-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 2px;
-            font-size: 13px;
+            justify-content: flex-start;
+            padding: 5px 6px;
+            gap: 4px;
+            font-size: 12px;
+            box-sizing: border-box;
             cursor: pointer;
             font-weight: normal;
             color: #f8fafc !important;
             background-color: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            padding: 4px 1px;
-            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 6px;
             transition: all 0.15s ease;
             user-select: none;
+            overflow: hidden;
+            white-space: nowrap;
         }
 
         .checkbox-item:hover {
@@ -2059,9 +2061,23 @@
                         <option value="">-- Pilih Mata Pelajaran --</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label>Pilihan Kelas</label>
-                    <div class="checkbox-group-container" id="editKelasContainer"></div>
+                    <label style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <span style="display: flex; align-items: center; gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            Pilihan Kelas
+                        </span>
+                        <button type="button" id="btnToggleEditKelas" onclick="toggleEditKelasContainer()" 
+                            style="width: auto; padding: 4px 10px; font-size: 12px; font-weight: normal; margin-top: 0; background-color: var(--primary-color); border: none; color: #ffffff; border-radius: 4px; box-shadow: none; cursor: pointer; text-transform: lowercase; transition: all 0.2s ease;">tampilkan</button>
+                    </label>
+                    <div class="checkbox-group-container" id="editKelasContainer" style="display: none; margin-top: 6px;"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-col">
@@ -2145,8 +2161,9 @@
         window.generateNewTokenManual = generateNewTokenManual;
         window.copyActiveToken = copyActiveToken;
         
-        // PERBAIKAN: Registrasi Fungsi Toggle Checkbox Kelas ke Window Global
+        // Registrasi Fungsi Toggle Checkbox Kelas ke Window Global
         window.toggleKelasContainer = toggleKelasContainer;
+        window.toggleEditKelasContainer = toggleEditKelasContainer;
 
         document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
 
@@ -2566,6 +2583,11 @@
                             if (kelasArr.includes(cb.value)) cb.checked = true;
                         });
                     }
+                    
+                    // Reset tombol toggle dan sembunyikan kotak kelas saat pertama kali modal edit dibuka
+                    document.getElementById("editKelasContainer").style.display = "none";
+                    document.getElementById("btnToggleEditKelas").textContent = "tampilkan";
+
                     document.getElementById('editExamModal').classList.add('active');
                 }
             } catch (error) {
@@ -2608,10 +2630,23 @@
             }
         }
 
-        // PERBAIKAN: Fungsi Logika Klik Toggle Menampilkan & Sembunyikan Pilihan Kelas
+        // FUNGSI TOGGLE Pilihan Kelas untuk Menu Input
         function toggleKelasContainer() {
             const container = document.getElementById("kelasContainer");
             const btn = document.getElementById("btnToggleKelas");
+            if (container.style.display === "none" || container.style.display === "") {
+                container.style.display = "block";
+                btn.textContent = "sembunyikan";
+            } else {
+                container.style.display = "none";
+                btn.textContent = "tampilkan";
+            }
+        }
+
+        // FUNGSI BARU: TOGGLE Pilihan Kelas untuk Menu Edit
+        function toggleEditKelasContainer() {
+            const container = document.getElementById("editKelasContainer");
+            const btn = document.getElementById("btnToggleEditKelas");
             if (container.style.display === "none" || container.style.display === "") {
                 container.style.display = "block";
                 btn.textContent = "sembunyikan";
@@ -2967,15 +3002,15 @@
             if (!container) return;
 
             const daftarKelas = [
-                { tingkat: '10', opsi: ['E1', 'E2', 'E3', 'E4', 'E5', 'E6'] },
-                { tingkat: '11', opsi: ['F1', 'F2', 'F3', 'F4', 'F5', 'F6'] },
-                { tingkat: '12', opsi: ['FA1', 'FA2', 'FA3', 'FA4', 'FA5', 'FA6'] }
+                { tingkat: 'KELAS X', opsi: ['X. F1', 'X. F2', 'X. F3', 'X. F4', 'X. F5', 'X. F6', 'X. F7', 'X. F8', 'X. F9', 'X. F10', 'X. F11', 'X. F12', 'X. F13', 'X. F14'] },
+                { tingkat: 'KELAS XI', opsi: ['XI. F1', 'XI. F2', 'XI. F3', 'XI. F4', 'XI. F5', 'XI. F6', 'XI. F7', 'XI. F8', 'XI. F9', 'XI. F10', 'XI. F11', 'XI. F12'] },
+                { tingkat: 'KELAS XII', opsi: ['XII. F1', 'XII. F2', 'XII. F3', 'XII. F4', 'XII. F5', 'XII. F6', 'XII. F7', 'XII. F8', 'XII. F9', 'XII. F10', 'XII. F11', 'XII. F12'] }
             ];
 
             daftarKelas.forEach(data => {
                 const row = document.createElement("div");
                 row.className = "tingkat-row";
-                row.innerHTML = `<div class="tingkat-title">Kelas ${data.tingkat}</div><div class="checkbox-grid"></div>`;
+                row.innerHTML = `<div class="tingkat-title">${data.tingkat}</div><div class="checkbox-grid"></div>`;
                 const grid = row.querySelector(".checkbox-grid");
 
                 data.opsi.forEach(namaKelas => {
