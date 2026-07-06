@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMS System</title>
+    <title>AMS System - SMAN 1 Sentani</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
 
@@ -104,6 +104,11 @@
             background-color: var(--primary-hover);
         }
 
+        .btn-submit-class:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
+
         .main-wrapper {
             width: 100%;
             max-width: 1100px;
@@ -188,6 +193,7 @@
         } 
         .info-row svg { color: var(--text-muted); flex-shrink: 0; } 
          
+        /* Tombol Ujian */
         .btn-exam {
             display: inline-flex;
             align-items: center;
@@ -380,7 +386,7 @@
 
 <div id="networkBg"></div>
 
-<div id="errorMessage" class="error-message"></div>
+<div id="errorMessage" class="error-message" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; max-width: 90%; border-radius: 8px;"></div>
 
 <div id="loadingStatus" class="status-container" style="display: none;">
     <div class="spinner"></div>
@@ -511,7 +517,9 @@
     let realTimeTimerLoop = null;
     let examCountdownInterval = null; 
     let annoyingPopUpInterval = null; 
-    let firestoreUnsubscribe = null;
+
+    // --- ANTI KLIK KANAN ---
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
     document.addEventListener("DOMContentLoaded", function() {
         const savedLink = sessionStorage.getItem("ams_exam_link");
@@ -533,17 +541,12 @@
             <p style="margin: 0 0 20px 0; font-size: 12px; color: var(--text-muted);">Silahkan pilih kelas Anda untuk melihat jadwal hari ini.</p>
             <label for="initialSelectKelas" style="margin-bottom: 6px; font-size: 12px; display:block; text-align:left;">Pilih Opsi Kelas :</label>
             <select id="initialSelectKelas" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:10px;">
-                <option value="">-- Pilih Opsi Kelas --</option>
+                <option value="" selected disabled>-- Pilih Opsi Kelas --</option>
             </select>
             <button class="btn-submit-class" onclick="submitClassChoice()">Masuk ke Jadwal</button>
         `;
         buildInitialDropdown();
-        const savedClass = localStorage.getItem("ams_selected_class");
-        if(savedClass) {
-            const dropdown = document.getElementById("initialSelectKelas");
-            if(dropdown) dropdown.value = savedClass;
-            selectedKelas = savedClass; 
-        }
+        selectedKelas = ""; 
     }
 
     function tampilkanHalamanPemulihanSesi() {
@@ -645,7 +648,7 @@
     function buildInitialDropdown() {
         const select = document.getElementById("initialSelectKelas");
         if(!select) return;
-        select.innerHTML = '<option value="">-- Pilih Opsi Kelas --</option>';
+        select.innerHTML = '<option value="" selected disabled>-- Pilih Opsi Kelas --</option>';
 
         const strukturKelas = [
             { tingkat: 'X', jumlah: 14 },
@@ -729,7 +732,6 @@
 
     function backToClassSelection() {
         if (realTimeTimerLoop) clearInterval(realTimeTimerLoop);
-        if (firestoreUnsubscribe) firestoreUnsubscribe(); 
          
         localStorage.removeItem("ams_selected_class");
         sessionStorage.clear();
@@ -739,7 +741,8 @@
     }
 
     function tutupAnnoyingModal() {
-        document.getElementById("annoyingModal").classList.remove("active");
+        const modal = document.getElementById("annoyingModal");
+        if(modal) modal.classList.remove("active");
     }
 
     function renderUjianTable(records) {
@@ -852,44 +855,63 @@
         }
     }
 
-    function closePopUpModal() { document.getElementById("customModal").classList.remove("active"); }
+    function closePopUpModal() { 
+        const customModal = document.getElementById("customModal");
+        if(customModal) customModal.classList.remove("active"); 
+    }
 
     function loadData() {
-        firestoreUnsubscribe = db.collection("exams").onSnapshot((querySnapshot) => {
-            rawUjianRecords = [];
-            querySnapshot.forEach((doc) => {
-                rawUjianRecords.push(doc.data());
-            });
-             
-            rawUjianRecords.sort((a, b) => {
-                const jamA = formatJamBersih(a.jam || a.JamPelaksanaan || "00:00");
-                const jamB = formatJamBersih(b.jam || b.JamPelaksanaan || "00:00");
-                return jamA.localeCompare(jamB);
-            });
+        const formatWIT = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jayapura', year: 'numeric', month: '2-digit', day: '2-digit' });
+        const tanggalHariIni = formatWIT.format(new Date()); 
 
-            renderUjianTable(rawUjianRecords); 
-            document.getElementById("loadingStatus").style.display = "none";
-            document.getElementById("mainContent").style.display = "flex";
+        // Pemanggilan database dioptimasi dengan query filtering .where
+        db.collection("exams")
+          .where("tanggal", "==", tanggalHariIni)
+          .get()
+          .then((querySnapshot) => {
+              rawUjianRecords = [];
+              querySnapshot.forEach((doc) => {
+                  rawUjianRecords.push(doc.data());
+              });
+               
+              rawUjianRecords.sort((a, b) => {
+                  const jamA = formatJamBersih(a.jam || a.JamPelaksanaan || "00:00");
+                  const jamB = formatJamBersih(b.jam || b.JamPelaksanaan || "00:00");
+                  return jamA.localeCompare(jamB);
+              });
 
-            if (!realTimeTimerLoop) {
-                realTimeTimerLoop = setInterval(() => {
-                    if (document.getElementById("mainContent").style.display === "flex") {
-                        renderUjianTable(rawUjianRecords);
-                    }
-                }, 1000);
-            }
+              renderUjianTable(rawUjianRecords); 
+              document.getElementById("loadingStatus").style.display = "none";
+              document.getElementById("mainContent").style.display = "flex";
 
-        }, (error) => {
-            showError("Gagal mengambil data dari Cloud Firestore. Cek koneksi Anda.");
-            document.getElementById("loadingStatus").style.display = "none";
-            console.error("Firestore DB Error:", error);
-        });
+              if (!realTimeTimerLoop) {
+                  realTimeTimerLoop = setInterval(() => {
+                      if (document.getElementById("mainContent").style.display === "flex") {
+                          renderUjianTable(rawUjianRecords);
+                      }
+                  }, 1000);
+              }
+
+          })
+          .catch((error) => {
+              showError("Gagal mengambil data dari Cloud Firestore. Cek koneksi Anda.");
+              document.getElementById("loadingStatus").style.display = "none";
+              console.error("Firestore DB Error:", error);
+          });
     }
 
     function showError(msg) {
         const err = document.getElementById("errorMessage");
-        err.textContent = msg;
-        err.style.display = "block";
+        if (err) {
+            err.textContent = msg;
+            err.style.display = "block";
+            // Notifikasi hilang sendiri setelah 5 detik
+            setTimeout(() => {
+                err.style.display = "none";
+            }, 5000);
+        } else {
+            alert(msg);
+        }
     }
 
     function formatStringDate(dateStr) {
