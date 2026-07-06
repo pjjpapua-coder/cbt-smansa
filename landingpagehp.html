@@ -88,15 +88,14 @@
         }
 
         .card {
-            /* Mengubah warna ungu menjadi Dark Glassmorphism */
-            background: rgba(15, 23, 42, 0.85); /* Warna slate gelap semi-transparan */
+            background: rgba(15, 23, 42, 0.85);
             padding: 30px 25px;
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             text-align: center;
             width: 100%;
             max-width: 450px;
-            backdrop-filter: blur(12px); /* Efek kaca */
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             z-index: 2;
         }
@@ -143,7 +142,7 @@
             display: none;
             padding: 12px 25px;
             background: #ffffff;
-            color: #0f172a; /* Mengubah teks ungu menjadi gelap agar serasi */
+            color: #0f172a;
             text-decoration: none;
             border-radius: 50px;
             font-size: 14px;
@@ -232,7 +231,7 @@
     <div class="card">
         <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" class="logo" alt="Logo Smansa">
         
-        <div class="copyright-label">@2026 Copyright Eko Yudhi, S.T, Gr</div>
+        <div class="copyright-label" id="copyright-text">Memuat copyright...</div>
 
         <h1>Selamat datang peserta Assesment UTS/UAS</h1>
         <p class="info-text">
@@ -291,6 +290,7 @@
         const statusMessage = document.getElementById("status-message");
         const masukBtn = document.getElementById("masuk-btn");
         const audioPlayer = document.getElementById('local-audio');
+        const copyrightText = document.getElementById("copyright-text"); // Variabel untuk copyright ditambahkan
 
         const audioControl = document.getElementById('audio-control');
         const iconUnmute = document.getElementById('icon-unmute');
@@ -393,6 +393,7 @@
             toggleMute();
         });
 
+        // 1. Fungsi Listener Firestore untuk status Security
         onSnapshot(doc(db, "settings", "security"), (docSnapshot) => {
             if (docSnapshot.exists()) {
                 const data = docSnapshot.data();
@@ -406,6 +407,17 @@
                     statusMessage.innerHTML = "Menunggu Admin membuka ujian...";
                     statusMessage.style.color = "#fde047";
                     masukBtn.style.display = "none";
+                }
+            }
+        });
+
+        // 2. Fungsi Listener Firestore untuk update Copyright secara real-time
+        onSnapshot(doc(db, "settings", "copyright"), (docSnapshot) => {
+            if (docSnapshot.exists()) {
+                const data = docSnapshot.data();
+                // Mengecek apakah field 'nameowner' ada pada dokumen
+                if (data.nameowner) {
+                    copyrightText.innerHTML = data.nameowner;
                 }
             }
         });
