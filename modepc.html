@@ -679,7 +679,6 @@
         jumlahPelanggaran++;
 
         if (jumlahPelanggaran >= MAKSIMAL_PELANGGARAN) {
-            // PERUBAHAN: Teks "Tekan CTRL+B" dihapus dari tampilan siswa
             msgElement.innerHTML = `<span style="color:var(--error-color); font-weight:800; font-size:15px;">AKSES DIKUNCI PERMANEN!</span><br><br>Anda terdeteksi sengaja melakukan Alt+Tab / keluar dari lembar ujian sebanyak <b>${jumlahPelanggaran} kali</b>.<br><br>Silakan laporkan ke Pengawas Ruangan untuk membuka blokir sistem.`;
             btnElement.style.display = "none"; 
             document.getElementById("examIframeView").src = "about:blank"; 
@@ -890,7 +889,9 @@
 
     function backToClassSelection() {
         if (realTimeTimerLoop) clearInterval(realTimeTimerLoop);
-        if (firestoreUnsubscribe) firestoreUnsubscribe(); 
+        
+        // Memastikan firestoreUnsubscribe bisa dipanggil meski kita sudah pakai 'get()'
+        if (typeof firestoreUnsubscribe === 'function') firestoreUnsubscribe(); 
          
         localStorage.removeItem("ams_selected_class");
         sessionStorage.clear();
@@ -1015,36 +1016,50 @@
 
     function closePopUpModal() { document.getElementById("customModal").classList.remove("active"); }
 
+    // ====== FUNGSI LOAD DATA YANG SUDAH DIREVISI ======
     function loadData() {
-        firestoreUnsubscribe = db.collection("exams").onSnapshot((querySnapshot) => {
-            rawUjianRecords = [];
-            querySnapshot.forEach((doc) => {
-                rawUjianRecords.push(doc.data());
-            });
-             
-            rawUjianRecords.sort((a, b) => {
-                const jamA = formatJamBersih(a.jam || a.JamPelaksanaan || "00:00");
-                const jamB = formatJamBersih(b.jam || b.JamPelaksanaan || "00:00");
-                return jamA.localeCompare(jamB);
-            });
+        // 1. Dapatkan tanggal hari ini (format YYYY-MM-DD sesuai WIT)
+        const formatWIT = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jayapura', year: 'numeric', month: '2-digit', day: '2-digit' });
+        const tanggalHariIni = formatWIT.format(new Date()); 
+        
+        // Buat dummy function agar fitur "Ganti Kelas" (yang memanggil firestoreUnsubscribe()) tidak error
+        firestoreUnsubscribe = () => {};
 
-            renderUjianTable(rawUjianRecords); 
-            document.getElementById("loadingStatus").style.display = "none";
-            document.getElementById("mainContent").style.display = "flex";
+        // 2. Gunakan 'get()' dan tambahkan filter '.where' agar database hanya mengirim ujian hari ini
+        db.collection("exams")
+          .where("tanggal", "==", tanggalHariIni) 
+          .get()
+          .then((querySnapshot) => {
+              rawUjianRecords = [];
+              querySnapshot.forEach((doc) => {
+                  rawUjianRecords.push(doc.data());
+              });
+                  
+              rawUjianRecords.sort((a, b) => {
+                  const jamA = formatJamBersih(a.jam || a.JamPelaksanaan || "00:00");
+                  const jamB = formatJamBersih(b.jam || b.JamPelaksanaan || "00:00");
+                  return jamA.localeCompare(jamB);
+              });
 
-            if (!realTimeTimerLoop) {
-                realTimeTimerLoop = setInterval(() => {
-                    if (document.getElementById("mainContent").style.display === "flex") {
-                        renderUjianTable(rawUjianRecords);
-                    }
-                }, 1000);
-            }
+              renderUjianTable(rawUjianRecords); 
+              document.getElementById("loadingStatus").style.display = "none";
+              document.getElementById("mainContent").style.display = "flex";
 
-        }, (error) => {
-            showError("Gagal mengambil data dari Cloud Firestore. Cek koneksi Anda.");
-            document.getElementById("loadingStatus").style.display = "none";
-            console.error("Firestore DB Error:", error);
-        });
+              // Real-time jam jalan terus, tapi tidak memotong kuota internet/database
+              if (!realTimeTimerLoop) {
+                  realTimeTimerLoop = setInterval(() => {
+                      if (document.getElementById("mainContent").style.display === "flex") {
+                          renderUjianTable(rawUjianRecords);
+                      }
+                  }, 1000);
+              }
+
+          })
+          .catch((error) => {
+              showError("Gagal mengambil data dari Cloud Firestore. Cek koneksi Anda.");
+              document.getElementById("loadingStatus").style.display = "none";
+              console.error("Firestore DB Error:", error);
+          });
     }
 
     function showError(msg) {
