@@ -30,7 +30,7 @@
             height: 100vh;
             z-index: -2;
             pointer-events: none;
-            background: linear-gradient(135deg, #800000 0%, #000000 100%);
+            background: url('https://pjjpapua-coder.github.io/cbt-smansa/smansacover.jpg') center center / cover no-repeat;
         }
 
         body {
@@ -184,7 +184,7 @@
             font-weight: 400 !important; 
             color: var(--text-main) !important; 
             white-space: nowrap !important; 
-            word-break: keep-all !important;
+            word-break: keep-all !important; 
         } 
         .info-row svg { color: var(--text-muted); flex-shrink: 0; } 
          
@@ -789,14 +789,13 @@
     document.addEventListener('keydown', function(e) {
         if (!isXambroModeActive) return;
 
-        // Guru tetap bisa menekan CTRL + B, hanya saja instruksinya tidak ditampilkan ke siswa
         if (e.ctrlKey && (e.key === 'b' || e.key === 'B')) {
             e.preventDefault();
             keluarWorkspaceUjian(); 
             return;
         }
 
-        if (e.key === 'Escape' || e.key === 'Esc' || e.key === 'Alt' || e.key === 'Meta' || e.key === 'OS' || e.code === 'MetaLeft' || e.code === 'MetaRight' || e.key === 'F11') {
+        if (e.key === 'Escape' || e.key === 'Esc' || e.key === 'Alt' || e.key === 'Meta' || e.code === 'MetaLeft' || e.code === 'MetaRight' || e.key === 'F11') {
             e.preventDefault();
             catatPelanggaranUjian();
         }
@@ -890,7 +889,6 @@
     function backToClassSelection() {
         if (realTimeTimerLoop) clearInterval(realTimeTimerLoop);
         
-        // Memastikan firestoreUnsubscribe bisa dipanggil meski kita sudah pakai 'get()'
         if (typeof firestoreUnsubscribe === 'function') firestoreUnsubscribe(); 
          
         localStorage.removeItem("ams_selected_class");
@@ -1016,16 +1014,13 @@
 
     function closePopUpModal() { document.getElementById("customModal").classList.remove("active"); }
 
-    // ====== FUNGSI LOAD DATA YANG SUDAH DIREVISI ======
+    // ====== FUNGSI LOAD DATA ======
     function loadData() {
-        // 1. Dapatkan tanggal hari ini (format YYYY-MM-DD sesuai WIT)
         const formatWIT = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jayapura', year: 'numeric', month: '2-digit', day: '2-digit' });
         const tanggalHariIni = formatWIT.format(new Date()); 
         
-        // Buat dummy function agar fitur "Ganti Kelas" (yang memanggil firestoreUnsubscribe()) tidak error
         firestoreUnsubscribe = () => {};
 
-        // 2. Gunakan 'get()' dan tambahkan filter '.where' agar database hanya mengirim ujian hari ini
         db.collection("exams")
           .where("tanggal", "==", tanggalHariIni) 
           .get()
@@ -1045,7 +1040,6 @@
               document.getElementById("loadingStatus").style.display = "none";
               document.getElementById("mainContent").style.display = "flex";
 
-              // Real-time jam jalan terus, tapi tidak memotong kuota internet/database
               if (!realTimeTimerLoop) {
                   realTimeTimerLoop = setInterval(() => {
                       if (document.getElementById("mainContent").style.display === "flex") {
