@@ -85,23 +85,51 @@
             color: var(--text-main);
         }
 
+        .card-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px auto 0 auto;
+        }
+
         .btn-submit-class {
             width: fit-content;
             display: block;
-            margin: 35px auto 0 auto;
+            margin: 0;
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 9px 18px;
             border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
             font-size: 13px;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
         .btn-submit-class:hover {
             background-color: var(--primary-hover);
+        }
+
+        .btn-home {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .btn-home:hover {
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.08);
         }
 
         .main-wrapper {
@@ -553,7 +581,15 @@
             <select id="initialSelectKelas" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:10px;">
                 <option value="">-- Pilih Opsi Kelas --</option>
             </select>
-            <button class="btn-submit-class" onclick="submitClassChoice()">Masuk ke Jadwal</button>
+            <div class="card-actions">
+                <button class="btn-submit-class" onclick="submitClassChoice()">Masuk ke Jadwal</button>
+                <button type="button" class="btn-home" onclick="kembaliKeHalamanSebelumnya()" title="Kembali ke Halaman Sebelumnya">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </button>
+            </div>
         `;
         buildInitialDropdown();
         const savedClass = localStorage.getItem("ams_selected_class");
@@ -561,6 +597,14 @@
             const dropdown = document.getElementById("initialSelectKelas");
             if(dropdown) dropdown.value = savedClass;
             selectedKelas = savedClass; 
+        }
+    }
+
+    function kembaliKeHalamanSebelumnya() {
+        if (window.history.length > 1) {
+            window.history.back();
+        } else {
+            window.location.href = "../";
         }
     }
 
@@ -573,7 +617,7 @@
             </div>
             <h3 style="margin: 0 0 6px 0; color: var(--secondary-color);">Sesi Ujian Terdeteksi</h3>
             <p style="margin: 0 0 20px 0; font-size: 12px; color: var(--text-muted);">Sistem mendeteksi Anda sedang berada dalam pengerjaan soal. Klik tombol di bawah untuk memulihkan lembar kerja.</p>
-            <button class="btn-submit-class" style="background-color: var(--success-color); width:100%; padding:12px; font-size:14px;" onclick="pulihkanSesiUjianLama()">Masuk Kembali & Fullscreen</button>
+            <button class="btn-submit-class" style="background-color: var(--success-color); width:100%; padding:12px; font-size:14px; margin: 0;" onclick="pulihkanSesiUjianLama()">Masuk Kembali & Fullscreen</button>
         `;
     }
 
