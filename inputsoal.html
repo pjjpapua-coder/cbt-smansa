@@ -17,9 +17,7 @@
             --success-color: #10b981;
             --error-color: #ef4444;
             --error-hover: #dc2626;
-            /* Warna Spektrum Audio Asli (Solid) */
             --audio-gradient: linear-gradient(90deg, #ff0055 0%, #ffcc00 40%, #00ffcc 70%, #0066ff 100%);
-            /* Penambahan Variabel Gradien Audio Semi-Transparan (15% Opacity) */
             --audio-gradient-semi: linear-gradient(90deg, rgba(255, 0, 85, 0.30) 0%, rgba(255, 204, 0, 0.30) 40%, rgba(0, 255, 204, 0.30) 70%, rgba(0, 102, 255, 0.30) 100%);
         }
 
@@ -74,7 +72,7 @@
 
         .page-header {
             position: sticky; top: 5px; z-index: 9990; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 14px;
-            background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1.5px solid rgba(255, 255, 255, 0.12);
             border-radius: 50px; box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.35); padding: 10px 28px; box-sizing: border-box; margin-top: 5px; margin-bottom: 5px; transition: all 0.3s ease;
         }
         .page-header:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 12px 35px -2px rgba(139, 92, 246, 0.25); }
@@ -98,7 +96,7 @@
         /* --- STYLES TOKEN BUTTON & MODAL --- */
         .btn-token-header {
             width: auto; height: 34px; background: linear-gradient(135deg, #4f46e5, #6366f1); color: white;
-            border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; display: flex; align-items: center;
+            border-radius: 20px; border: 1.5px solid rgba(255,255,255,0.1); cursor: pointer; display: flex; align-items: center;
             justify-content: center; margin-top: 0; margin-left: auto; padding: 0 14px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; gap: 6px; font-weight: 600;
         }
@@ -106,16 +104,16 @@
         .btn-token-header:active { transform: translateY(1px); }
 
         .token-modal-box { max-width: 360px !important; text-align: center !important; padding: 0 !important; overflow: hidden; background: #1e293b; }
-        .token-card-header { padding: 18px 16px; background: #0f172a; border-bottom: 1px solid var(--border-color); position: relative; }
+        .token-card-header { padding: 18px 16px; background: #0f172a; border-bottom: 1.5px solid var(--border-color); position: relative; }
         .token-card-body { padding: 20px 18px; }
-        .token-display-box { background: #090d16; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; position: relative; margin-bottom: 14px; }
+        .token-display-box { background: #090d16; border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; position: relative; margin-bottom: 14px; }
         .token-text { font-size: 24px !important; font-weight: 900 !important; font-family: monospace; color: #6366f1; letter-spacing: 4px; }
-        .token-btn-copy { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #1e293b; border: 1px solid rgba(255,255,255,0.15); padding: 5px; width: auto; height: auto; margin:0; border-radius: 6px; color: #f1f5f9; }
+        .token-btn-copy { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: #1e293b; border: 1.5px solid rgba(255,255,255,0.15); padding: 5px; width: auto; height: auto; margin:0; border-radius: 6px; color: #f1f5f9; }
         .token-btn-copy:hover { color: #ffffff; background: #334155; }
         .token-footer-grid { display: flex; gap: 8px; margin-top: 16px; }
         .token-footer-grid button { margin: 0; padding: 8px; }
         
-        #miniToast { position: fixed; top: 20px; left: 50%; transform: translate(-50%, -50px); opacity: 0; background: #0f172a; border: 1px solid #4f46e5; color: #fff; padding: 8px 16px; border-radius: 30px; font-size: 12px; z-index: 110000; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.5); pointer-events: none; display: flex; align-items: center; gap: 6px; }
+        #miniToast { position: fixed; top: 20px; left: 50%; transform: translate(-50%, -50px); opacity: 0; background: #0f172a; border: 1.5px solid #4f46e5; color: #fff; padding: 8px 16px; border-radius: 30px; font-size: 12px; z-index: 110000; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.5); pointer-events: none; display: flex; align-items: center; gap: 6px; }
         #miniToast.show { transform: translate(-50%, 0); opacity: 1; }
         /* --- END STYLES TOKEN --- */
 
@@ -135,11 +133,12 @@
         .table-card { width: 100%; padding: 0; overflow: hidden; }
         .form-card { width: 100%; padding: 14px 14px 10px 14px; } 
         
-        .login-card::before, .card::before, .music-player-card::before, .modal-box::before {
+        /* Mengubah ketebalan border gradient kontainer ke 1.5px */
+        .login-card::before, .card::before, .modal-box::before {
             content: "";
             position: absolute;
             inset: 0;
-            padding: 1px;
+            padding: 1.5px;
             background: var(--audio-gradient);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
@@ -149,7 +148,7 @@
         }
 
         .login-card, .login-card::before { border-radius: 16px; }
-        .card, .card::before, .music-player-card, .music-player-card::before { border-radius: 12px; }
+        .card, .card::before { border-radius: 12px; }
         .modal-box, .modal-box::before { border-radius: 16px; }
 
         .header { text-align: center; margin-bottom: 10px; }
@@ -167,7 +166,7 @@
         select, input[type="url"], input[type="date"], input[type="time"], input[type="text"]:not(#loginUser), input[type="password"]:not(#loginPass), .checkbox-group-container { 
             width: 100%; 
             padding: 8px 10px; 
-            border: 1px solid var(--border-color); 
+            border: 1.5px solid var(--border-color); 
             border-radius: 6px; 
             box-sizing: border-box; 
             font-size: 13px; 
@@ -221,8 +220,8 @@
         .table-responsive-wrapper { width: 100%; overflow-x: auto; margin-top: 14px; }
         
         .modern-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; background: transparent; }
-        .modern-table th { background-color: rgba(255,255,255,0.05); color: #ffffff; font-weight: normal; font-size: 13px; padding: 10px 12px; border-bottom: 2px solid rgba(255,255,255,0.15); border-top: 1px solid rgba(255,255,255,0.1); letter-spacing: 0.05em; }
-        .modern-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.1); vertical-align: top; color: #ffffff; }
+        .modern-table th { background-color: rgba(255,255,255,0.05); color: #ffffff; font-weight: normal; font-size: 13px; padding: 10px 12px; border-bottom: 2px solid rgba(255,255,255,0.15); border-top: 1.5px solid rgba(255,255,255,0.1); letter-spacing: 0.05em; }
+        .modern-table td { padding: 10px 12px; border-bottom: 1.5px solid rgba(255,255,255,0.1); vertical-align: top; color: #ffffff; }
         .modern-table tr:hover td { background-color: rgba(255,255,255,0.05); }
 
         .info-group { display: flex; flex-direction: column; gap: 4px; }
@@ -236,18 +235,17 @@
         .info-link-disabled { 
             color: #94a3b8; font-style: normal; text-decoration: none; white-space: nowrap; overflow: hidden; 
             text-overflow: ellipsis; max-width: 250px; display: inline-block; cursor: not-allowed; 
-            background-color: transparent; border: 1px dashed rgba(255,255,255,0.3); padding: 2px 6px; 
+            background-color: transparent; border: 1.5px dashed rgba(255,255,255,0.3); padding: 2px 6px; 
             border-radius: 4px; user-select: none; 
         }
 
-        .badge-kelas { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); padding: 3px 8px; border-radius: 6px; font-weight: normal; font-size: 12px; display: inline-block; width: fit-content; margin-top: 3px; }
+        .badge-kelas { background: rgba(99, 102, 241, 0.15); color: #a5b4fc; border: 1.5px solid rgba(99,102,241,0.3); padding: 3px 8px; border-radius: 6px; font-weight: normal; font-size: 12px; display: inline-block; width: fit-content; margin-top: 3px; }
 
         .tingkat-row { margin-bottom: 4px; }
         .tingkat-row:last-child { margin-bottom: 0; }
         .tingkat-title { font-weight: normal; font-size: 13px; color: #818cf8; margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.05em; }
-        /* Perubahan lebar kolom disesuaikan untuk format F14 / F12 */
         .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 4px; }
-        .checkbox-item { display: flex; align-items: center; justify-content: center; gap: 2px; font-size: 13px; cursor: pointer; font-weight: normal; color: #e2e8f0; background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.15); padding: 4px 1px; border-radius: 4px; transition: all 0.15s ease; user-select: none; }
+        .checkbox-item { display: flex; align-items: center; justify-content: center; gap: 2px; font-size: 13px; cursor: pointer; font-weight: normal; color: #e2e8f0; background-color: rgba(255, 255, 255, 0.05); border: 1.5px solid rgba(255,255,255,0.15); padding: 4px 1px; border-radius: 4px; transition: all 0.15s ease; user-select: none; }
         .checkbox-item:hover { background-color: rgba(255, 255, 255, 0.1); }
         .checkbox-item:has(input[type="checkbox"]:checked) { background-color: rgba(99, 102, 241, 0.25); border-color: #6366f1; color: #a5b4fc; }
         .checkbox-item input[type="checkbox"] { cursor: pointer; width: 11px; height: 11px; margin: 0; accent-color: #6366f1; }
@@ -255,16 +253,16 @@
         #chartCard { background-color: transparent !important; box-shadow: none; }
         #chartCard .header h2 { color: #ffffff !important; }
         .modern-chart-wrapper { display: flex; padding: 10px 10px 75px 10px; height: 260px; box-sizing: border-box; width: 100%; margin-top: 15px; }
-        .y-axis { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; padding-right: 12px; font-size: 12px; font-weight: 700; color: #ffffff !important; width: 30px; flex-shrink: 0; border-right: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 1px; }
-        .chart-plot-area { position: relative; flex: 1; display: flex; align-items: flex-end; border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+        .y-axis { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; padding-right: 12px; font-size: 12px; font-weight: 700; color: #ffffff !important; width: 30px; flex-shrink: 0; border-right: 1.5px solid rgba(255, 255, 255, 0.2); margin-bottom: 1px; }
+        .chart-plot-area { position: relative; flex: 1; display: flex; align-items: flex-end; border-bottom: 1.5px solid rgba(255, 255, 255, 0.2); }
         .grid-lines { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; z-index: 0; pointer-events: none; }
-        .grid-line { width: 100%; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); height: 0; }
+        .grid-line { width: 100%; border-bottom: 1.5px dashed rgba(255, 255, 255, 0.1); height: 0; }
         .grid-line:last-child { border-bottom: none; }
         .bars-container { display: flex; width: 100%; padding: 0 5px; z-index: 10; position: relative; height: 100%; align-items: flex-end; justify-content: space-around; box-sizing: border-box; }
         .bar-group { display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; position: relative; flex: 1; max-width: 45px; margin: 0 4px; }
         .bar-fill { width: 100%; border-radius: 4px 4px 0 0; border-width: 2px 2px 0 2px; border-style: solid; box-sizing: border-box; position: relative; cursor: pointer; transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease; }
         
-        .bar-tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(0px); background-color: #111827; color: #ffffff; padding: 12px 16px; border-radius: 8px; font-size: 13px; font-family: sans-serif; font-weight: normal; white-space: nowrap; z-index: 999; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3); border: 1px solid #334155; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: left; line-height: 1.4; }
+        .bar-tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(0px); background-color: #111827; color: #ffffff; padding: 12px 16px; border-radius: 8px; font-size: 13px; font-family: sans-serif; font-weight: normal; white-space: nowrap; z-index: 999; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3); border: 1.5px solid #334155; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: left; line-height: 1.4; }
         .bar-tooltip:after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: #111827 transparent transparent transparent; }
         
         .bar-group:hover { z-index: 999; }
@@ -305,31 +303,11 @@
         }
         /* ---------------------------------------------------- */
 
-        .music-player-card { position: relative; background-color: transparent; border-radius: 12px; padding: 10px 12px; box-sizing: border-box; width: 100%; } 
-        .music-player-card .player-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; gap: 8px; color: #ffffff; }
-        
-        .music-player-card #playlistSelect { 
-            flex: 1; max-width: 150px; padding: 5px 8px; font-size: 13px; border-radius: 8px; font-weight: normal; 
-            background-color: rgba(255, 255, 255, 0.07); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2); appearance: none; padding-right: 30px; 
-        }
-        .music-player-card #playlistSelect option { background-color: #1a0933; color: #ffffff; }
-        .music-player-card .audio-control-pill { display: flex; align-items: center; background-color: transparent; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50px; padding: 6px 12px; gap: 8px; box-shadow: none; margin-top: 6px; }
-        .music-player-card .btn-pill-play { background: none; border: none; color: #ffffff; font-size: 13px; cursor: pointer; padding: 0; width: auto; margin-top: 0; box-shadow: none; display: flex; align-items: center; justify-content: center; }
-        .music-player-card .btn-pill-play:hover { color: var(--primary-color); background: none; }
-        .music-player-card .time-display { font-size: 13px; color: #cbd5e1; font-weight: normal; font-variant-numeric: tabular-nums; white-space: nowrap; }
-        .music-player-card .pill-progress-bar { flex: 1; height: 4px; accent-color: #ffffff; cursor: pointer; background-color: rgba(255, 255, 255, 0.2); border-radius: 2px; border: none; }
-        .music-player-card .icon-static { color: #ffffff; font-size: 13px; user-select: none; cursor: pointer; }
-        .music-player-card .icon-static:hover { color: var(--primary-color); }
-        .music-player-card .volume-control-wrapper { display: flex; align-items: center; gap: 4px; }
-        .music-player-card .volume-slider { width: 0; height: 4px; accent-color: #ffffff; cursor: pointer; border: none; background-color: rgba(255, 255, 255, 0.2); border-radius: 2px; transition: width 0.25s ease-in-out; opacity: 0; }
-        .music-player-card .volume-control-wrapper:hover .volume-slider { width: 45px; opacity: 1; }
-        #visualizer { width: 100%; height: 35px; background-color: transparent; border-radius: 6px; margin-top: 8px; display: block; border: none; }
-
         .status-container { width: 100%; text-align: center; padding: 30px 0; }
         .spinner { width: 30px; height: 30px; border: 2.5px solid #e2e8f0; border-top-color: var(--primary-color); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px auto; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .status-text { color: var(--text-muted); font-size: 13px; }
-        .error-message { width: 100%; color: var(--error-color); background-color: #fef2f2; border: 1px solid #fee2e2; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 14px; display: none; text-align: center; box-sizing: border-box; font-weight: normal; }
+        .error-message { width: 100%; color: var(--error-color); background-color: #fef2f2; border: 1.5px solid #fee2e2; padding: 10px; border-radius: 6px; font-size: 13px; margin-bottom: 14px; display: none; text-align: center; box-sizing: border-box; font-weight: normal; }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.35); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 10000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -341,14 +319,14 @@
         }
         .modal-overlay.active .modal-box { transform: scale(1); }
         .modal-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: 13px; font-weight: normal; }
-        .modal-icon.success { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .modal-icon.warning { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .modal-icon.error { background-color: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .modal-icon.success { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1.5px solid rgba(16, 185, 129, 0.3); }
+        .modal-icon.warning { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1.5px solid rgba(245, 158, 11, 0.3); }
+        .modal-icon.error { background-color: rgba(239, 68, 68, 0.2); color: #f87171; border: 1.5px solid rgba(239, 68, 68, 0.3); }
         .modal-title { font-size: 13px; font-weight: normal; color: #ffffff; margin-bottom: 6px; }
         .modal-message { font-size: 13px; color: #cbd5e1; line-height: 1.5; margin-bottom: 16px; word-break: break-word; }
         .modal-btn { width: auto; min-width: 90px; padding: 7px 18px; font-size: 13px; margin-top: 0; display: inline-block; box-shadow: none; }
 
-        .floating-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); text-align: center; padding: 10px 0; font-size: 13px; color: #cbd5e1; font-weight: 500; z-index: 9999; box-shadow: 0 -4px 12px rgba(15, 23, 42, 0.03); letter-spacing: 0.01em; }
+        .floating-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1.5px solid rgba(255,255,255,0.1); text-align: center; padding: 10px 0; font-size: 13px; color: #cbd5e1; font-weight: 500; z-index: 9999; box-shadow: 0 -4px 12px rgba(15, 23, 42, 0.03); letter-spacing: 0.01em; }
         .print-header { display: none; }
 
         body *:not(.page-header):not(.page-header *):not(.print-header):not(.print-header *):not(.floating-footer):not(.floating-footer *):not(.login-welcome-title):not(.info-title):not(.y-axis span):not(.bar-label):not(.bar-tooltip div):not(.token-text) {
@@ -359,12 +337,12 @@
         @media (max-width: 880px) {
             body { padding: 0 0 60px 0; }
             .main-wrapper, .login-wrapper { max-width: 100%; width: 100%; margin-top: 0; }
-            .card, .music-player-card { border-radius: 0; }
-            .card::before, .music-player-card::before { border-radius: 0; padding: 1px 0; }
-            .page-header { border-radius: 30px !important; width: 92% !important; padding: 10px 18px !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; margin-top: 5px !important; margin-bottom: 5px !important; gap: 10px !important; }
+            .card { border-radius: 0; }
+            .card::before { border-radius: 0; padding: 1.5px 0; }
+            .page-header { border-radius: 30px !important; width: 92% !important; padding: 10px 18px !important; border: 1.5px solid rgba(255, 255, 255, 0.15) !important; margin-top: 5px !important; margin-bottom: 5px !important; gap: 10px !important; }
             .login-wrapper { margin-top: 4vh; padding: 0 12px; }
             .login-wrapper .login-card { border-radius: 16px; }
-            .login-wrapper .login-card::before { border-radius: 16px; padding: 1px; }
+            .login-wrapper .login-card::before { border-radius: 16px; padding: 1.5px; }
             .login-welcome-title { font-size: 13px !important; }
             .container { flex-direction: column-reverse; gap: 12px; }
             .dashboard-right-column { width: 100%; }
@@ -404,12 +382,12 @@
             
             #networkBg, .login-wrapper, #loadingStatus, .page-header, .form-card, 
             .floating-footer, #customModal, #chartCard, .info-banner, 
-            .filter-container-row, #btnPrintTable, .music-player-card,
+            .filter-container-row, #btnPrintTable,
             .dashboard-right-column, .modal-overlay, #aiRecommendationContainer, #miniToast, #tokenActiveModal { 
                 display: none !important; 
             }
             
-            .card::before, .music-player-card::before, .login-card::before, .modal-box::before {
+            .card::before, .login-card::before, .modal-box::before {
                 display: none !important;
             }
             
@@ -461,10 +439,10 @@
                 padding-bottom: 25px !important; 
                 margin-bottom: 25px !important; 
                 box-sizing: border-box; 
-                background: transparent !important;
-                position: relative !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
+                background: transparent !important; 
+                position: relative !important; 
+                page-break-inside: avoid !important; 
+                break-inside: avoid !important; 
             }
             .print-header::before { content: ""; position: absolute; bottom: 12px; left: 0; width: 100%; height: 4px; border-top: 1px solid #334155; border-bottom: 2px solid #0f172a; }
             .print-header::after { content: "❧ ❦ ☙"; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%); background-color: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0 18px; font-size: 18px; color: #0f172a; letter-spacing: 2px; }
@@ -479,12 +457,12 @@
             .modern-table { 
                 display: table !important;
                 width: 100% !important; 
-                border: 1px solid #000000 !important; 
+                border: 1.5px solid #000000 !important; 
                 border-collapse: collapse !important; 
                 margin-top: 10px !important;
                 table-layout: auto !important; 
-                page-break-inside: auto !important;
-                break-inside: auto !important;
+                page-break-inside: auto !important; 
+                break-inside: auto !important; 
             }
             .modern-table thead { display: table-header-group !important; }
             .modern-table tr { 
@@ -495,7 +473,7 @@
             
             .modern-table th { 
                 background-color: #f1f5f9 !important; 
-                border: 1px solid #000000 !important; 
+                border: 1.5px solid #000000 !important; 
                 padding: 8px 10px !important; 
                 color: #000000 !important; 
                 font-weight: bold !important; 
@@ -503,22 +481,22 @@
                 print-color-adjust: exact;
             }
             .modern-table td { 
-                border: 1px solid #000000 !important; 
+                border: 1.5px solid #000000 !important; 
                 padding: 8px 10px !important; 
                 color: #000000 !important; 
-                background: transparent !important;
+                background: transparent !important; 
             }
             
             .modern-table td *, .modern-table td div, .modern-table td span, .modern-table td svg { 
                 color: #000000 !important; 
-                stroke: #000000 !important;
-                font-style: normal !important;
-                text-shadow: none !important;
-                background: transparent !important;
+                stroke: #000000 !important; 
+                font-style: normal !important; 
+                text-shadow: none !important; 
+                background: transparent !important; 
             }
             .info-title { font-weight: bold !important; color: #000000 !important; }
-            .badge-kelas { border: 1px solid #000000 !important; background: transparent !important; color: #000000 !important; padding: 2px 6px !important; border-radius: 4px !important; }
-            .info-link-disabled { border: 1px dashed #000000 !important; padding: 2px 6px !important; }
+            .badge-kelas { border: 1.5px solid #000000 !important; background: transparent !important; color: #000000 !important; padding: 2px 6px !important; border-radius: 4px !important; }
+            .info-link-disabled { border: 1.5px dashed #000000 !important; padding: 2px 6px !important; }
         }
     </style>
 </head>
@@ -552,7 +530,7 @@
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     Username
                 </label>
-                <input type="text" id="loginUser" placeholder="Masukkan username" required autocomplete="username" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 12px 14px; font-size: 13px; width: 100%; color: #ffffff; box-sizing: border-box;">
+                <input type="text" id="loginUser" placeholder="Masukkan username" required autocomplete="username" style="background-color: rgba(255, 255, 255, 0.05); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 12px 14px; font-size: 13px; width: 100%; color: #ffffff; box-sizing: border-box;">
             </div>
             
             <div class="form-group" style="margin-bottom: 18px;">
@@ -561,7 +539,7 @@
                     Password
                 </label>
                 <div style="position: relative; width: 100%;">
-                    <input type="password" id="loginPass" placeholder="Masukkan password" required autocomplete="current-password" style="background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 12px 40px 12px 14px; font-size: 13px; width: 100%; color: #ffffff; box-sizing: border-box;">
+                    <input type="password" id="loginPass" placeholder="Masukkan password" required autocomplete="current-password" style="background-color: rgba(255, 255, 255, 0.05); border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 12px; padding: 12px 40px 12px 14px; font-size: 13px; width: 100%; color: #ffffff; box-sizing: border-box;">
                     <span onclick="togglePasswordVisibility()" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #cbd5e1; display: flex; align-items: center;">
                         <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                     </span>
@@ -613,7 +591,7 @@
     <div class="container">
         <div class="dashboard-right-column">
             <div class="card form-card">
-                <div class="header" style="text-align: left; padding: 8px 12px; margin-bottom: 12px; background: var(--audio-gradient-semi); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+                <div class="header" style="text-align: left; padding: 8px 12px; margin-bottom: 12px; background: var(--audio-gradient-semi); border: 1.5px solid rgba(255, 255, 255, 0.15); border-radius: 6px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
                     <h2 style="display: flex; align-items: center; gap: 8px; color: #ffffff; font-weight: bold !important; text-shadow: 0 1px 4px rgba(0,0,0,0.4);">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
                         Form Input Link Soal
@@ -641,7 +619,7 @@
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                                 Pilihan Kelas
                             </label>
-                            <button type="button" id="btnToggleKelas" onclick="toggleKelasContainer()" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.2)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.1)'" style="width: auto; padding: 4px 10px; font-size: 12px; font-weight: normal; margin-top: 0; margin-left: 8px; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; border-radius: 4px; box-shadow: none; cursor: pointer; text-transform: lowercase; transition: all 0.2s ease;">tampilkan</button>
+                            <button type="button" id="btnToggleKelas" onclick="toggleKelasContainer()" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.2)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.1)'" style="width: auto; padding: 4px 10px; font-size: 12px; font-weight: normal; margin-top: 0; margin-left: 8px; background-color: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); color: #ffffff; border-radius: 4px; box-shadow: none; cursor: pointer; text-transform: lowercase; transition: all 0.2s ease;">tampilkan</button>
                         </div>
                         <div class="checkbox-group-container" id="kelasContainer"></div>
                     </div>
@@ -662,7 +640,7 @@
                         </div>
                     </div>
 
-                    <div id="aiRecommendationContainer" style="margin-bottom: 10px; display: none; background: rgba(26, 102, 255, 0.08); border: 1px dashed rgba(26, 102, 255, 0.4); padding: 8px 10px; border-radius: 6px;">
+                    <div id="aiRecommendationContainer" style="margin-bottom: 10px; display: none; background: rgba(26, 102, 255, 0.08); border: 1.5px dashed rgba(26, 102, 255, 0.4); padding: 8px 10px; border-radius: 6px;">
                         <label style="color: #60a5fa; font-size: 12px; margin-bottom: 6px; font-weight: bold !important;">
                             <span style="animation: colorAnimate 2s linear infinite;">✨</span> Rekomendasi Jam Kosong (Jeda &ge; 90 Menit):
                         </label>
@@ -679,34 +657,13 @@
                     <button type="submit" id="btnSubmit">Kirim Data Soal</button>
                 </form>
             </div>
-            
-            <div class="music-player-card">
-                <div class="player-header-row">
-                    <div>🎵 MUSIC PLAYER</div>
-                    <select id="playlistSelect">
-                        <option value="0">NOAH - Orchestra</option>
-                    </select>
-                </div>
-                <div class="audio-control-pill">
-                    <button class="btn-pill-play" id="btnPlayPause">▶</button>
-                    <div class="time-display">
-                        <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
-                    </div>
-                    <input type="range" id="progressBar" class="pill-progress-bar" min="0" max="100" value="0">
-                    <span class="icon-static" id="btnMute">🔊</span>
-                    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="1">
-                </div>
-                <canvas id="visualizer"></canvas>
-                
-                <audio id="nativeAudioPlayer" crossorigin="anonymous" src="https://raw.githubusercontent.com/pjjpapua-coder/samson/e1a03cf22bf52aeafe20d3c9c06fc858edfa98ce/NOAH-Orchestra%20(1).mp3" preload="metadata"></audio>
-            </div>
         </div>
 
         <div class="dashboard-left-column">
             <div class="card table-card">
                 
-                <div class="info-banner" style="margin: 12px 14px 0px 14px; padding: 0; background-color: rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; font-size: 13px; color: #e2e8f0; line-height: 1.6; text-align: left; overflow: hidden;">
-                    <div style="display: flex; align-items: center; gap: 6px; background: var(--audio-gradient-semi); border-bottom: 1px solid rgba(255, 255, 255, 0.15); padding: 8px 12px; font-weight: bold !important; color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.4);">
+                <div class="info-banner" style="margin: 12px 14px 0px 14px; padding: 0; background-color: rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1.5px solid rgba(255, 255, 255, 0.1); border-radius: 6px; font-size: 13px; color: #e2e8f0; line-height: 1.6; text-align: left; overflow: hidden;">
+                    <div style="display: flex; align-items: center; gap: 6px; background: var(--audio-gradient-semi); border-bottom: 1.5px solid rgba(255, 255, 255, 0.15); padding: 8px 12px; font-weight: bold !important; color: #ffffff; text-shadow: 0 1px 4px rgba(0,0,0,0.4);">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                         Tutor singkat
                     </div>
@@ -724,7 +681,7 @@
                     </div>
                 </div>
 
-                <div class="header" id="headerLinkAktif" style="margin: 10px 14px 10px 14px; text-align: left; padding: 8px 12px; background: var(--audio-gradient-semi); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 6px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+                <div class="header" id="headerLinkAktif" style="margin: 10px 14px 10px 14px; text-align: left; padding: 8px 12px; background: var(--audio-gradient-semi); border: 1.5px solid rgba(255, 255, 255, 0.15); border-radius: 6px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <h2 style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; color: #ffffff; margin: 0; font-weight: bold !important; text-shadow: 0 1px 4px rgba(0,0,0,0.4);">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
@@ -780,7 +737,7 @@
                 <div class="header">
                     <h2>
                         Grafik distribusi soal
-                        <button id="btnToggleChart" onclick="toggleChart()" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.2)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.1)'" style="width: auto; padding: 4px 10px; font-size: 12px; font-weight: normal; margin-top: 0; margin-left: 8px; background-color: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; border-radius: 4px; box-shadow: none; cursor: pointer; text-transform: lowercase; transition: all 0.2s ease;">tampilkan</button>
+                        <button id="btnToggleChart" onclick="toggleChart()" onmouseenter="this.style.backgroundColor='rgba(255,255,255,0.2)'" onmouseleave="this.style.backgroundColor='rgba(255,255,255,0.1)'" style="width: auto; padding: 4px 10px; font-size: 12px; font-weight: normal; margin-top: 0; margin-left: 8px; background-color: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); color: #ffffff; border-radius: 4px; box-shadow: none; cursor: pointer; text-transform: lowercase; transition: all 0.2s ease;">tampilkan</button>
                     </h2>
                 </div>
                 <div id="subjectChartContainer" style="display: none;"></div>
@@ -832,8 +789,8 @@
             </div>
 
             <div class="token-footer-grid">
-                <button onclick="muatTokenAktifSekarang()" style="background: transparent; border: 1px solid var(--border-color); color: var(--text-main);">🔄 Segarkan</button>
-                <button onclick="keluarTokenMonitorManual()" style="background: rgba(239, 68, 68, 0.15); color: var(--error-color); border: 1px solid rgba(239, 68, 68, 0.25);">Keluar Sesi</button>
+                <button onclick="muatTokenAktifSekarang()" style="background: transparent; border: 1.5px solid var(--border-color); color: var(--text-main);">🔄 Segarkan</button>
+                <button onclick="keluarTokenMonitorManual()" style="background: rgba(239, 68, 68, 0.15); color: var(--error-color); border: 1.5px solid rgba(239, 68, 68, 0.25);">Keluar Sesi</button>
             </div>
         </div>
 
@@ -841,7 +798,7 @@
 </div>
 
 <div id="customModal" class="modal-overlay"><div class="modal-box"><div id="modalIcon" class="modal-icon">✓</div><div id="modalTitle" class="modal-title">Status</div><div id="modalMessage" class="modal-message">Pesan status disini...</div><button class="modal-btn" onclick="closePopUpModal()">OK</button></div></div>
-    <div class="floating-footer">
+<div class="floating-footer">
     &copy; 2026 Copyright by <a href="https://www.facebook.com/share/1HrDvZrzZx/" target="_blank" rel="noopener noreferrer" style="color: #ffffff; text-decoration: none; font-weight: bold;">Eko Yudhi, S.T.</a>
 </div>
 
@@ -886,14 +843,13 @@
 
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
-    let audioCtx = null, analyser = null, source = null, dataArray = null, lastVolumeValue = 1, rawUjianRecords = [];
+    let rawUjianRecords = [];
     let mouse = { x: null, y: null, radius: 150 };
 
     // State Variables for Token Monitor Module
     let tokenSaatIni = "";
     let statusTokenLoger = false;
 
-    // Fungsi tambahan untuk animasi klik pada icon form
     function setupLoginIconBlink() {
         const loginInputs = ['loginUser', 'loginPass'];
         loginInputs.forEach(id => {
@@ -913,7 +869,6 @@
     document.addEventListener("DOMContentLoaded", function() {
         initNetworkBackground(); 
         generateKelasCheckboxes();
-        initMusicPlayer();
         setDynamicGreeting();
         jalankanMundurWaktuToken();
         document.getElementById("tanggal").addEventListener("change", updateAiRecommendations);
@@ -985,7 +940,7 @@
                 const waktuWIT = ambilWaktuWIT();
                 const totalDetikSekarang = (waktuWIT.getHours() * 3600) + (waktuWIT.getMinutes() * 60) + waktuWIT.getSeconds();
                 const detik_07_12 = (7 * 3600) + (12 * 60); 
-                const detik_14_00 = (14 * 3600);            
+                const detik_14_00 = (14 * 3600);             
                 
                 let passwordValid = (totalDetikSekarang >= detik_07_12 && totalDetikSekarang < detik_14_00) ? passOperatorDB : passAdminDB;
 
@@ -1341,7 +1296,7 @@
                 badge.style.cssText = `
                     background: rgba(16, 185, 129, 0.2);
                     color: #10b981;
-                    border: 1px solid rgba(16, 185, 129, 0.4);
+                    border: 1.5px solid rgba(16, 185, 129, 0.4);
                     padding: 4px 10px;
                     border-radius: 4px;
                     font-size: 12px;
@@ -1569,10 +1524,10 @@
                 <div class="bar-group">
                     <div class="bar-fill" data-height="${persentaseTinggi}" style="height: 0%; background-color: ${styleColor.fill}; border-color: ${styleColor.stroke};">
                         <div class="bar-tooltip">
-                            <div style="font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 8px; margin-bottom: 8px; color: ${styleColor.fill}; font-size: 14px; white-space: normal; line-height: 1.3; max-width: 220px;">${mapel}</div>
+                            <div style="font-weight: 800; border-bottom: 1.5px solid rgba(255,255,255,0.15); padding-bottom: 8px; margin-bottom: 8px; color: ${styleColor.fill}; font-size: 14px; white-space: normal; line-height: 1.3; max-width: 220px;">${mapel}</div>
                             <div style="margin-bottom: 4px; font-size: 12px; color: #f8fafc;">Jumlah Kelas: <span style="font-weight: bold; color: #34d399;">${jumlahKelas} Kelas</span></div>
                             <div style="font-size: 12px; color: #cbd5e1; white-space: normal; max-width: 180px; word-break: break-word;">Daftar: ${listKelas}</div>
-                            <div style="margin-top: 8px; font-size: 12px; color: #94a3b8; border-top: 1px dashed rgba(255,255,255,0.15); padding-top: 6px;">Total Soal: <span style="color:#f8fafc; font-weight:bold;">${totalLinks} Link</span></div>
+                            <div style="margin-top: 8px; font-size: 12px; color: #94a3b8; border-top: 1.5px dashed rgba(255,255,255,0.15); padding-top: 6px;">Total Soal: <span style="color:#f8fafc; font-weight:bold;">${totalLinks} Link</span></div>
                         </div>
                     </div>
                     <div class="bar-label" title="${mapel}">${mapel}</div>
@@ -1651,7 +1606,6 @@
             draw() { 
                 ctx.beginPath(); 
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); 
-                /* Mengubah warna partikel menjadi Cyan terang */
                 ctx.fillStyle = "rgba(0, 255, 204, 0.6)"; 
                 ctx.fill(); 
             }
@@ -1665,7 +1619,6 @@
                     const dxMouse = particles[i].x - mouse.x; const dyMouse = particles[i].y - mouse.y; const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
                     if (distMouse < mouse.radius) { 
                         ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(mouse.x, mouse.y); 
-                        /* Mengubah warna garis interaksi mouse menjadi Cyan terang */
                         ctx.strokeStyle = `rgba(0, 255, 204, ${(1 - distMouse / mouse.radius) * 0.5})`; 
                         ctx.lineWidth = 1.1; ctx.stroke(); 
                     }
@@ -1674,7 +1627,6 @@
                     const dx = particles[i].x - particles[j].x; const dy = particles[i].y - particles[j].y; const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < connectionDist) { 
                         ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); 
-                        /* Mengubah warna garis koneksi antar partikel menjadi Cyan terang */
                         ctx.strokeStyle = `rgba(0, 255, 204, ${(1 - dist / connectionDist) * 0.25})`; 
                         ctx.lineWidth = 0.8; ctx.stroke(); 
                     }
@@ -1697,7 +1649,6 @@
         document.getElementById("mainContent").style.display = "none";
         document.getElementById("loginContent").style.display = "flex";
         
-        // Reset state monitor saat logout
         statusTokenLoger = false;
         tokenSaatIni = "";
         const tokenMonitorContainer = document.getElementById("tokenMonitorContainer");
@@ -1706,12 +1657,6 @@
         if(tokenMonitorContainer) tokenMonitorContainer.style.display = "none";
         if(tokenLoginGate) tokenLoginGate.style.display = "block";
         if(tokenPasswordInput) tokenPasswordInput.value = "";
-
-        const nativeAudio = document.getElementById("nativeAudioPlayer");
-        if (nativeAudio && !nativeAudio.paused) { 
-            nativeAudio.pause(); 
-            document.getElementById("btnPlayPause").textContent = "▶"; 
-        }
 
         showPopUpModal("Sesi Berakhir", "Anda telah keluar dari dashboard.", "success");
         updateAiRecommendations();
@@ -1724,7 +1669,6 @@
         }
     }
 
-    // Fungsi pembuat Checkbox yang Baru (Berbasis Kelas X, XI, XII)
     function generateKelasCheckboxes() {
         const container = document.getElementById("kelasContainer");
         const kelasConfig = [
@@ -1753,148 +1697,6 @@
             }
             container.appendChild(row);
         });
-    }
-
-    function initMusicPlayer() {
-        const audio = document.getElementById("nativeAudioPlayer");
-        const btnPlay = document.getElementById("btnPlayPause");
-        const progress = document.getElementById("progressBar");
-        const vol = document.getElementById("volumeSlider");
-        const btnMute = document.getElementById("btnMute");
-        const timeDisplay = document.getElementById("currentTime");
-        const durationDisplay = document.getElementById("duration");
-
-        btnPlay.addEventListener("click", () => {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioCtx.createAnalyser();
-                const source = audioCtx.createMediaElementSource(audio);
-                source.connect(analyser);
-                analyser.connect(audioCtx.destination);
-                analyser.fftSize = 128; 
-                
-                const bufferLength = analyser.frequencyBinCount;
-                dataArray = new Uint8Array(bufferLength);
-            }
-
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-
-            if (audio.paused) {
-                audio.play();
-                btnPlay.textContent = "⏸";
-            } else {
-                audio.pause();
-                btnPlay.textContent = "▶";
-            }
-        });
-
-        audio.addEventListener("timeupdate", () => {
-            const currentTime = audio.currentTime;
-            const duration = audio.duration;
-            if (duration > 0) {
-                progress.value = (currentTime / duration) * 100;
-                
-                const mins = Math.floor(currentTime / 60);
-                const secs = Math.floor(currentTime % 60);
-                timeDisplay.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-                
-                const dMins = Math.floor(duration / 60);
-                const dSecs = Math.floor(duration % 60);
-                durationDisplay.textContent = `${dMins}:${dSecs < 10 ? '0' : ''}${dSecs}`;
-            }
-        });
-
-        progress.addEventListener("input", (e) => {
-            const duration = audio.duration;
-            if (duration > 0) {
-                audio.currentTime = (e.target.value / 100) * duration;
-            }
-        });
-
-        vol.addEventListener("input", (e) => {
-            const val = parseFloat(e.target.value);
-            audio.volume = val;
-            if (val === 0) {
-                audio.muted = true;
-                btnMute.textContent = "🔇";
-            } else {
-                audio.muted = false;
-                btnMute.textContent = "🔊";
-                lastVolumeValue = val;
-            }
-        });
-
-        btnMute.addEventListener("click", () => {
-            if (audio.muted) {
-                audio.muted = false;
-                audio.volume = lastVolumeValue > 0 ? lastVolumeValue : 1;
-                vol.value = audio.volume;
-                btnMute.textContent = "🔊";
-            } else {
-                lastVolumeValue = audio.volume;
-                audio.muted = true;
-                vol.value = 0;
-                btnMute.textContent = "🔇";
-            }
-        });
-
-        audio.addEventListener("ended", () => {
-            btnPlay.textContent = "▶";
-            progress.value = 0;
-            audio.currentTime = 0;
-        });
-
-        window.audioElement = audio;
-        drawVisualizer();
-    }
-
-    function drawVisualizer() {
-        requestAnimationFrame(drawVisualizer);
-        const canvas = document.getElementById("visualizer");
-        if (!canvas) return;
-        const canvasCtx = canvas.getContext("2d");
-        
-        if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-            canvas.width = canvas.clientWidth;
-            canvas.height = canvas.clientHeight;
-        }
-        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const gradient = canvasCtx.createLinearGradient(0, 0, canvas.width, 0);
-        gradient.addColorStop(0, '#ff0055');
-        gradient.addColorStop(0.25, '#ffcc00');
-        gradient.addColorStop(0.5, '#00ffcc');
-        gradient.addColorStop(0.75, '#0066ff');
-        gradient.addColorStop(1, '#9900ff');
-
-        canvasCtx.fillStyle = gradient;
-
-        const barCount = 40;
-        const barWidth = (canvas.width / barCount) * 0.8;
-        const gap = (canvas.width / barCount) * 0.2;
-
-        if (analyser && window.audioElement && !window.audioElement.paused) {
-            analyser.getByteFrequencyData(dataArray);
-            const step = Math.floor(dataArray.length / barCount);
-
-            for (let i = 0; i < barCount; i++) {
-                const dataIndex = i * step;
-                const audioValue = dataArray[dataIndex]; 
-                
-                let barHeight = (audioValue / 255) * canvas.height;
-                if (barHeight < 2) barHeight = 2;
-
-                const x = i * (barWidth + gap);
-                canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-            }
-        } else {
-            for (let i = 0; i < barCount; i++) {
-                const x = i * (barWidth + gap);
-                canvasCtx.fillRect(x, canvas.height - 2, barWidth, 2);
-            }
-        }
     }
 </script>
 </body>
