@@ -76,9 +76,7 @@
             margin-top: 0;
         }
 
-        /* =======================================================
-           GLASSMORPHISM PANELS (Login, Cards, Modals)
-           ======================================================= */
+        /* GLASSMORPHISM PANELS */
         .login-card,
         .form-card,
         .table-card,
@@ -354,7 +352,7 @@
             padding: 8px 18px 0 18px;
         }
 
-        /* FORM INPUT KACA TRANSPARAN */
+        /* FORM INPUT */
         select,
         input[type="url"],
         input[type="date"],
@@ -402,22 +400,18 @@
                 color: #ffffff !important;
                 filter: drop-shadow(0 0 12px #ffffff) brightness(1.5);
             }
-
             25% {
                 color: #ff0055 !important;
                 filter: drop-shadow(0 0 15px #ff0055) brightness(1.3);
             }
-
             50% {
                 color: #1e293b !important;
                 filter: drop-shadow(0 0px transparent) brightness(0.3);
             }
-
             75% {
                 color: #00ffcc !important;
                 filter: drop-shadow(0 0 15px #00ffcc) brightness(1.3);
             }
-
             100% {
                 color: #ffffff !important;
                 filter: drop-shadow(0 0 12px #ffffff) brightness(1.5);
@@ -510,17 +504,9 @@
             transform: scale(0.95);
         }
 
-        .btn-action-icon.add-icon {
-            color: #10b981;
-        }
-
-        .btn-action-icon.delete-icon {
-            color: #ef4444;
-        }
-
-        .btn-action-icon.import-icon {
-            color: #3b82f6;
-        }
+        .btn-action-icon.add-icon { color: #10b981; }
+        .btn-action-icon.delete-icon { color: #ef4444; }
+        .btn-action-icon.import-icon { color: #3b82f6; }
 
         .btn-delete-bulk {
             width: auto;
@@ -667,6 +653,7 @@
             margin-bottom: 1px;
         }
 
+        /* white-space: nowrap agar teks tanggal, hari & info tidak turun */
         .info-row {
             display: flex;
             align-items: center;
@@ -674,6 +661,7 @@
             color: #e2e8f0 !important;
             font-size: 13px;
             margin-top: 2px;
+            white-space: nowrap !important;
         }
 
         .info-guru {
@@ -948,139 +936,6 @@
             z-index: 2;
         }
 
-        .music-player-card {
-            background-color: transparent !important;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 14px 16px;
-            box-sizing: border-box;
-            width: 100%;
-            box-shadow: none !important;
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-        }
-
-        .music-player-card .player-header-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            gap: 8px;
-            color: #ffffff;
-        }
-
-        .music-player-card #playlistSelect {
-            flex: 1;
-            max-width: 210px;
-            padding: 5px 8px;
-            font-size: 13px;
-            border-radius: 8px;
-            font-weight: normal;
-            background-color: rgba(255, 255, 255, 0.07) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        }
-
-        .music-player-card #playlistSelect option {
-            background-color: #1a0933;
-            color: #ffffff;
-        }
-
-        .music-player-card .audio-control-pill {
-            display: flex;
-            align-items: center;
-            background-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            padding: 6px 12px;
-            gap: 8px;
-            box-shadow: none;
-            margin-top: 6px;
-        }
-
-        .music-player-card .btn-pill-play {
-            background: none;
-            border: none;
-            color: #ffffff;
-            font-size: 13px;
-            cursor: pointer;
-            padding: 0;
-            width: auto;
-            margin-top: 0;
-            box-shadow: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .music-player-card .btn-pill-play:hover {
-            color: var(--primary-color);
-            background: none;
-        }
-
-        .music-player-card .time-display {
-            font-size: 13px;
-            color: #cbd5e1;
-            font-weight: normal;
-            font-variant-numeric: tabular-nums;
-            white-space: nowrap;
-        }
-
-        .music-player-card .pill-progress-bar {
-            flex: 1;
-            height: 4px;
-            accent-color: #ffffff;
-            cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            border: none;
-        }
-
-        .music-player-card .icon-static {
-            color: #ffffff;
-            font-size: 13px;
-            user-select: none;
-            cursor: pointer;
-        }
-
-        .music-player-card .icon-static:hover {
-            color: var(--primary-color);
-        }
-
-        .music-player-card .volume-control-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .music-player-card .volume-slider {
-            width: 0;
-            height: 4px;
-            accent-color: #ffffff;
-            cursor: pointer;
-            border: none;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            transition: width 0.25s ease-in-out;
-            opacity: 0;
-        }
-
-        .music-player-card .volume-control-wrapper:hover .volume-slider {
-            width: 45px;
-            opacity: 1;
-        }
-
-        #visualizer {
-            width: 100%;
-            height: 50px;
-            background-color: transparent;
-            border-radius: 6px;
-            margin-top: 12px;
-            display: block;
-            border: none;
-        }
-
-        /* Token specific button hover overrides */
         #btnRefreshManual:hover {
             background-color: rgba(255, 255, 255, 0.1) !important;
             color: #ffffff !important;
@@ -1137,7 +992,7 @@
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
         }
 
-        /* MODALS KACA TRANSPARAN */
+        /* MODALS */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1240,7 +1095,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* FLOATING FOOTER KACA */
+        /* FLOATING FOOTER */
         .floating-footer {
             position: fixed;
             bottom: 0;
@@ -1276,8 +1131,7 @@
                 margin-top: 0;
             }
 
-            .card,
-            .music-player-card {
+            .card {
                 border-radius: 0;
                 border-left: none;
                 border-right: none;
@@ -1336,7 +1190,7 @@
             }
         }
 
-        /* ================= PRINT LAYOUT MATRIKS ================= */
+        /* PRINT LAYOUT */
         @media print {
             @page {
                 size: landscape;
@@ -1693,26 +1547,6 @@
                         </div>
                         <button type="submit" id="btnSubmit">Kirim Data Soal</button>
                     </form>
-                </div>
-
-                <div class="music-player-card">
-                    <div class="player-header-row">
-                        <div>🎵 MUSIC PLAYER</div>
-                        <select id="playlistSelect">
-                            <option value="https://pjjpapua-coder.github.io/samson/IWAN-FALSx.mp3">Iwan Fals</option>
-                            <option value="https://pjjpapua-coder.github.io/samson/NOAH-Orchestra%20(1).mp3">Noah - Orchestra</option>
-                        </select>
-                    </div>
-                    <div class="audio-control-pill">
-                        <button class="btn-pill-play" id="btnPlayPause">▶</button>
-                        <div class="time-display"><span id="currentTime">0:00</span> / <span id="duration">0:00</span></div>
-                        <input type="range" id="progressBar" class="pill-progress-bar" min="0" max="100" value="0">
-                        <span class="icon-static" id="btnMute">🔊</span>
-                        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.05" value="1">
-                    </div>
-                    <canvas id="visualizer"></canvas>
-                    
-                    <audio id="nativeAudioPlayer" crossorigin="anonymous" style="display: none;"></audio>
                 </div>
             </div>
 
@@ -2090,20 +1924,10 @@
         let tokenTimerInterval;
         let tokenTimeLeft = 180;
 
-        // WEB AUDIO API GLOBALS
-        let nativeAudio = null;
-        let audioCtx;
-        let analyser;
-        let source;
-        let dataArray;
-        let bufferLength;
-        let lastVolumeValue = 1;
-
         document.addEventListener("DOMContentLoaded", function () {
             initNetworkBackground();
             generateKelasCheckboxes('kelasContainer', 'kelas_pilihan');
             generateKelasCheckboxes('editKelasContainer', 'edit_kelas_pilihan');
-            initMusicPlayer();
             setDynamicGreeting();
 
             const tokenPassInput = document.getElementById("tokenPassword");
@@ -2472,14 +2296,6 @@
                     btn.disabled = false; btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg> Masuk ke Sistem';
                     document.getElementById("loginContent").style.display = "none";
                     document.getElementById("loadingStatus").style.display = "flex";
-                    
-                    // Mainkan musik saat login (butuh inisialisasi context audio dari interaksi user)
-                    if (nativeAudio && nativeAudio.paused) {
-                        setupWebAudioAPI();
-                        nativeAudio.play().then(() => {
-                            document.getElementById("btnPlayPause").textContent = "⏸";
-                        }).catch(e => console.log("Audio autoplay dicegah browser"));
-                    }
                     startRealTimeSync();
                 } else {
                     showPopUpModal("Ditolak", "Username/Password salah!", "error");
@@ -2598,7 +2414,7 @@
             records.forEach(r => {
                 const tr = document.createElement("tr");
                 const lRaw = r.linkSoal || "", dLink = lRaw.length > 25 ? lRaw.substring(0, 25) + "..." : lRaw;
-                tr.innerHTML = `<td><div style="display:flex; align-items:flex-start; gap:8px;"><input type="checkbox" class="exam-checkbox" value="${r.id}" onchange="checkSelection()" style="margin-top:2px; cursor:pointer;"><div class="info-group"><div class="info-title">${r.mapel||"-"}</div><div class="info-row info-guru"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>${r.guru||"-"}</div><div class="badge-kelas">Kelas ${r.kelas||"-"}</div></div></div></td><td><div class="info-group"><div class="info-row" style="align-items: center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><div style="display:flex; align-items:center; gap:4px;"><span>${r.hari||"-"}, ${formatToDisplayDate(r.tanggal||"")}</span><button class="btn-edit-mini" onclick="openEditModal('${r.id}')" title="Edit"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button></div></div><div class="info-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Pukul ${formatJamBersih(r.jam||"-")} WIT</div><div class="info-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>${lRaw ? `<span class="info-link" onclick="window.open('${lRaw}', '_blank')" style="cursor:pointer;">${dLink}</span>` : `<span style="color:#cbd5e1;font-style:italic;">Tidak ada tautan</span>`}</div></div></td>`;
+                tr.innerHTML = `<td><div style="display:flex; align-items:flex-start; gap:8px;"><input type="checkbox" class="exam-checkbox" value="${r.id}" onchange="checkSelection()" style="margin-top:2px; cursor:pointer;"><div class="info-group"><div class="info-title">${r.mapel||"-"}</div><div class="info-row info-guru"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>${r.guru||"-"}</div><div class="badge-kelas">Kelas ${r.kelas||"-"}</div></div></div></td><td><div class="info-group"><div class="info-row" style="align-items: center; white-space: nowrap;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><div style="display:flex; align-items:center; gap:4px; white-space: nowrap;"><span style="white-space: nowrap;">${r.hari||"-"}, ${formatToDisplayDate(r.tanggal||"")}</span><button class="btn-edit-mini" onclick="openEditModal('${r.id}')" title="Edit"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button></div></div><div class="info-row" style="white-space: nowrap;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Pukul ${formatJamBersih(r.jam||"-")} WIT</div><div class="info-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>${lRaw ? `<span class="info-link" onclick="window.open('${lRaw}', '_blank')" style="cursor:pointer;">${dLink}</span>` : `<span style="color:#cbd5e1;font-style:italic;">Tidak ada tautan</span>`}</div></div></td>`;
                 tb.appendChild(tr);
             });
         }
@@ -2734,169 +2550,7 @@
             document.getElementById("loginContent").style.display = "flex"; document.getElementById("kelasContainer").style.display = "none";
             document.getElementById("btnToggleKelas").textContent = "tampilkan";
 
-            if (nativeAudio && !nativeAudio.paused) { nativeAudio.pause(); document.getElementById("btnPlayPause").textContent = "▶"; }
             showPopUpModal("Sesi Berakhir", "Anda telah keluar dari dashboard.", "success");
-        }
-
-        // ==============================================================
-        // WEB AUDIO API PLAYER & VISUALIZER
-        // ==============================================================
-        function setupWebAudioAPI() {
-            if (!audioCtx) {
-                // Inisialisasi API jika belum ada
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 256; 
-                
-                source = audioCtx.createMediaElementSource(nativeAudio);
-                source.connect(analyser);
-                analyser.connect(audioCtx.destination);
-                
-                bufferLength = analyser.frequencyBinCount;
-                dataArray = new Uint8Array(bufferLength);
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-        }
-
-        function initMusicPlayer() {
-            const btnPlay = document.getElementById("btnPlayPause");
-            const progress = document.getElementById("progressBar");
-            const vol = document.getElementById("volumeSlider");
-            const btnMute = document.getElementById("btnMute");
-            const timeDisplay = document.getElementById("currentTime");
-            const durationDisplay = document.getElementById("duration");
-            const playlist = document.getElementById("playlistSelect");
-            
-            nativeAudio = document.getElementById("nativeAudioPlayer");
-            nativeAudio.src = playlist.value; 
-            
-            playlist.addEventListener("change", (e) => {
-                nativeAudio.src = e.target.value;
-                if (audioCtx) audioCtx.resume();
-                nativeAudio.play();
-                btnPlay.textContent = "⏸";
-            });
-
-            btnPlay.addEventListener("click", () => {
-                setupWebAudioAPI();
-                if (nativeAudio.paused) {
-                    nativeAudio.play();
-                    btnPlay.textContent = "⏸";
-                } else {
-                    nativeAudio.pause();
-                    btnPlay.textContent = "▶";
-                }
-            });
-
-            nativeAudio.addEventListener("timeupdate", () => {
-                if (nativeAudio.duration) {
-                    progress.value = (nativeAudio.currentTime / nativeAudio.duration) * 100;
-                    
-                    const cMins = Math.floor(nativeAudio.currentTime / 60);
-                    const cSecs = Math.floor(nativeAudio.currentTime % 60);
-                    timeDisplay.textContent = `${cMins}:${cSecs < 10 ? '0' : ''}${cSecs}`;
-                    
-                    const dMins = Math.floor(nativeAudio.duration / 60);
-                    const dSecs = Math.floor(nativeAudio.duration % 60);
-                    durationDisplay.textContent = `${dMins}:${dSecs < 10 ? '0' : ''}${dSecs}`;
-                }
-            });
-
-            progress.addEventListener("input", (e) => {
-                if (nativeAudio.duration) {
-                    nativeAudio.currentTime = (e.target.value / 100) * nativeAudio.duration;
-                }
-            });
-
-            vol.addEventListener("input", (e) => {
-                nativeAudio.volume = e.target.value;
-                if (nativeAudio.volume == 0) {
-                    nativeAudio.muted = true;
-                    btnMute.textContent = "🔇";
-                } else {
-                    nativeAudio.muted = false;
-                    btnMute.textContent = "🔊";
-                    lastVolumeValue = nativeAudio.volume;
-                }
-            });
-
-            btnMute.addEventListener("click", () => {
-                nativeAudio.muted = !nativeAudio.muted;
-                if (nativeAudio.muted) {
-                    vol.value = 0;
-                    btnMute.textContent = "🔇";
-                } else {
-                    vol.value = lastVolumeValue || 1;
-                    nativeAudio.volume = vol.value;
-                    btnMute.textContent = "🔊";
-                }
-            });
-
-            nativeAudio.addEventListener("ended", () => {
-                btnPlay.textContent = "▶";
-                progress.value = 0;
-            });
-
-            drawRealVisualizer();
-        }
-
-        // REAL-TIME AUDIO VISUALIZER
-        function drawRealVisualizer() {
-            requestAnimationFrame(drawRealVisualizer);
-            const canvas = document.getElementById("visualizer");
-            if (!canvas) return;
-            const canvasCtx = canvas.getContext("2d");
-            
-            if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-                canvas.width = canvas.clientWidth;
-                canvas.height = canvas.clientHeight;
-            }
-            canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-
-            const barCount = 40;
-            const barWidth = (canvas.width / barCount) * 0.8;
-            const gap = (canvas.width / barCount) * 0.2;
-
-            // Jika lagu pause atau belum mulai, tampilkan efek ombak statis halus
-            if (!analyser || nativeAudio.paused) {
-                for (let i = 0; i < barCount; i++) {
-                    const wave = Math.sin(i * 0.2 + (Date.now() * 0.002)) * 3;
-                    const h = Math.abs(wave) + 2;
-                    canvasCtx.fillStyle = `rgba(255, 255, 255, 0.2)`;
-                    canvasCtx.fillRect(i * (barWidth + gap), canvas.height - h, barWidth, h);
-                }
-                return;
-            }
-
-            // Ambil data frekuensi dari Web Audio API
-            analyser.getByteFrequencyData(dataArray);
-
-            for (let i = 0; i < barCount; i++) {
-                // Fokus pada frekuensi rendah hingga menengah (dimana nada/vokal paling dominan)
-                const dataIndex = Math.floor(i * (bufferLength / barCount) * 0.5); 
-                const rawValue = dataArray[dataIndex];
-                
-                // Kalkulasi tinggi batang
-                const barHeight = (rawValue / 255) * canvas.height * 0.95 + 2;
-
-                // Warna gradasi Glow yang merespons grafik
-                const hue = i * (360 / barCount) + (Date.now() * 0.05); // Warna berputar dinamis
-                canvasCtx.fillStyle = `hsl(${hue}, 100%, 65%)`;
-
-                const x = i * (barWidth + gap);
-                
-                // Tambahkan Efek Cahaya / Glow
-                canvasCtx.shadowBlur = 12;
-                canvasCtx.shadowColor = `hsl(${hue}, 100%, 55%)`;
-                
-                // Gambar batangnya
-                canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-                
-                // Reset shadow untuk performa
-                canvasCtx.shadowBlur = 0;
-            }
         }
     </script>
 </body>
