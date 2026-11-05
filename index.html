@@ -72,21 +72,6 @@
 
                 <div class="space-y-4">
                     
-                    <button onclick="openModal()" class="w-full group flex items-center p-5 bg-white border border-slate-200 hover:border-blue-300 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.12)] transition-all duration-300 transform hover:-translate-y-1 text-left focus:outline-none">
-                        <div class="flex-shrink-0 w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 mr-5">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
-                        </div>
-                        <div class="flex-grow">
-                            <h4 class="font-poppins text-lg font-bold text-slate-800 group-hover:text-blue-600 transition-colors">Petunjuk Teknis</h4>
-                            <p class="text-sm text-slate-500 mt-0.5">Android & Iphone</p>
-                        </div>
-                        <div class="flex-shrink-0 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </div>
-                    </button>
-
                     <a href="https://pjjpapua-coder.github.io/cbt-smansa/landingpagepc.html" class="group flex items-center p-5 bg-white border border-slate-200 hover:border-emerald-300 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(16,185,129,0.12)] transition-all duration-300 transform hover:-translate-y-1">
                         <div class="flex-shrink-0 w-14 h-14 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300 mr-5">
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +102,7 @@
                         </div>
                     </a>
 
-                    <!-- Tautan Cpanel AMS yang telah diperbarui -->
+                    <!-- Tautan Cpanel AMS -->
                     <a href="https://pjjpapua-coder.github.io/cbt-smansa/cpanel.html" class="group flex items-center p-5 bg-white border border-slate-200 hover:border-cyan-300 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(6,182,212,0.12)] transition-all duration-300 transform hover:-translate-y-1">
                         <div class="flex-shrink-0 w-14 h-14 bg-cyan-50 text-cyan-600 rounded-xl flex items-center justify-center group-hover:bg-cyan-600 group-hover:text-white transition-colors duration-300 mr-5">
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,68 +127,11 @@
         </div>
     </div>
 
-    <div id="modal-juknis" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-300">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm cursor-pointer" onclick="closeModal()"></div>
-        
-        <div id="modal-content" class="relative w-full max-w-4xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col transform scale-95 transition-all duration-300 h-[85vh]">
-            
-            <div class="flex justify-between items-center p-4 md:p-6 border-b border-slate-200 bg-white z-20">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-poppins text-lg font-bold text-slate-800">Petunjuk Teknis (Juknis)</h3>
-                        <p class="text-xs text-slate-500">Tata tertib pelaksanaan ujian CBT</p>
-                    </div>
-                </div>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2.5 rounded-full transition-all focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            
-            <div class="flex-grow w-full h-full relative bg-slate-200">
-                <div class="absolute inset-0 flex flex-col items-center justify-center z-0 bg-slate-100">
-                    <div class="w-10 h-10 border-4 border-slate-300 border-t-blue-600 rounded-full animate-spin mb-3"></div>
-                    <p class="text-slate-600 text-sm font-medium">Memuat panduan...</p>
-                </div>
-                
-                <iframe src="https://pjjpapua-coder.github.io/cbt-smansa/juknis-cbt.html" class="relative z-10 w-full h-full border-0" title="Petunjuk Teknis CBT"></iframe>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Set tahun otomatis
         const year = new Date().getFullYear();
         document.getElementById('year-desktop').textContent = year;
         document.getElementById('year-mobile').textContent = year;
-
-        // Logika Modal Pop-up
-        const modal = document.getElementById('modal-juknis');
-        const modalContent = document.getElementById('modal-content');
-
-        function openModal() {
-            modal.classList.remove('pointer-events-none');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
-            }, 10);
-        }
-
-        function closeModal() {
-            modal.classList.add('opacity-0');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('pointer-events-none');
-            }, 300);
-        }
     </script>
 </body>
 </html>
