@@ -272,21 +272,21 @@
         .btn-change-class:hover { background-color: rgba(255, 255, 255, 0.2); color: #ffffff; }
 
         .status-container { 
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
             background: rgba(20, 20, 25, 0.85); 
             backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
+            -webkit-backdrop-filter: blur(12px); 
+            border: 1px solid var(--border-color); 
             padding: 32px 40px; 
             border-radius: 20px; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            z-index: 99999;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+            z-index: 99999; 
             text-align: center; 
-            width: 300px;
-            box-sizing: border-box;
+            width: 300px; 
+            box-sizing: border-box; 
         }
          
         .spinner { 
@@ -305,8 +305,8 @@
         .status-text { 
             color: var(--secondary-color); 
             font-size: 13.5px; 
-            font-weight: 700;
-            letter-spacing: 0.01em;
+            font-weight: 700; 
+            letter-spacing: 0.01em; 
         }
          
         .error-message { width: 100%; color: var(--error-color); background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px; border-radius: 6px; font-size: 12px; margin-bottom: 14px; display: none; text-align: center; box-sizing: border-box; font-weight: 500; }
@@ -378,7 +378,7 @@
             animation: bright-critical-blink 0.8s infinite ease-in-out;
             font-family: monospace;
             font-size: 11px; 
-            font-weight: 700;
+            font-weight: 700; 
             padding: 4px 8px; 
             border-radius: 6px;
         }
@@ -601,11 +601,7 @@
     }
 
     function kembaliKeHalamanSebelumnya() {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = "../";
-        }
+        window.location.href = "https://pjjpapua-coder.github.io/cbt-smansa/";
     }
 
     function tampilkanHalamanPemulihanSesi() {
