@@ -267,7 +267,6 @@
                             <p data-template-id="iphone-step2-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Download file <code class="px-2 py-1 bg-slate-950 border border-slate-800 rounded-lg text-blue-400 font-mono text-xs shadow-sm">SMANSA-ios.seb</code>. Buka aplikasi <strong>Files/Penyimpanan</strong> Anda, lalu tap pada file tersebut untuk memulai.
                             </p>
-                            <!-- Tombol tanpa href: status bar link browser tidak akan muncul saat di-hover -->
                             <button type="button" onclick="bukaLink('https://smayppkasisisentani.sch.id/webujian/sman/SMANSA-ios.seb')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40 cursor-pointer">
                                 <i data-lucide="cloud-download" class="w-4 h-4"></i> Download File (.seb)
                             </button>
@@ -335,6 +334,14 @@
                         </ol>
                     </div>
                 </div>
+
+                <!-- Tombol Tanpa Bingkai: back to front -->
+                <div class="mt-8 text-center">
+                    <button type="button" onclick="bukaLink('https://pjjpapua-coder.github.io/cbt-smansa/')" class="inline-flex items-center gap-2 text-slate-400 hover:text-indigo-400 text-sm font-medium transition-colors duration-200 cursor-pointer group bg-transparent border-0 outline-none p-2">
+                        <i data-lucide="arrow-left" class="w-4 h-4 transition-transform duration-200 group-hover:-translate-x-1"></i>
+                        <span>back to front</span>
+                    </button>
+                </div>
             </section>
         </main>
 
@@ -350,9 +357,9 @@
 
     <script src="/_sdk/editing_sdk.js"></script>
     <script>
-        // Fungsi pembuka URL tanpa menampilkan preview di status bar
+        // Fungsi navigasi tanpa menampilkan status bar URL saat hover
         function bukaLink(url) {
-            window.open(url, '_blank', 'noopener,noreferrer');
+            window.location.href = url;
         }
 
         function switchTab(tab) {
