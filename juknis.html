@@ -21,6 +21,8 @@
             background-color: #020617; /* Base slate-950 */
             color: #f1f5f9; /* slate-100 */
             overflow-x: hidden;
+            -webkit-user-select: none; /* Mencegah seleksi teks */
+            user-select: none;
         }
 
         /* Modern Gradient Blobs Background */
@@ -119,7 +121,7 @@
     <script src="/_sdk/resizing_sdk.js" type="text/javascript"></script>
 </head>
 
-<body data-template-id="__page-root" class="min-h-screen w-full relative selection:bg-indigo-900 selection:text-indigo-100 bg-gradient-to-r from-slate-950 to-indigo-950">
+<body data-template-id="__page-root" oncontextmenu="return false;" class="min-h-screen w-full relative selection:bg-indigo-900 selection:text-indigo-100 bg-gradient-to-r from-slate-950 to-indigo-950">
     
     <div class="bg-shapes">
         <div class="blob1"></div>
@@ -156,6 +158,7 @@
                 </div>
             </div>
 
+            <!-- Tab Android -->
             <section id="section-android" class="fade-in space-y-6">
                 <div class="step-card rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-slate-950/20">
                     <div class="flex flex-col sm:flex-row gap-5">
@@ -167,9 +170,14 @@
                             <p data-template-id="android-step1-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Unduh dan pasang aplikasi CBT langsung dari Google Play Store ke perangkat Anda.
                             </p>
-                            <a href="https://play.google.com/store/apps/details?id=com.cbt.exam.browser" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40">
-                                <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT
-                            </a>
+                            <div class="flex flex-wrap items-center gap-3.5">
+                                <a href="https://play.google.com/store/apps/details?id=com.cbt.exam.browser" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40">
+                                    <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT
+                                </a>
+                                <a href="https://play.google.com/store/apps/details?id=com.cbt.exam.browser.pro" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40 border border-teal-400/20">
+                                    <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT Pro
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -203,7 +211,7 @@
                                 <div class="bg-slate-950/50 p-5 rounded-3xl border border-slate-800/70 shadow-inner shadow-slate-950/30">
                                     <p data-template-id="android-step3a" class="canva-text mb-4 text-slate-300 font-medium text-sm">
                                         <span class="bg-indigo-950 text-indigo-300 w-6 h-6 inline-flex items-center justify-center rounded-full mr-2 text-xs">A</span> 
-                                        Buka aplikasi CBT ExamBro, kemudian klik menu buka<strong>file</strong>:
+                                        Buka aplikasi CBT ExamBro, kemudian klik menu buka <strong>file</strong>:
                                     </p>
                                     <img data-template-id="android-img1" class="canva-image w-full max-w-sm rounded-2xl shadow-sm border border-slate-700/70" loading="lazy" src="https://smayppkasisisentani.sch.id/webujian/cbtbaru.jpeg" alt="Buka config CBT">
                                 </div>
@@ -230,6 +238,7 @@
                 </div>
             </section>
 
+            <!-- Tab iPhone -->
             <section id="section-iphone" class="hidden space-y-6">
                 <div class="step-card rounded-[2rem] p-6 sm:p-8 fade-in shadow-2xl shadow-slate-950/20">
                     <div class="flex flex-col sm:flex-row gap-5">
@@ -256,9 +265,9 @@
                                 Akses File Jadwal Ujian
                             </h3>
                             <p data-template-id="iphone-step2-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
-                                Download file <code class="px-2 py-1 bg-slate-950 border border-slate-800 rounded-lg text-blue-400 font-mono text-xs shadow-sm">JadwalujianYPPK.seb</code>. Buka aplikasi <strong>Files/Penyimpanan</strong> Anda, lalu tap pada file tersebut untuk memulai.
+                                Download file <code class="px-2 py-1 bg-slate-950 border border-slate-800 rounded-lg text-blue-400 font-mono text-xs shadow-sm">SMANSA-ios.seb</code>. Buka aplikasi <strong>Files/Penyimpanan</strong> Anda, lalu tap pada file tersebut untuk memulai.
                             </p>
-                            <a href="https://smayppkasisisentani.sch.id/webujian/JadwalujianYPPK.seb" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40">
+                            <a href="https://smayppkasisisentani.sch.id/webujian/sman/SMANSA-ios.seb" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40">
                                 <i data-lucide="cloud-download" class="w-4 h-4"></i> Download File (.seb)
                             </a>
                         </div>
@@ -373,6 +382,11 @@
             }
         }
         
+        // Proteksi Anti Klik Kanan
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
         lucide.createIcons();
     </script>
 </body>
