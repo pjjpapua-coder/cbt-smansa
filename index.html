@@ -11,7 +11,6 @@
     
     <style>
         body { 
-            /* Diganti ke Slate 200 agar jauh lebih redup dan nyaman di mata */
             background-color: #e2e8f0; 
         }
         .font-poppins { font-family: 'Poppins', sans-serif; }
@@ -25,8 +24,30 @@
 
         /* Dekorasi Background SVG Animasi */
         .bg-pattern {
-            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
             background-size: 24px 24px;
+        }
+
+        /* Container Video Background YouTube agar full cover dan tanpa bar hitam */
+        .video-background-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .video-background-container iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw; /* Rasio 16:9 */
+            min-height: 100vh;
+            min-width: 177.78vh; /* Rasio 16:9 */
+            transform: translate(-50%, -50%) scale(1.2); /* Zoom sedikit untuk menghilangkan kontrol/watermark */
+            pointer-events: none;
         }
     </style>
 </head>
@@ -34,12 +55,27 @@
 
     <div class="flex flex-col lg:flex-row w-full min-h-screen">
         
-        <div class="lg:w-5/12 bg-gradient-to-br from-blue-900 via-indigo-800 to-blue-900 p-8 lg:p-16 flex flex-col justify-between relative overflow-hidden shadow-2xl z-10 rounded-b-[3rem] lg:rounded-none lg:rounded-r-[3rem]">
+        <!-- Panel Kiri: Video Background -->
+        <div class="lg:w-5/12 bg-slate-950 p-8 lg:p-16 flex flex-col justify-between relative overflow-hidden shadow-2xl z-10 rounded-b-[3rem] lg:rounded-none lg:rounded-r-[3rem]">
             
-            <div class="absolute inset-0 bg-pattern opacity-30"></div>
-            <div class="absolute -top-24 -left-24 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-10 right-10 w-48 h-48 bg-indigo-500/30 rounded-full blur-3xl"></div>
+            <!-- Embed Video YouTube -->
+            <div class="video-background-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/bYsvki2bLwE?autoplay=1&mute=1&loop=1&playlist=bYsvki2bLwE&controls=0&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1" 
+                    title="Background Video"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
 
+            <!-- Lapisan Gelap (Overlay) agar teks tetap kontras dan mudah dibaca -->
+            <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-[1px] z-[1]"></div>
+            <div class="absolute inset-0 bg-pattern opacity-20 z-[2]"></div>
+            <div class="absolute -top-24 -left-24 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl z-[2]"></div>
+            <div class="absolute bottom-10 right-10 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl z-[2]"></div>
+
+            <!-- Konten Panel Kiri -->
             <div class="relative z-10 flex flex-col items-center lg:items-start text-center lg:text-left mt-8 lg:mt-0">
                 <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo SMAN 1 Sentani" class="w-24 h-24 mb-6 drop-shadow-xl hover:scale-105 transition-transform duration-500">
                 
@@ -47,23 +83,24 @@
                     Tahun Ajaran Berjalan
                 </span>
 
-                <h1 class="font-poppins text-3xl md:text-5xl font-bold text-white mb-3 leading-tight">
+                <h1 class="font-poppins text-3xl md:text-5xl font-bold text-white mb-3 leading-tight drop-shadow-md">
                     Portal Evaluasi <br class="hidden lg:block"/> Digital
                 </h1>
-                <h2 class="text-lg md:text-xl text-blue-200 font-medium mb-6">
+                <h2 class="text-lg md:text-xl text-blue-200 font-medium mb-6 drop-shadow-sm">
                     SMA Negeri 1 Sentani
                 </h2>
                 
-                <p class="text-blue-100/80 text-sm md:text-base leading-relaxed max-w-md">
+                <p class="text-slate-200 text-sm md:text-base leading-relaxed max-w-md drop-shadow-sm">
                     Assessment Management System. Otomatisasi Tata Kelola Soal Ujian Sekolah.
                 </p>
             </div>
 
-            <div class="relative z-10 mt-16 hidden lg:block text-blue-200/50 text-sm">
+            <div class="relative z-10 mt-16 hidden lg:block text-slate-300/70 text-sm">
                 &copy; <span id="year-desktop"></span> SMA Negeri 1 Sentani.
             </div>
         </div>
 
+        <!-- Panel Kanan: Menu Navigasi -->
         <div class="lg:w-7/12 p-6 lg:p-16 flex flex-col justify-center bg-slate-200 relative">
             
             <div class="max-w-2xl w-full mx-auto">
@@ -146,7 +183,6 @@
     </div>
 
     <script>
-        // Set tahun otomatis
         const year = new Date().getFullYear();
         document.getElementById('year-desktop').textContent = year;
         document.getElementById('year-mobile').textContent = year;
