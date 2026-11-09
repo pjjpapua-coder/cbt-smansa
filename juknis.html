@@ -21,7 +21,7 @@
             background-color: #020617; /* Base slate-950 */
             color: #f1f5f9; /* slate-100 */
             overflow-x: hidden;
-            -webkit-user-select: none; /* Mencegah seleksi teks */
+            -webkit-user-select: none;
             user-select: none;
         }
 
@@ -149,10 +149,10 @@
             
             <div class="text-center mb-12">
                 <div data-template-id="tab-container" class="canva-section tab-container">
-                    <button id="tab-android" class="tab-pill active px-8 py-3 rounded-full font-semibold text-sm flex items-center gap-2" onclick="switchTab('android')">
+                    <button id="tab-android" class="tab-pill active px-8 py-3 rounded-full font-semibold text-sm flex items-center gap-2 cursor-pointer" onclick="switchTab('android')">
                         <i data-lucide="smartphone" class="w-[18px] h-[18px]"></i> Android
                     </button> 
-                    <button id="tab-iphone" class="tab-pill inactive px-8 py-3 rounded-full font-semibold text-sm flex items-center gap-2" onclick="switchTab('iphone')">
+                    <button id="tab-iphone" class="tab-pill inactive px-8 py-3 rounded-full font-semibold text-sm flex items-center gap-2 cursor-pointer" onclick="switchTab('iphone')">
                         <i data-lucide="apple" class="w-[18px] h-[18px]"></i> iPhone
                     </button>
                 </div>
@@ -171,12 +171,12 @@
                                 Unduh dan pasang aplikasi CBT langsung dari Google Play Store ke perangkat Anda.
                             </p>
                             <div class="flex flex-wrap items-center gap-3.5">
-                                <a href="https://play.google.com/store/apps/details?id=com.cbt.exam.browser" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40">
+                                <button type="button" onclick="bukaLink('https://play.google.com/store/apps/details?id=com.cbt.exam.browser')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40 cursor-pointer">
                                     <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT
-                                </a>
-                                <a href="https://play.google.com/store/apps/details?id=com.cbt.exam.browser.pro" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40 border border-teal-400/20">
+                                </button>
+                                <button type="button" onclick="bukaLink('https://play.google.com/store/apps/details?id=com.cbt.exam.browser.pro')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40 border border-teal-400/20 cursor-pointer">
                                     <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT Pro
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -192,9 +192,9 @@
                             <p data-template-id="android-step2-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Silakan unduh file jadwal ujian dengan format khusus <strong class="text-blue-400">.cbt</strong> melalui tautan di bawah ini.
                             </p>
-                            <a href="https://smayppkasisisentani.sch.id/webujian/sman/SMANSA.cbt" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40">
+                            <button type="button" onclick="bukaLink('https://smayppkasisisentani.sch.id/webujian/sman/SMANSA.cbt')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40 cursor-pointer">
                                 <i data-lucide="cloud-download" class="w-4 h-4"></i> Simpan File Jadwal
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -250,9 +250,9 @@
                             <p data-template-id="iphone-step1-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Unduh aplikasi <strong>Safe Exam Browser</strong> dari App Store. Setelah selesai diunduh, pastikan Anda <strong>menutup aplikasi tersebut</strong> (jangan dibuka dulu).
                             </p>
-                            <a href="https://apps.apple.com/us/app/safeexambrowser/id1155002964" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-slate-950/40 border border-slate-600/50">
+                            <button type="button" onclick="bukaLink('https://apps.apple.com/us/app/safeexambrowser/id1155002964')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-slate-950/40 border border-slate-600/50 cursor-pointer">
                                 <i data-lucide="apple" class="w-4 h-4 fill-current"></i> Download via App Store
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -267,9 +267,10 @@
                             <p data-template-id="iphone-step2-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Download file <code class="px-2 py-1 bg-slate-950 border border-slate-800 rounded-lg text-blue-400 font-mono text-xs shadow-sm">SMANSA-ios.seb</code>. Buka aplikasi <strong>Files/Penyimpanan</strong> Anda, lalu tap pada file tersebut untuk memulai.
                             </p>
-                            <a href="https://smayppkasisisentani.sch.id/webujian/sman/SMANSA-ios.seb" target="_blank" rel="noopener noreferrer" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40">
+                            <!-- Tombol tanpa href: status bar link browser tidak akan muncul saat di-hover -->
+                            <button type="button" onclick="bukaLink('https://smayppkasisisentani.sch.id/webujian/sman/SMANSA-ios.seb')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40 cursor-pointer">
                                 <i data-lucide="cloud-download" class="w-4 h-4"></i> Download File (.seb)
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -349,13 +350,18 @@
 
     <script src="/_sdk/editing_sdk.js"></script>
     <script>
+        // Fungsi pembuka URL tanpa menampilkan preview di status bar
+        function bukaLink(url) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
         function switchTab(tab) {
             const androidBtn = document.getElementById('tab-android');
             const iphoneBtn = document.getElementById('tab-iphone');
             const androidSection = document.getElementById('section-android');
             const iphoneSection = document.getElementById('section-iphone');
             
-            const baseTabClass = 'tab-pill px-8 py-3 rounded-full font-semibold text-sm flex items-center gap-2';
+            const baseTabClass = 'tab-pill px-8 py-3 rounded-full font-semibold text-sm flex items-center gap-2 cursor-pointer';
             const activeClass = baseTabClass + ' active';
             const inactiveClass = baseTabClass + ' inactive';
 
