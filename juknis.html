@@ -14,6 +14,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+
+    <!-- Firebase SDK Compat -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     
     <style>
         body {
@@ -130,12 +134,13 @@
 
     <div class="relative z-10 flex flex-col min-h-screen">
         
-        <header class="pt-20 pb-10 px-4 text-center">
+        <!-- Header: batas atas dirapatkan (pt-4 sm:pt-6) -->
+        <header class="pt-4 sm:pt-6 pb-6 px-4 text-center">
             <div class="max-w-2xl mx-auto">
-                <div class="inline-flex items-center justify-center p-4 bg-slate-900 rounded-2xl shadow-sm border border-slate-800 mb-6 transform rotate-[-3deg] hover:rotate-0 transition-transform duration-300">
-                    <i data-lucide="monitor-smartphone" class="w-8 h-8 text-indigo-400"></i>
+                <div class="inline-flex items-center justify-center p-3 sm:p-3.5 bg-slate-900 rounded-2xl shadow-sm border border-slate-800 mb-4 transform rotate-[-3deg] hover:rotate-0 transition-transform duration-300">
+                    <i data-lucide="monitor-smartphone" class="w-7 h-7 sm:w-8 sm:h-8 text-indigo-400"></i>
                 </div>
-                <h1 data-template-id="main-title" class="canva-text font-extrabold text-4xl md:text-5xl tracking-tight text-slate-100 mb-4">
+                <h1 data-template-id="main-title" class="canva-text font-extrabold text-3xl md:text-5xl tracking-tight text-slate-100 mb-3">
                     Petunjuk Teknis <br class="sm:hidden"/> 
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-400">Ujian Online</span>
                 </h1>
@@ -147,7 +152,7 @@
 
         <main class="max-w-2xl mx-auto px-4 pb-16 w-full flex-grow">
             
-            <div class="text-center mb-12">
+            <div class="text-center mb-8">
                 <div data-template-id="tab-container" class="canva-section tab-container">
                     <button id="tab-android" class="tab-pill active px-8 py-3 rounded-full font-semibold text-sm flex items-center gap-2 cursor-pointer" onclick="switchTab('android')">
                         <i data-lucide="smartphone" class="w-[18px] h-[18px]"></i> Android
@@ -160,6 +165,7 @@
 
             <!-- Tab Android -->
             <section id="section-android" class="fade-in space-y-6">
+                <!-- Step 1 Android -->
                 <div class="step-card rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-slate-950/20">
                     <div class="flex flex-col sm:flex-row gap-5">
                         <span class="step-badge bg-teal-950 text-teal-300 shadow-sm border border-teal-800/50 w-11 h-11 flex items-center justify-center rounded-2xl font-extrabold text-lg flex-shrink-0">1</span>
@@ -170,18 +176,35 @@
                             <p data-template-id="android-step1-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Unduh dan pasang aplikasi CBT langsung dari Google Play Store ke perangkat Anda. pilih salah satu dibawah ini
                             </p>
-                            <div class="flex flex-wrap items-center gap-3.5">
-                                <button type="button" onclick="bukaLink('https://play.google.com/store/apps/details?id=com.cbt.exam.browser')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40 cursor-pointer">
-                                    <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT
-                                </button>
-                                <button type="button" onclick="bukaLink('https://play.google.com/store/apps/details?id=com.cbt.exam.browser.pro')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40 border border-teal-400/20 cursor-pointer">
-                                    <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT Pro
-                                </button>
+                            
+                            <div class="flex flex-wrap items-end gap-4">
+                                <!-- Tombol 1 Android -->
+                                <div class="flex flex-col items-start gap-1.5">
+                                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900/90 border border-slate-700/60 rounded-xl text-xs font-semibold text-emerald-400 shadow-sm">
+                                        <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                        <span id="count-android-cbt">0x diunduh</span>
+                                    </div>
+                                    <button type="button" onclick="bukaLink('https://play.google.com/store/apps/details?id=com.cbt.exam.browser', 'android_cbt')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40 cursor-pointer">
+                                        <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT
+                                    </button>
+                                </div>
+
+                                <!-- Tombol 2 Android -->
+                                <div class="flex flex-col items-start gap-1.5">
+                                    <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900/90 border border-slate-700/60 rounded-xl text-xs font-semibold text-emerald-400 shadow-sm">
+                                        <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                        <span id="count-android-cbt-pro">0x diunduh</span>
+                                    </div>
+                                    <button type="button" onclick="bukaLink('https://play.google.com/store/apps/details?id=com.cbt.exam.browser.pro', 'android_cbt_pro')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-teal-950/40 border border-teal-400/20 cursor-pointer">
+                                        <i data-lucide="play" class="w-4 h-4 fill-current"></i> Download CBT Pro
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Step 2 Android -->
                 <div class="step-card rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-slate-950/20">
                     <div class="flex flex-col sm:flex-row gap-5">
                         <span class="step-badge bg-blue-950 text-blue-300 shadow-sm border border-blue-800/50 w-11 h-11 flex items-center justify-center rounded-2xl font-extrabold text-lg flex-shrink-0">2</span>
@@ -192,13 +215,21 @@
                             <p data-template-id="android-step2-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Silakan unduh file jadwal ujian dengan format khusus <strong class="text-blue-400">.cbt</strong> melalui tautan di bawah ini.
                             </p>
-                            <button type="button" onclick="bukaLink('https://smayppkasisisentani.sch.id/webujian/sman/SMANSA.cbt')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40 cursor-pointer">
-                                <i data-lucide="cloud-download" class="w-4 h-4"></i> Simpan File Jadwal
-                            </button>
+                            
+                            <div class="flex flex-col items-start gap-1.5">
+                                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900/90 border border-slate-700/60 rounded-xl text-xs font-semibold text-blue-400 shadow-sm">
+                                    <i data-lucide="download" class="w-3.5 h-3.5 text-blue-400"></i>
+                                    <span id="count-android-jadwal">0x diunduh</span>
+                                </div>
+                                <button type="button" onclick="bukaLink('https://smayppkasisisentani.sch.id/webujian/sman/SMANSA.cbt', 'android_jadwal')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40 cursor-pointer">
+                                    <i data-lucide="cloud-download" class="w-4 h-4"></i> Simpan File Jadwal
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Step 3 Android -->
                 <div class="step-card rounded-[2rem] p-6 sm:p-8 shadow-2xl shadow-slate-950/20">
                     <div class="flex flex-col sm:flex-row gap-5">
                         <span class="step-badge bg-indigo-950 text-indigo-300 shadow-sm border border-indigo-800/50 w-11 h-11 flex items-center justify-center rounded-2xl font-extrabold text-lg flex-shrink-0">3</span>
@@ -240,6 +271,7 @@
 
             <!-- Tab iPhone -->
             <section id="section-iphone" class="hidden space-y-6">
+                <!-- Step 1 iPhone -->
                 <div class="step-card rounded-[2rem] p-6 sm:p-8 fade-in shadow-2xl shadow-slate-950/20">
                     <div class="flex flex-col sm:flex-row gap-5">
                         <span class="step-badge bg-slate-800 text-slate-300 shadow-sm border border-slate-700/50 w-11 h-11 flex items-center justify-center rounded-2xl font-extrabold text-lg flex-shrink-0">1</span>
@@ -250,13 +282,21 @@
                             <p data-template-id="iphone-step1-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Unduh aplikasi <strong>Safe Exam Browser</strong> dari App Store. Setelah selesai diunduh, pastikan Anda <strong>menutup aplikasi tersebut</strong> (jangan dibuka dulu).
                             </p>
-                            <button type="button" onclick="bukaLink('https://apps.apple.com/us/app/safeexambrowser/id1155002964')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-slate-950/40 border border-slate-600/50 cursor-pointer">
-                                <i data-lucide="apple" class="w-4 h-4 fill-current"></i> Download via App Store
-                            </button>
+                            
+                            <div class="flex flex-col items-start gap-1.5">
+                                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900/90 border border-slate-700/60 rounded-xl text-xs font-semibold text-slate-300 shadow-sm">
+                                    <i data-lucide="download" class="w-3.5 h-3.5 text-slate-300"></i>
+                                    <span id="count-iphone-seb">0x diunduh</span>
+                                </div>
+                                <button type="button" onclick="bukaLink('https://apps.apple.com/us/app/safeexambrowser/id1155002964', 'iphone_seb')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-slate-700 to-slate-900 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-slate-950/40 border border-slate-600/50 cursor-pointer">
+                                    <i data-lucide="apple" class="w-4 h-4 fill-current"></i> Download via App Store
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Step 2 iPhone -->
                 <div class="step-card rounded-[2rem] p-6 sm:p-8 fade-in shadow-2xl shadow-slate-950/20">
                     <div class="flex flex-col sm:flex-row gap-5">
                         <span class="step-badge bg-blue-950 text-blue-300 shadow-sm border border-blue-800/50 w-11 h-11 flex items-center justify-center rounded-2xl font-extrabold text-lg flex-shrink-0">2</span>
@@ -267,13 +307,21 @@
                             <p data-template-id="iphone-step2-desc" class="canva-text mb-6 text-slate-400 text-sm leading-relaxed">
                                 Download file <code class="px-2 py-1 bg-slate-950 border border-slate-800 rounded-lg text-blue-400 font-mono text-xs shadow-sm">SMANSA-ios.seb</code>. Buka aplikasi <strong>Files/Penyimpanan</strong> Anda, lalu tap pada file tersebut untuk memulai.
                             </p>
-                            <button type="button" onclick="bukaLink('https://smayppkasisisentani.sch.id/webujian/sman/SMANSA-ios.seb')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40 cursor-pointer">
-                                <i data-lucide="cloud-download" class="w-4 h-4"></i> Download File (.seb)
-                            </button>
+                            
+                            <div class="flex flex-col items-start gap-1.5">
+                                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900/90 border border-slate-700/60 rounded-xl text-xs font-semibold text-blue-400 shadow-sm">
+                                    <i data-lucide="download" class="w-3.5 h-3.5 text-blue-400"></i>
+                                    <span id="count-iphone-jadwal">0x diunduh</span>
+                                </div>
+                                <button type="button" onclick="bukaLink('https://smayppkasisisentani.sch.id/webujian/sman/SMANSA-ios.seb', 'iphone_jadwal')" class="btn-modern inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-7 py-3.5 rounded-full font-semibold text-sm shadow-lg shadow-blue-950/40 cursor-pointer">
+                                    <i data-lucide="cloud-download" class="w-4 h-4"></i> Download File (.seb)
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Step 3 iPhone -->
                 <div class="step-card rounded-[2rem] p-6 sm:p-8 fade-in shadow-2xl shadow-slate-950/20">
                     <div class="flex flex-col sm:flex-row gap-5">
                         <span class="step-badge bg-rose-950 text-rose-300 shadow-sm border border-rose-800/50 w-11 h-11 flex items-center justify-center rounded-2xl font-extrabold text-lg flex-shrink-0">3</span>
@@ -363,9 +411,63 @@
 
     <script src="/_sdk/editing_sdk.js"></script>
     <script>
-        // Fungsi navigasi tanpa menampilkan status bar URL saat hover
-        function bukaLink(url) {
-            window.location.href = url;
+        // Konfigurasi Firebase dari gambar Anda
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSSqyRJxxDjW7sJttHJzz85t0bwpG6i18",
+            authDomain: "smansa-stn.firebaseapp.com",
+            projectId: "smansa-stn",
+            storageBucket: "smansa-stn.firebasestorage.app",
+            messagingSenderId: "942856203234",
+            appId: "1:942856203234:web:26f61cb6a795e601ada7bb",
+            measurementId: "G-1WZE2HPMW7"
+        };
+
+        // Inisialisasi Firebase & Firestore
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+        const COUNTER_DOC = db.collection('download_counters').doc('smansa_cbt');
+
+        // Fungsi pembantu memperbarui tampilan counter
+        function setTampilanCounter(id, jumlah) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.innerText = (jumlah || 0) + 'x diunduh';
+            }
+        }
+
+        // Listener Realtime Firestore
+        COUNTER_DOC.onSnapshot((doc) => {
+            if (doc.exists) {
+                const data = doc.data();
+                setTampilanCounter('count-android-cbt', data.android_cbt);
+                setTampilanCounter('count-android-cbt-pro', data.android_cbt_pro);
+                setTampilanCounter('count-android-jadwal', data.android_jadwal);
+                setTampilanCounter('count-iphone-seb', data.iphone_seb);
+                setTampilanCounter('count-iphone-jadwal', data.iphone_jadwal);
+            }
+        }, (error) => {
+            console.warn("Koneksi Firestore:", error);
+        });
+
+        // Fungsi navigasi & tambah hitungan ke Firestore
+        function bukaLink(url, counterKey) {
+            if (counterKey) {
+                try {
+                    // Update counter atomik
+                    COUNTER_DOC.set({
+                        [counterKey]: firebase.firestore.FieldValue.increment(1)
+                    }, { merge: true }).catch(err => console.warn(err));
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+
+            // Jeda mikro 120ms agar paket data terkirim sebelum halaman berpindah
+            setTimeout(function() {
+                window.location.href = url;
+            }, 120);
         }
 
         function switchTab(tab) {
