@@ -1333,13 +1333,13 @@
                 width: 100%;
                 border-collapse: collapse;
                 margin-bottom: 30px;
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .print-schedule-table th,
             .print-schedule-table td {
                 border: 1.5px solid #000;
-                padding: 6px;
+                padding: 6px 4px;
                 text-align: center;
                 vertical-align: middle;
                 color: #000;
@@ -1950,7 +1950,6 @@
     </div>
 
     <div class="floating-footer">&copy; 2026 Copyright by Eko Yudhi, S.T.</div>
-
     <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleExcelImport(event)">
 
     <script type="module">
@@ -2606,43 +2605,151 @@
             }
         }
 
+        function sortKelasNatural(a, b) {
+            const romanOrder = { 'X': 1, 'XI': 2, 'XII': 3 };
+            const parseKelas = (str) => {
+                const clean = str.trim().toUpperCase();
+                const match = clean.match(/^(XII|XI|X)[\.\s\-]*([A-Z]*)(\d*)/);
+                if (match) {
+                    return {
+                        grade: romanOrder[match[1]] || 99,
+                        prefix: match[2] || '',
+                        num: match[3] ? parseInt(match[3], 10) : 0,
+                        raw: clean
+                    };
+                }
+                return { grade: 99, prefix: clean, num: 0, raw: clean };
+            };
+            const pA = parseKelas(a);
+            const pB = parseKelas(b);
+            if (pA.grade !== pB.grade) return pA.grade - pB.grade;
+            if (pA.prefix !== pB.prefix) return pA.prefix.localeCompare(pB.prefix);
+            if (pA.num !== pB.num) return pA.num - pB.num;
+            return pA.raw.localeCompare(pB.raw);
+        }
+
         function printTableData() {
             const recs = window.currentPrintData || [];
             if (recs.length === 0) { showPopUpModal("Perhatian", "Tidak ada data dicetak.", "warning"); return; }
-            const pa = document.getElementById("printArea"); pa.innerHTML = ""; pa.style.display = "block";
-            const sch = {}; let hFA = false, hEF = false;
+            const pa = document.getElementById("printArea");
+            pa.innerHTML = "";
+            pa.style.display = "block";
+
+            const sch = {};
+            const classSet = new Set();
+            const namaHariArr = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
             recs.forEach(r => {
-                const dk = `${formatStringDate(r.tanggal)}|${r.hari||"-"}`, tk = formatJamBersih(r.jam);
-                if(!sch[dk]) sch[dk]={}; if(!sch[dk][tk]) sch[dk][tk]={};
-                const m = r.mapel||""; const cls = (r.kelas||"").split(",").map(k=>k.trim().toUpperCase());
-                cls.forEach(c => { if(c) { sch[dk][tk][c] = m; if(c.startsWith('FA')) hFA=true; else hEF=true; } });
+                const tglClean = formatStringDate(r.tanggal || "");
+                let hariVal = (r.hari || "").trim();
+                if (!hariVal && tglClean) {
+                    const dObj = new Date(tglClean);
+                    if (!isNaN(dObj.getTime())) hariVal = namaHariArr[dObj.getDay()];
+                }
+                const dk = `${tglClean}|${hariVal || "-"}`;
+                const tk = formatJamBersih(r.jam || "");
+
+                if (!sch[dk]) sch[dk] = {};
+                if (!sch[dk][tk]) sch[dk][tk] = {};
+
+                const m = (r.mapel || "").trim();
+                const cls = (r.kelas || "").split(",").map(k => k.trim()).filter(k => k !== "");
+                cls.forEach(c => {
+                    const keyUpper = c.toUpperCase();
+                    classSet.add(c);
+                    if (m) {
+                        sch[dk][tk][keyUpper] = sch[dk][tk][keyUpper]
+                            ? `${sch[dk][tk][keyUpper]} / ${m}`
+                            : m;
+                    }
+                });
             });
+
+            // Ambil daftar kelas unik sesuai database Firestore & urutkan
+            const uniqueClassesMap = new Map();
+            classSet.forEach(c => {
+                const u = c.toUpperCase();
+                if (!uniqueClassesMap.has(u)) uniqueClassesMap.set(u, c);
+            });
+            const sortedClasses = Array.from(uniqueClassesMap.values()).sort(sortKelasNatural);
+
             const sDk = Object.keys(sch).sort();
-            const getCol = (m) => { if(!m || m==="-") return "transparent"; let h=0; for(let i=0;i<m.length;i++) h=m.charCodeAt(i)+((h<<5)-h); return `hsl(${Math.abs(h)%360}, 70%, 85%)`; };
-            let h = `<div class="print-kop"><img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo"><div class="print-kop-text"><h2>JADWAL ASESMEN AKHIR SEMESTER</h2><h2>SMA YPPK ST. FRANSISKUS ASISI SENTANI</h2></div></div>`;
-            const bld = (pc) => {
-                let th = `<table class="print-schedule-table"><thead><tr><th rowspan="2" style="width:25px;">NO</th><th rowspan="2" style="width:110px;">HARI / TGL</th><th rowspan="2" style="width:50px;">JAM</th>`;
-                pc.groups.forEach(g => th += `<th colspan="${g.classes.length}" class="bg-teal">${g.name}</th>`);
-                th += `</tr><tr>`; pc.groups.forEach(g => g.classes.forEach(c => th += `<th class="bg-pink">${c}</th>`)); th += `</tr></thead><tbody>`;
-                let no = 1; sDk.forEach(dk => {
-                    const ts = Object.keys(sch[dk]).sort(), [tR, hR] = dk.split("|"), ps = tR.split("-"), tF = ps.length===3 ? `${ps[2]}/${ps[1]}/${ps[0]}` : tR, hB = hR.toUpperCase();
-                    ts.forEach((t, i) => {
-                        th += `<tr>`; if(i===0) { th += `<td rowspan="${ts.length}">${no++}</td><td rowspan="${ts.length}">${hB},<br>${tF}</td>`; } th += `<td>${t}</td>`;
-                        pc.groups.forEach(g => g.classes.forEach(c => { const mp = sch[dk][t][c]||""; th += `<td style="background-color: ${getCol(mp)} !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;">${mp}</td>`; }));
-                        th += `</tr>`;
-                    });
-                }); return th += `</tbody></table>`;
+            const getCol = (m) => {
+                if (!m || m === "-") return "transparent";
+                let h = 0;
+                for (let i = 0; i < m.length; i++) h = m.charCodeAt(i) + ((h << 5) - h);
+                return `hsl(${Math.abs(h) % 360}, 70%, 85%)`;
             };
-            if(hEF) h += bld({groups:[{name:'FASE E',classes:['E1','E2','E3','E4','E5','E6']},{name:'FASE F',classes:['F1','F2','F3','F4','F5','F6']}]});
-            if(hFA) h += bld({groups:[{name:'FASE FA',classes:['FA1','FA2','FA3','FA4','FA5','FA6']}]});
-            h += `<div class="print-signature"><p>Mengetahui,</p><p>Kepala SMA YPPK ASISI</p><div class="sig-space"></div><p style="text-decoration:underline; font-weight:bold;">Junita Hutapea, S.Pd.,M.Pd</p><p>NIP. 196806211994122005</p></div>`;
-            pa.innerHTML = h; const pI = pa.querySelector('.print-kop img'); const tp = () => { window.print(); setTimeout(() => { pa.style.display = "none"; }, 1000); };
-            if(pI){ if(pI.complete) tp(); else { pI.onload=tp; pI.onerror=tp; } } else setTimeout(tp, 300);
+
+            let h = `<div class="print-kop">
+                <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo">
+                <div class="print-kop-text">
+                    <h2>JADWAL ASESMEN AKHIR SEMESTER</h2>
+                    <h2>SMA NEGERI 1 SENTANI</h2>
+                </div>
+            </div>`;
+
+            let th = `<table class="print-schedule-table">
+                <thead>
+                    <tr>
+                        <th style="width:28px;">NO</th>
+                        <th style="width:110px;">HARI / TGL</th>
+                        <th style="width:55px;">JAM</th>`;
+
+            sortedClasses.forEach(c => {
+                th += `<th class="bg-pink">${c}</th>`;
+            });
+            th += `</tr></thead><tbody>`;
+
+            let no = 1;
+            sDk.forEach(dk => {
+                const ts = Object.keys(sch[dk]).sort();
+                const [tR, hR] = dk.split("|");
+                const ps = tR.split("-");
+                const tF = ps.length === 3 ? `${ps[2]}/${ps[1]}/${ps[0]}` : tR;
+                const hB = hR.toUpperCase();
+
+                ts.forEach((t, i) => {
+                    th += `<tr>`;
+                    if (i === 0) {
+                        th += `<td rowspan="${ts.length}">${no++}</td><td rowspan="${ts.length}">${hB},<br>${tF}</td>`;
+                    }
+                    th += `<td>${t}</td>`;
+                    sortedClasses.forEach(c => {
+                        const mp = sch[dk][t][c.toUpperCase()] || "";
+                        th += `<td style="background-color: ${getCol(mp)} !important; -webkit-print-color-adjust: exact; print-color-adjust: exact;">${mp}</td>`;
+                    });
+                    th += `</tr>`;
+                });
+            });
+            th += `</tbody></table>`;
+            h += th;
+
+            h += `<div class="print-signature">
+                <p>Mengetahui,</p>
+                <p>Panitia Asessmen</p>
+                <div class="sig-space"></div>
+                <p style="margin-bottom: 8px;"><span style="display:inline-block; width:220px; border-bottom:1px solid #000;"></span></p>
+                <p>NIP. <span style="display:inline-block; width:190px; border-bottom:1px solid #000;"></span></p>
+            </div>`;
+
+            pa.innerHTML = h;
+            const pI = pa.querySelector('.print-kop img');
+            const tp = () => {
+                window.print();
+                setTimeout(() => { pa.style.display = "none"; }, 1000);
+            };
+            if (pI) {
+                if (pI.complete) tp();
+                else { pI.onload = tp; pI.onerror = tp; }
+            } else {
+                setTimeout(tp, 300);
+            }
         }
 
         function togglePasswordVisibility() {
             const p = document.getElementById("loginPass"), i = document.getElementById("eyeIcon");
-            if(p.type === "password"){ p.type = "text"; i.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.45 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" to="23" y2="23"></line>'; }
+            if(p.type === "password"){ p.type = "text"; i.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.45 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>'; }
             else{ p.type = "password"; i.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>'; }
         }
 
