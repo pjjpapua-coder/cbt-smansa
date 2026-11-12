@@ -396,8 +396,6 @@
         /* FORM INPUT */
         select,
         input[type="url"],
-        input[type="date"],
-        input[type="time"],
         input[type="text"],
         input[type="password"] {
             width: 100%;
@@ -421,8 +419,6 @@
 
         select:focus,
         input[type="url"]:focus,
-        input[type="date"]:focus,
-        input[type="time"]:focus,
         input[type="text"]:focus,
         input[type="password"]:focus {
             border-color: var(--primary-color) !important;
@@ -657,27 +653,6 @@
             transform: scale(1.15);
             box-shadow: none;
             background: transparent;
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            background-repeat: no-repeat;
-            background-position: center;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
-        }
-
-        input[type="time"]::-webkit-calendar-picker-indicator {
-            background-repeat: no-repeat;
-            background-position: center;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='12' cy='12' r='10'%3e%3c/circle%3e%3cpolyline points='12 6 12 12 16 14'%3e%3c/polyline%3e%3c/svg%3e");
-        }
-
-        input[type="date"]::-webkit-calendar-picker-indicator:hover,
-        input[type="time"]::-webkit-calendar-picker-indicator:hover {
-            transform: scale(1.15);
         }
 
         .table-responsive-wrapper {
@@ -1624,7 +1599,7 @@
                                     </svg>
                                     Tanggal
                                 </label>
-                                <input type="date" id="tanggal" required>
+                                <input type="text" id="tanggal" placeholder="17-12-2026" maxlength="10" inputmode="numeric" oninput="autoFormatTanggalInput(this)" required>
                             </div>
                             <div class="form-col">
                                 <label for="jam">
@@ -1634,7 +1609,7 @@
                                     </svg>
                                     Jam
                                 </label>
-                                <input type="time" id="jam" required>
+                                <input type="text" id="jam" placeholder="07:30" maxlength="5" inputmode="numeric" oninput="autoFormatJamInput(this)" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -1693,7 +1668,7 @@
                                 <button type="button" id="btnDeleteBulk" class="btn-delete-bulk" onclick="deleteSelectedExams()">
                                     🗑️ Delete Data Terpilih
                                 </button>
-                                <button type="button" id="btnPrintTable" onclick="printTableData()" title="Cetak data tabel">
+                                <button type="button" id="btnPrintTable" onclick="printTableData()" title="Cetak semua data jadwal ujian">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="6 9 6 2 18 2 18 9"></polyline>
                                         <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
@@ -1933,11 +1908,11 @@
                 <div class="form-row">
                     <div class="form-col">
                         <label>Tanggal</label>
-                        <input type="date" id="edit-tanggal" required>
+                        <input type="text" id="edit-tanggal" placeholder="17-12-2026" maxlength="10" inputmode="numeric" oninput="autoFormatTanggalInput(this)" required>
                     </div>
                     <div class="form-col">
                         <label>Jam</label>
-                        <input type="time" id="edit-jam" required>
+                        <input type="text" id="edit-jam" placeholder="07:30" maxlength="5" inputmode="numeric" oninput="autoFormatJamInput(this)" required>
                     </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 20px;">
@@ -1950,8 +1925,8 @@
     </div>
 
     <div class="floating-footer">&copy; 2026 Copyright by Eko Yudhi, S.T.</div>
-    <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleExcelImport(event)">
 
+    <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="display: none;" onchange="handleExcelImport(event)">
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-analytics.js";
@@ -1980,6 +1955,10 @@
         window.togglePasswordVisibility = togglePasswordVisibility;
         window.handleFilterChange = handleFilterChange;
         window.closePopUpModal = closePopUpModal;
+
+        // Manual Input Formatting Helpers
+        window.autoFormatTanggalInput = autoFormatTanggalInput;
+        window.autoFormatJamInput = autoFormatJamInput;
 
         // New Feature Globals
         window.openAddModal = openAddModal;
@@ -2036,6 +2015,54 @@
                 });
             }
         });
+
+        // =============================================================
+        // PEMFORMATAN & VALIDASI INPUT MANUAL TANGGAL & JAM
+        // =============================================================
+        function autoFormatTanggalInput(el) {
+            let digits = el.value.replace(/\D/g, '').slice(0, 8);
+            if (digits.length > 4) {
+                el.value = `${digits.slice(0, 2)}-${digits.slice(2, 4)}-${digits.slice(4)}`;
+            } else if (digits.length > 2) {
+                el.value = `${digits.slice(0, 2)}-${digits.slice(2)}`;
+            } else {
+                el.value = digits;
+            }
+        }
+
+        function autoFormatJamInput(el) {
+            let digits = el.value.replace(/\D/g, '').slice(0, 4);
+            if (digits.length > 2) {
+                el.value = `${digits.slice(0, 2)}:${digits.slice(2)}`;
+            } else {
+                el.value = digits;
+            }
+        }
+
+        function parseDisplayDateToISO(ddmmyyyy) {
+            const match = (ddmmyyyy || "").trim().match(/^(\d{2})-(\d{2})-(\d{4})$/);
+            if (!match) return null;
+            const day = parseInt(match[1], 10);
+            const month = parseInt(match[2], 10);
+            const year = parseInt(match[3], 10);
+            if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+            const dateObj = new Date(year, month - 1, day);
+            if (
+                dateObj.getFullYear() !== year ||
+                dateObj.getMonth() !== month - 1 ||
+                dateObj.getDate() !== day
+            ) {
+                return null;
+            }
+            return {
+                iso: `${match[3]}-${match[2]}-${match[1]}`,
+                dateObj: dateObj
+            };
+        }
+
+        function isValidTime24(hhmm) {
+            return /^([01]\d|2[0-3]):([0-5]\d)$/.test((hhmm || "").trim());
+        }
 
         function setDynamicGreeting() {
             const hour = new Date().getHours();
@@ -2342,11 +2369,7 @@
                     document.getElementById('edit-doc-id').value = docId;
                     document.getElementById('edit-guru').value = data.guru || "";
                     document.getElementById('edit-mapel').value = data.mapel || "";
-                    let rawTgl = formatStringDate(data.tanggal || "");
-                    if (rawTgl && rawTgl.split("-")[0].length === 2) {
-                        let p = rawTgl.split("-"); rawTgl = `${p[2]}-${p[1]}-${p[0]}`;
-                    }
-                    document.getElementById('edit-tanggal').value = rawTgl;
+                    document.getElementById('edit-tanggal').value = formatToDisplayDate(data.tanggal || "");
                     document.getElementById('edit-jam').value = formatJamBersih(data.jam || "");
                     document.getElementById('edit-linkSoal').value = data.linkSoal || "";
 
@@ -2370,14 +2393,27 @@
             const docId = document.getElementById('edit-doc-id').value;
             const boxes = document.querySelectorAll('input[name="edit_kelas_pilihan"]:checked');
             if (boxes.length === 0) { showPopUpModal("Peringatan", "Pilih kelas!", "warning"); return; }
+
+            const tanggalRaw = document.getElementById("edit-tanggal").value.trim();
+            const parsedDate = parseDisplayDateToISO(tanggalRaw);
+            if (!parsedDate) {
+                showPopUpModal("Peringatan", "Format tanggal harus DD-MM-YYYY (contoh: 17-12-2026)!", "warning");
+                return;
+            }
+
+            const jamRaw = document.getElementById("edit-jam").value.trim();
+            if (!isValidTime24(jamRaw)) {
+                showPopUpModal("Peringatan", "Format jam harus 24 jam HH:MM (contoh: 07:30)!", "warning");
+                return;
+            }
             
             const formData = {
                 guru: document.getElementById("edit-guru").value,
                 kelas: Array.from(boxes).map(cb => cb.value).join(", "),
                 mapel: document.getElementById("edit-mapel").value,
-                tanggal: document.getElementById("edit-tanggal").value,
-                hari: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"][new Date(document.getElementById("edit-tanggal").value).getDay()],
-                jam: document.getElementById("edit-jam").value,
+                tanggal: parsedDate.iso,
+                hari: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"][parsedDate.dateObj.getDay()],
+                jam: jamRaw,
                 linkSoal: document.getElementById("edit-linkSoal").value,
                 updated_at: serverTimestamp()
             };
@@ -2470,14 +2506,29 @@
             const btn = document.getElementById("btnSubmit"); btn.disabled = true;
             const boxes = document.querySelectorAll('input[name="kelas_pilihan"]:checked');
             if (boxes.length === 0) { showPopUpModal("Peringatan", "Pilih kelas!", "warning"); btn.disabled = false; return; }
+
+            const tanggalRaw = document.getElementById("tanggal").value.trim();
+            const parsedDate = parseDisplayDateToISO(tanggalRaw);
+            if (!parsedDate) {
+                showPopUpModal("Peringatan", "Format tanggal harus DD-MM-YYYY (contoh: 17-12-2026)!", "warning");
+                btn.disabled = false;
+                return;
+            }
+
+            const jamRaw = document.getElementById("jam").value.trim();
+            if (!isValidTime24(jamRaw)) {
+                showPopUpModal("Peringatan", "Format jam harus 24 jam HH:MM (contoh: 07:30)!", "warning");
+                btn.disabled = false;
+                return;
+            }
             
             const formData = {
                 guru: document.getElementById("guru").value,
                 kelas: Array.from(boxes).map(cb => cb.value).join(", "),
                 mapel: document.getElementById("mapel").value,
-                tanggal: document.getElementById("tanggal").value,
-                hari: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"][new Date(document.getElementById("tanggal").value).getDay()],
-                jam: document.getElementById("jam").value,
+                tanggal: parsedDate.iso,
+                hari: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"][parsedDate.dateObj.getDay()],
+                jam: jamRaw,
                 linkSoal: document.getElementById("linkSoal").value,
                 created_at: serverTimestamp()
             };
@@ -2504,7 +2555,10 @@
             if (!dateStr) return ""; let s = dateStr.toString().trim();
             const g = s.match(/[A-Za-z]{3}\s([A-Za-z]{3})\s(\d+)\s(\d{4})/);
             if (g) { const m = { Jan:'01', Feb:'02', Mar:'03', Apr:'04', May:'05', Jun:'06', Jul:'07', Aug:'08', Sep:'09', Oct:'10', Nov:'11', Dec:'12' }; return `${g[3]}-${m[g[1]]}-${g[2].padStart(2, '0')}`; }
-            if (s.includes("T") && !s.includes("GM")) return s.split("T")[0]; return s;
+            if (s.includes("T") && !s.includes("GM")) return s.split("T")[0];
+            const dmy = s.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+            if (dmy) return `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
+            return s;
         }
         function formatToDisplayDate(dateStr) {
             let c = formatStringDate(dateStr); if (!c.includes("-")) return c;
@@ -2629,8 +2683,8 @@
         }
 
         function printTableData() {
-            const recs = window.currentPrintData || [];
-            if (recs.length === 0) { showPopUpModal("Perhatian", "Tidak ada data dicetak.", "warning"); return; }
+            const recs = rawUjianRecords || [];
+            if (recs.length === 0) { showPopUpModal("Perhatian", "Tidak ada data ujian di database untuk dicetak.", "warning"); return; }
             const pa = document.getElementById("printArea");
             pa.innerHTML = "";
             pa.style.display = "block";
@@ -2643,8 +2697,11 @@
                 const tglClean = formatStringDate(r.tanggal || "");
                 let hariVal = (r.hari || "").trim();
                 if (!hariVal && tglClean) {
-                    const dObj = new Date(tglClean);
-                    if (!isNaN(dObj.getTime())) hariVal = namaHariArr[dObj.getDay()];
+                    const parts = tglClean.split("-");
+                    if (parts.length === 3) {
+                        const dObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+                        if (!isNaN(dObj.getTime())) hariVal = namaHariArr[dObj.getDay()];
+                    }
                 }
                 const dk = `${tglClean}|${hariVal || "-"}`;
                 const tk = formatJamBersih(r.jam || "");
@@ -2665,7 +2722,7 @@
                 });
             });
 
-            // Ambil daftar kelas unik sesuai database Firestore & urutkan
+            // Ambil daftar kelas unik sesuai seluruh data ujian di Firestore & urutkan
             const uniqueClassesMap = new Map();
             classSet.forEach(c => {
                 const u = c.toUpperCase();
@@ -2729,8 +2786,7 @@
                 <p>Mengetahui,</p>
                 <p>Panitia Asessmen</p>
                 <div class="sig-space"></div>
-                <p style="margin-bottom: 8px;"><span style="display:inline-block; width:220px; border-bottom:1px solid #000;"></span></p>
-                <p>NIP. <span style="display:inline-block; width:190px; border-bottom:1px solid #000;"></span></p>
+                <p><span style="display:inline-block; width:220px; border-bottom:1px solid #000;"></span></p>
             </div>`;
 
             pa.innerHTML = h;
