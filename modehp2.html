@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMS System - SMAN 1 Sentani</title>
+
+    <!-- VALIDASI USER-AGENT CBT EXAM BROWSER -->
+    <script>
+        (function() {
+            // Sesuaikan string ini dengan User-Agent yang diatur di menu Create Configuration
+            const allowedAgent = "CBT-smansa";
+            const currentAgent = navigator.userAgent || "";
+
+            if (!currentAgent.includes(allowedAgent)) {
+                // Sembunyikan konten asli agar tidak berkedip
+                document.documentElement.style.visibility = "hidden";
+
+                window.addEventListener("DOMContentLoaded", function() {
+                    document.body.innerHTML = `
+                        <div style="display:flex; justify-content:center; align-items:center; min-height:100vh; width:100%; font-family:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif; background:#0f172a; color:#cbd5e1; margin:0; padding:16px; box-sizing:border-box; text-align:center;">
+                            <div style="background:#1e293b; padding:28px 24px; border-radius:16px; border:1px solid #334155; box-shadow:0 20px 40px rgba(0,0,0,0.5); max-width:360px; width:100%;">
+                                <div style="width:52px; height:52px; border-radius:50%; background:rgba(239,68,68,0.15); color:#ef4444; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">
+                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                </div>
+                                <h2 style="color:#f1f5f9; margin:0 0 8px 0; font-size:16px; font-weight:800;">Akses Ditolak (403)</h2>
+                                <p style="color:#94a3b8; font-size:12.5px; line-height:1.6; margin:0;">
+                                    Sistem Asesmen ini hanya dapat diakses melalui aplikasi <strong style="color:#818cf8;">CBT Exam Browser</strong> resmi dengan QR Konfigurasi yang valid.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    // Tampilkan kembali layar setelah pesan peringatan terpasang
+                    document.documentElement.style.visibility = "visible";
+                });
+
+                // Hentikan eksekusi skrip lain di bawahnya tanpa memutus parsing HTML
+                throw new Error("Unauthorized User-Agent");
+            }
+        })();
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary-color: #ffffff;
+            --bg-color: #0f172a;
+            --card-bg: rgba(20, 20, 25, 0.75);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.15);
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --error-hover: #dc2626;
+        }
+
+        #networkBg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            pointer-events: none;
+            background: linear-gradient(135deg, #800000 0%, #000000 100%);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: var(--text-main);
+            margin: 0;
+            padding: 0 16px 60px 16px; 
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            box-sizing: border-box;
+            background: transparent;
+            font-size: clamp(12px, 0.95vw + 8px, 14px);
+        }
+
+        select {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            color: #ffffff !important;
+        }
+        select option {
+            background-color: #1e1e24;
+            color: #ffffff;
+        }
+
+        .class-select-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .class-select-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+            padding: 30px 24px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-image: 
+                linear-gradient(var(--card-bg), var(--card-bg)), 
+                linear-gradient(135deg, #f43f5e, #ec4899, #eab308, #06b6d4, #3b82f6);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            color: var(--text-main);
+        }
+
+        .btn-submit-class {
+            width: fit-content;
+            display: block;
+            margin: 35px auto 0 auto;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s ease;
+        }
+
+        .btn-submit-class:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-submit-class:disabled {
+            background-color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            margin-top: 0;
+        }
+
+        .page-header {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(rgba(20, 20, 25, 0.88), rgba(20, 20, 25, 0.88)), url('https://smpn2sentani.id/webujian/ordo.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 0 0 12px 12px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            padding: 6px 18px; 
+            border: 1px solid var(--border-color);
+            border-top: none;
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+            margin-bottom: 12px; 
+        }
+
+        .header-text { text-align: left; }
+        .header-text h1 { 
+            margin: 0; 
+            color: var(--secondary-color); 
+            font-size: clamp(13px, 1.2vw + 10px, 16px); 
+            font-weight: 800; 
+            letter-spacing: -0.02em; 
+            line-height: 1.2; 
+        }
+        .header-text p { 
+            margin: 1px 0 0 0; 
+            color: var(--text-muted); 
+            font-size: clamp(9.5px, 0.5vw + 8px, 11px); 
+            font-weight: 600; 
+            letter-spacing: 0.01em; 
+        }
+         
+        .header-logo { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .header-logo img { height: 34px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+
+        .container { width: 100%; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+        .card { background-color: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); box-sizing: border-box; width: 100%; }
+        .table-card { width: 100%; padding: 0; overflow: hidden; }
+
+        .header { text-align: center; margin-bottom: 10px; }
+        .header h2 { 
+            margin: 0; 
+            color: var(--secondary-color); 
+            font-size: clamp(12px, 0.8vw + 10px, 14px); 
+            font-weight: 700; 
+            letter-spacing: -0.01em; 
+        }
+
+        .table-responsive-wrapper { width: 100%; overflow-x: auto; margin-top: 14px; }
+         
+        .modern-table { width: 100%; border-collapse: collapse; font-size: clamp(10px, 0.5vw + 8.5px, 11.5px); text-align: left; background: transparent; }
+        .modern-table th { background-color: rgba(255, 255, 255, 0.05); color: var(--secondary-color); font-weight: 800; font-size: clamp(9px, 0.5vw + 7.5px, 10.5px); padding: 10px 12px; border-bottom: 2px solid var(--border-color); border-top: 1px solid var(--border-color); letter-spacing: 0.05em; }
+        .modern-table td { padding: 10px 12px; border-bottom: 1px solid var(--border-color); vertical-align: top; color: var(--text-main); }
+        .modern-table tr:hover td { background-color: rgba(255, 255, 255, 0.03); }
+        
+        td[colspan="2"] { color: var(--text-muted) !important; }
+
+        .info-group { display: flex; flex-direction: column; gap: 4px; }
+        .info-title { font-weight: 700; color: var(--secondary-color) !important; font-size: clamp(10px, 0.5vw + 8.5px, 11.5px); margin-bottom: 1px; } 
+        .info-row { display: flex; align-items: center; gap: 8px; color: var(--text-main) !important; font-size: clamp(10px, 0.5vw + 8.5px, 11.5px); } 
+         
+        .info-guru { 
+            font-size: clamp(10px, 0.5vw + 8.5px, 11.5px); 
+            font-weight: 400 !important; 
+            color: var(--text-main) !important; 
+            white-space: nowrap !important; 
+            word-break: keep-all !important;
+        } 
+        .info-row svg { color: var(--text-muted); flex-shrink: 0; } 
+         
+        /* Tombol Ujian */
+        .btn-exam {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: clamp(10px, 0.4vw + 8px, 11px);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            border: none;
+            white-space: nowrap;
+            width: fit-content;
+            margin-top: 4px;
+            cursor: pointer;
+        }
+
+        .btn-active {
+            background-color: var(--success-color);
+            color: #ffffff !important;
+            animation: pulseGreen 2s infinite;
+        }
+
+        .btn-active:hover {
+            background-color: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-locked {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-muted) !important;
+            border: 1px solid var(--border-color);
+            cursor: not-allowed;
+        }
+
+        .btn-expired {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--error-color) !important;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            cursor: not-allowed;
+        }
+
+        @keyframes pulseGreen {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+         
+        .badge-kelas { background: rgba(99, 102, 241, 0.15); color: #818cf8; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: clamp(8.5px, 0.4vw + 7.5px, 10px); display: inline-block; width: fit-content; margin-top: 1px; }
+        .btn-change-class { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-color); color: var(--text-main); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; margin-left: auto; }
+        .btn-change-class:hover { background-color: rgba(255, 255, 255, 0.2); color: #ffffff; }
+
+        .status-container { 
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(20, 20, 25, 0.85); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            padding: 32px 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            z-index: 99999;
+            text-align: center; 
+            width: 300px;
+            box-sizing: border-box;
+        }
+         
+        .spinner { 
+            width: 44px; 
+            height: 44px; 
+            border: 4.5px solid rgba(255, 255, 255, 0.1); 
+            border-top-color: var(--primary-color); 
+            border-bottom-color: var(--primary-color); 
+            border-radius: 50%; 
+            animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite; 
+            margin: 0 auto 18px auto; 
+        }
+         
+        @keyframes spin { to { transform: rotate(360deg); } }
+         
+        .status-text { 
+            color: var(--secondary-color); 
+            font-size: 13.5px; 
+            font-weight: 700; 
+            letter-spacing: 0.01em;
+        }
+         
+        .error-message { width: 100%; color: var(--error-color); background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px; border-radius: 6px; font-size: 12px; margin-bottom: 14px; display: none; text-align: center; box-sizing: border-box; font-weight: 500; }
+         
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 10000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-box { background: #1a1a24; border-radius: 16px; padding: 22px 20px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); transform: scale(0.9); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid var(--border-color); box-sizing: border-box; color: var(--text-main); }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        .modal-icon { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; font-size: 20px; font-weight: bold; }
+        .modal-icon.success { background-color: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .modal-icon.error { background-color: rgba(239, 68, 68, 0.1); color: #ef4444; }
+        .modal-title { font-size: clamp(13px, 0.6vw + 11px, 15px); font-weight: 700; color: var(--secondary-color); margin-bottom: 6px; }
+        .modal-message { font-size: clamp(11px, 0.5vw + 9px, 12.5px); color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; word-break: break-word; }
+        .modal-btn { width: auto; min-width: 90px; padding: 7px 18px; font-size: clamp(11.5px, 0.5vw + 9px, 13px); margin-top: 0; display: inline-block; box-shadow: none; border-radius: 6px; border: none; font-weight: 600; cursor: pointer;}
+         
+        .floating-footer { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1); text-align: center; padding: 10px 0; font-size: clamp(10px, 0.4vw + 8px, 11.5px); color: #94a3b8; font-weight: 500; z-index: 9999; box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3); letter-spacing: 0.01em; }
+
+        .exam-workspace-layout {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 999999;
+            background-color: #0f172a;
+        }
+
+        .exam-header-frame {
+            height: 65px;
+            background-color: #1e1e24;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            border-bottom: 2px solid var(--border-color);
+            box-sizing: border-box;
+        }
+
+        .exam-iframe-workspace {
+            flex-grow: 1;
+            width: 100%;
+            height: calc(100vh - 65px);
+            border: none;
+            background-color: #ffffff;
+        }
+
+        @keyframes bright-critical-blink {
+            0%, 100% { background-color: #dc2626; color: #ffffff; box-shadow: 0 0 15px #ef4444; transform: scale(1.05); }
+            50% { background-color: rgba(239, 68, 68, 0.2); color: #ef4444; box-shadow: none; transform: scale(1); }
+        }
+
+        .timer-normal {
+            font-family: monospace;
+            font-size: 16px;
+            font-weight: 700;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #f59e0b;
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .timer-critical {
+            animation: bright-critical-blink 0.8s infinite ease-in-out;
+            font-family: monospace;
+            font-size: 11px; 
+            font-weight: 700;
+            padding: 4px 8px; 
+            border-radius: 6px;
+        }
+
+        .no-select {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media screen and (max-width: 880px) {
+            body { padding: 0 0 60px 0; }
+            body, .modern-table, .info-title, .info-row, .info-guru, .btn-exam, .badge-kelas, .header h2, .floating-footer { font-size: 10px !important; }
+            .main-wrapper { max-width: 100%; width: 100%; margin-top: 0; }
+            .card, .page-header { border-radius: 0; border-left: none; border-right: none; }
+            .container { flex-direction: column; gap: 12px; }
+            .page-header { padding: 8px 14px; margin-bottom: 10px; gap: 10px; }
+            .header-logo img { height: 28px; }
+            .info-title, .info-row { color: var(--secondary-color) !important; }
+            .floating-footer { padding: 8px 4px; }
+            .modern-table td { padding: 8px 6px !important; }
+            .info-guru { white-space: nowrap !important; }
+        }
+    </style>
+</head>
+<body class="no-select">
+
+<div id="networkBg"></div>
+
+<div id="errorMessage" class="error-message" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; max-width: 90%; border-radius: 8px;"></div>
+
+<div id="loadingStatus" class="status-container" style="display: none;">
+    <div class="spinner"></div>
+    <div class="status-text" id="loadingText">Memuat data dari Server Cloud...</div>
+</div>
+
+<div id="classSelectionPage" class="class-select-wrapper">
+    <div class="class-select-card"></div>
+</div>
+
+<div class="main-wrapper" id="mainContent" style="display: none;">
+    <div class="page-header">
+        <div class="header-logo">
+            <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo SMA Negeri 1 Sentani">
+        </div>
+        <div class="header-text">
+            <h1>Assessment Management Sistem (AMS)</h1>
+            <p>SMA Negeri 1 Sentani</p>
+        </div>
+        <button class="btn-change-class" onclick="backToClassSelection()">Ganti Kelas</button>
+    </div>
+
+    <div class="container">
+        <div class="card table-card">
+            <div class="header" style="margin-top: 14px; margin-bottom: 4px; text-align: left; padding: 0 18px; display: flex; align-items: center;">
+                <h2 style="display: flex; align-items: center; gap: 8px; margin: 0;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary-color);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                    <span id="txtHeaderTitle">Jadwal Hari Ini</span>
+                </h2>
+            </div>
+
+            <div class="table-responsive-wrapper">
+                <table id="dataTableUjian" class="modern-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 45%;">MAPEL, GURU & KELAS</th>
+                            <th style="width: 55%;">JADWAL PELAKSANAAN (WIT)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBodyUjian">
+                        <tr><td colspan="2" style="text-align: center; color: #000; padding: 40px;">Memuat data tabel...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="examWorkspacePage" class="exam-workspace-layout" style="display: none;">
+    <div class="exam-header-frame">
+        <div style="display: flex; align-items: center; gap: 10px; padding-left: 8px;">
+            <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" style="height: 32px; width: auto;">
+            <div>
+                <div id="examSubjectTitle" style="font-weight: 800; font-size: 14px; letter-spacing: -0.01em; line-height: 1.1;">MEMUAT MAPEL...</div>
+                <div id="examTeacherTitle" style="font-size: 11px; color: #94a3b8;">Guru: -</div>
+                <div id="examClassTitle" style="font-size: 11px; color: #94a3b8;">Kelas: -</div>
+            </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; padding-right: 8px;">
+            <div style="text-align: right; display: flex; align-items: center;">
+                <div id="examLiveTimer" class="timer-normal">110:00</div>
+            </div>
+            <button onclick="keluarWorkspaceUjian()" style="background-color: var(--error-color); color: white; border: none; padding: 8px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Keluar Sistem Ujian">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            </button>
+        </div>
+    </div>
+    <iframe id="examIframeView" class="exam-iframe-workspace" src="" tabindex="0"></iframe>
+</div>
+
+<div id="annoyingModal" class="modal-overlay" style="z-index: 9999999;">
+    <div class="modal-box" style="border: 2px solid var(--error-color); max-width: 350px;">
+        <div class="modal-icon error" style="background-color: #fef2f2; color: var(--error-color); font-size: 24px; font-weight: bold; margin-bottom: 8px;">⚠️</div>
+        <div class="modal-title" style="color: var(--error-color); font-size: 16px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 8px;">Pengawas Ujian</div>
+        <div class="modal-message" style="font-size: 14px; font-weight: 700; color: var(--secondary-color); margin-bottom: 20px;">simpan hasil ujian anda ! dan klik tombol keluar</div>
+        <button class="modal-btn" style="background-color: var(--error-color); color: white; padding: 8px 24px; border-radius: 6px; font-weight: 700;" onclick="tutupAnnoyingModal()">OK</button>
+    </div>
+</div>
+
+<div id="tokenModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon" style="background-color: #eef2ff; color: var(--primary-color);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <div class="modal-title" id="tokenModalTitle">Token Validasi Kelas</div>
+        <div class="modal-message" id="tokenModalMessage">Silakan masukkan 4 digit token aktif saat ini untuk membuka jadwal ujian kelas Anda.</div>
+         
+        <input type="text" id="inputTokenText" maxlength="4" placeholder="XXXX" style="width: 80%; padding: 12px; margin-bottom: 12px; text-align: center; font-size: 18px; font-weight: bold; border: 2px solid var(--border-color); border-radius: 8px; text-transform: uppercase;" oninput="this.value = this.value.toUpperCase()">
+        <div id="tokenErrorMsg" style="color: var(--error-color); font-size: 11px; margin-bottom: 16px; display: none; font-weight: 600;">Token salah atau telah kedaluwarsa.</div>
+         
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+            <button class="modal-btn" style="background: #f1f5f9; color: #1e293b;" onclick="batalIsiToken()">Batal</button>
+            <button id="btnVerifikasiToken" class="modal-btn" style="background: var(--primary-color); color: white;" onclick="verifikasiTokenAksesKelas()">Verifikasi</button>
+        </div>
+    </div>
+</div>
+
+<div id="customModal" class="modal-overlay">
+    <div class="modal-box">
+        <div id="modalIcon" class="modal-icon">✓</div>
+        <div id="modalTitle" class="modal-title">Status</div>
+        <div id="modalMessage" class="modal-message">Pesan status disini...</div>
+        <button class="modal-btn" style="background-color: var(--primary-color); color: white;" onclick="closePopUpModal()">OK</button>
+    </div>
+</div>
+
+<div class="floating-footer">
+    &copy; 2026 Copyright by Eko Yudhi, S.T.
+</div>
+
+<script>
+    // --- KONFIGURASI FIREBASE CLOUD FIRESTORE ---
+    const firebaseConfig = {
+            apiKey: "AIzaSyDSSqyRJxxDjW7sJttHJzZ85t0bwpG6i18",
+            authDomain: "smansa-stn.firebaseapp.com",
+            projectId: "smansa-stn",
+            storageBucket: "smansa-stn.firebasestorage.app",
+            messagingSenderId: "942856203234",
+            appId: "1:942856203234:web:26f61cb6a795e601ada7bb",
+            measurementId: "G-1WZE2HPMW7"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let rawUjianRecords = [];
+    let selectedKelas = "";
+    let realTimeTimerLoop = null;
+    let examCountdownInterval = null; 
+    let annoyingPopUpInterval = null; 
+
+    // --- ANTI KLIK KANAN ---
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const savedLink = sessionStorage.getItem("ams_exam_link");
+        if (savedLink) {
+            tampilkanHalamanPemulihanSesi();
+        } else {
+            tampilkanHalamanPilihKelasNormal();
+        }
+    });
+
+    function tampilkanHalamanPilihKelasNormal() {
+        const wrapper = document.querySelector(".class-select-card");
+        if(!wrapper) return;
+        wrapper.innerHTML = `
+            <div class="header-logo" style="margin-bottom: 10px;">
+                <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo SMA Negeri 1 Sentani" style="height: 50px;">
+            </div>
+            <h3 style="margin: 0 0 6px 0; color: var(--secondary-color);">Selamat Datang</h3>
+            <p style="margin: 0 0 20px 0; font-size: 12px; color: var(--text-muted);">Silahkan pilih kelas Anda untuk melihat jadwal hari ini.</p>
+            <label for="initialSelectKelas" style="margin-bottom: 6px; font-size: 12px; display:block; text-align:left;">Pilih Opsi Kelas :</label>
+            <select id="initialSelectKelas" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom:10px;">
+                <option value="" selected disabled>-- Pilih Opsi Kelas --</option>
+            </select>
+            <button class="btn-submit-class" onclick="submitClassChoice()">Masuk ke Jadwal</button>
+        `;
+        buildInitialDropdown();
+        selectedKelas = ""; 
+    }
+
+    function tampilkanHalamanPemulihanSesi() {
+        const wrapper = document.querySelector(".class-select-card");
+        if(!wrapper) return;
+        wrapper.innerHTML = `
+            <div class="header-logo" style="margin-bottom: 10px;">
+                <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo SMA Negeri 1 Sentani" style="height: 50px;">
+            </div>
+            <h3 style="margin: 0 0 6px 0; color: var(--secondary-color);">Sesi Ujian Terdeteksi</h3>
+            <p style="margin: 0 0 20px 0; font-size: 12px; color: var(--text-muted);">Sistem mendeteksi Anda sedang berada dalam pengerjaan soal. Klik tombol di bawah untuk memulihkan lembar kerja.</p>
+            <button class="btn-submit-class" style="background-color: var(--success-color); width:100%; padding:12px; font-size:14px;" onclick="pulihkanSesiUjianLama()">Masuk Kembali & Buka Lembar Soal</button>
+        `;
+    }
+
+    function pulihkanSesiUjianLama() {
+        const savedLink = sessionStorage.getItem("ams_exam_link");
+        const savedMapel = sessionStorage.getItem("ams_exam_mapel");
+        const savedGuru = sessionStorage.getItem("ams_exam_guru");
+        const savedRawDate = sessionStorage.getItem("ams_exam_rawDate");
+        const savedJam = sessionStorage.getItem("ams_exam_jam");
+        selectedKelas = localStorage.getItem("ams_selected_class") || "X. F1";
+
+        document.getElementById("classSelectionPage").style.display = "none";
+        muatIframeWorkspaceUjian(savedLink, savedMapel, savedGuru, savedRawDate, savedJam);
+    }
+
+    function muatIframeWorkspaceUjian(link, mapel, guru, rawDate, jam) {
+        if (realTimeTimerLoop) clearInterval(realTimeTimerLoop);
+        if (examCountdownInterval) clearInterval(examCountdownInterval);
+        if (annoyingPopUpInterval) clearInterval(annoyingPopUpInterval);
+
+        sessionStorage.setItem("ams_exam_link", link);
+        sessionStorage.setItem("ams_exam_mapel", mapel);
+        sessionStorage.setItem("ams_exam_guru", guru);
+        sessionStorage.setItem("ams_exam_rawDate", rawDate);
+        sessionStorage.setItem("ams_exam_jam", jam);
+
+        document.getElementById("examSubjectTitle").textContent = mapel.toUpperCase();
+        document.getElementById("examTeacherTitle").textContent = "Guru: " + guru;
+        document.getElementById("examClassTitle").textContent = "Kelas: " + selectedKelas.toUpperCase();
+         
+        const timerElement = document.getElementById("examLiveTimer");
+        timerElement.className = "timer-normal"; 
+
+        const waktuUjianTarget = new Date(`${rawDate}T${jam}:00+09:00`); 
+        const waktuUjianSelesai = new Date(waktuUjianTarget.getTime() + (110 * 60 * 1000)); 
+
+        function hitungSisaWaktu() {
+            const waktuSekarang = new Date();
+            const sisaMs = waktuUjianSelesai - waktuSekarang;
+
+            if (sisaMs <= 0) {
+                timerElement.textContent = "WAKTU HABIS";
+                timerElement.className = "timer-critical";
+                clearInterval(examCountdownInterval);
+                document.getElementById("annoyingModal").classList.add("active");
+                annoyingPopUpInterval = setInterval(() => {
+                    document.getElementById("annoyingModal").classList.add("active");
+                }, 20000);
+                return;
+            }
+
+            const totalDetik = Math.floor(sisaMs / 1000);
+            const menit = Math.floor(totalDetik / 60);
+            const detik = totalDetik % 60;
+            timerElement.textContent = `${String(menit).padStart(2, '0')}:${String(detik).padStart(2, '0')}`;
+
+            if (menit < 5) {
+                timerElement.className = "timer-critical";
+            } else {
+                timerElement.className = "timer-normal";
+            }
+        }
+
+        hitungSisaWaktu();
+        examCountdownInterval = setInterval(hitungSisaWaktu, 1000);
+
+        document.getElementById("examIframeView").src = link;
+        document.getElementById("mainContent").style.display = "none";
+        document.getElementById("examWorkspacePage").style.display = "flex";
+    }
+
+    function keluarWorkspaceUjian() {
+        if (examCountdownInterval) clearInterval(examCountdownInterval);
+        if (annoyingPopUpInterval) clearInterval(annoyingPopUpInterval); 
+
+        tutupAnnoyingModal();
+        document.getElementById("examIframeView").src = "";
+        document.getElementById("examWorkspacePage").style.display = "none";
+         
+        localStorage.removeItem("ams_selected_class");
+        sessionStorage.clear();
+         
+        tampilkanHalamanPilihKelasNormal();
+        document.getElementById("classSelectionPage").style.display = "flex";
+    }
+
+    function buildInitialDropdown() {
+        const select = document.getElementById("initialSelectKelas");
+        if(!select) return;
+        select.innerHTML = '<option value="" selected disabled>-- Pilih Opsi Kelas --</option>';
+
+        const strukturKelas = [
+            { tingkat: 'X', jumlah: 14 },
+            { tingkat: 'XI', jumlah: 12 },
+            { tingkat: 'XII', jumlah: 12 }
+        ];
+
+        strukturKelas.forEach(grup => {
+            for (let i = 1; i <= grup.jumlah; i++) {
+                const kodeKelas = `${grup.tingkat}. F${i}`; 
+                select.add(new Option("Kelas " + kodeKelas, kodeKelas));
+            }
+        });
+    }
+
+    function submitClassChoice() {
+        const val = document.getElementById("initialSelectKelas").value;
+        if(!val) {
+            alert("Silakan pilih kelas terlebih dahulu!");
+            return;
+        }
+        selectedKelas = val;
+         
+        document.getElementById("inputTokenText").value = "";
+        document.getElementById("tokenErrorMsg").style.display = "none";
+        document.getElementById("tokenModal").classList.add("active");
+        document.getElementById("inputTokenText").focus();
+    }
+
+    function batalIsiToken() {
+        document.getElementById("tokenModal").classList.remove("active");
+    }
+
+    function verifikasiTokenAksesKelas() {
+        const inputVal = document.getElementById("inputTokenText").value.trim().toUpperCase();
+        const btnVerifikasi = document.getElementById("btnVerifikasiToken");
+
+        if (!inputVal) {
+            alert("Silakan masukkan token terlebih dahulu!");
+            return;
+        }
+
+        const originalText = btnVerifikasi.textContent;
+        btnVerifikasi.textContent = "Memproses...";
+        btnVerifikasi.disabled = true;
+        document.getElementById("tokenErrorMsg").style.display = "none";
+
+        db.collection("settings").doc("security").get({ source: 'server' })
+            .then((doc) => {
+                btnVerifikasi.textContent = originalText;
+                btnVerifikasi.disabled = false;
+
+                if (doc.exists) {
+                    const data = doc.data();
+                    const serverActiveToken = data.token_aktif ? String(data.token_aktif).trim().toUpperCase() : "";
+
+                    if (inputVal === serverActiveToken && serverActiveToken !== "" && serverActiveToken !== "-") {
+                        localStorage.setItem("ams_selected_class", selectedKelas);
+                        batalIsiToken();
+                         
+                        document.getElementById("classSelectionPage").style.display = "none";
+                        document.getElementById("loadingText").textContent = "Memuat Jadwal Terenkripsi...";
+                        document.getElementById("loadingStatus").style.display = "block";
+                        loadData();
+                    } else {
+                        document.getElementById("tokenErrorMsg").style.display = "block";
+                        document.getElementById("inputTokenText").value = "";
+                        document.getElementById("inputTokenText").focus();
+                    }
+                } else {
+                    alert("Konfigurasi keamanan tidak ditemukan di database server.");
+                }
+            })
+            .catch((error) => {
+                btnVerifikasi.textContent = originalText;
+                btnVerifikasi.disabled = false;
+                alert("Gagal terhubung dengan server. Pastikan perangkat siswa terhubung ke internet.");
+                console.error("Firestore Force Server Error:", error);
+            });
+    }
+
+    function backToClassSelection() {
+        if (realTimeTimerLoop) clearInterval(realTimeTimerLoop);
+         
+        localStorage.removeItem("ams_selected_class");
+        sessionStorage.clear();
+        document.getElementById("mainContent").style.display = "none";
+        tampilkanHalamanPilihKelasNormal();
+        document.getElementById("classSelectionPage").style.display = "flex";
+    }
+
+    function tutupAnnoyingModal() {
+        const modal = document.getElementById("annoyingModal");
+        if(modal) modal.classList.remove("active");
+    }
+
+    function renderUjianTable(records) {
+        const tbody = document.getElementById("tableBodyUjian");
+        const scrollWrapper = tbody.closest('.table-responsive-wrapper') || window;
+        const currentScrollY = scrollWrapper === window ? window.scrollY : scrollWrapper.scrollTop;
+
+        const formatWIT = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jayapura', year: 'numeric', month: '2-digit', day: '2-digit' });
+        const tanggalHariIniWIT = formatWIT.format(new Date()); 
+
+        let filteredRecords = records.filter(row => {
+            const itemDate = formatStringDate(row.tanggal || row.TanggalPelaksanaan || "");
+            const dataKelasString = (row.kelas || row.Kelas || "").toString().toUpperCase();
+            const listKelasArray = dataKelasString.split(",").map(k => k.trim());
+            return itemDate === tanggalHariIniWIT && listKelasArray.includes(selectedKelas.toUpperCase());
+        });
+
+        if (filteredRecords.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="2" style="text-align: center; color: var(--text-muted); padding: 40px;">🚫 Tidak ada jadwal assessment untuk Kelas ${selectedKelas.toUpperCase()} pada hari ini.</td></tr>`;
+            return;
+        }
+
+        document.getElementById("txtHeaderTitle").textContent = "Jadwal Ujian Hari Ini - Kelas " + selectedKelas.toUpperCase();
+
+        let temporaryHtmlBuffer = "";
+
+        filteredRecords.forEach(item => {
+            const mapel = item.mapel || item.MataPelajaran || "-";
+            const guru = item.guru || item.NamaGuru || "-";
+            const kelas = item.kelas || item.Kelas || "-";
+            const jam = formatJamBersih(item.jam || item.JamPelaksanaan || "-");
+            const hari = item.hari || item.Hari || "-";
+            const linkRaw = item.linkSoal || item.LinkSoal || "";
+             
+            let rawDate = formatStringDate(item.tanggal || item.TanggalPelaksanaan || "");
+            let tanggalDisplay = formatToDisplayDate(rawDate);
+
+            let buttonHtml = `<span style="color: #cbd5e1; font-style: italic;">Tidak ada tautan</span>`;
+             
+            if (linkRaw) {
+                if (rawDate && jam !== "00:00") {
+                    const waktuUjianTarget = new Date(`${rawDate}T${jam}:00+09:00`);
+                    const waktuUjianSelesai = new Date(waktuUjianTarget.getTime() + (110 * 60 * 1000));
+                    const waktuSekarang = new Date();
+
+                    if (waktuSekarang < waktuUjianTarget) {
+                        buttonHtml = `
+                            <button class="btn-exam btn-locked" disabled title="Ujian belum dimulai (Sesuai Jadwal WIT)">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                Terkunci
+                            </button>`;
+                    } else if (waktuSekarang >= waktuUjianTarget && waktuSekarang <= waktuUjianSelesai) {
+                        buttonHtml = `
+                            <button onclick="muatIframeWorkspaceUjian('${linkRaw}', '${mapel}', '${guru}', '${rawDate}', '${jam}')" class="btn-exam btn-active">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                Mulai Ujian
+                            </button>`;
+                    } else {
+                        buttonHtml = `
+                            <button class="btn-exam btn-expired" disabled title="Waktu pengerjaan akses link telah habis (Batas 110 Menit)">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                Waktu Habis
+                            </button>`;
+                    }
+                } else {
+                    buttonHtml = `
+                        <button onclick="muatIframeWorkspaceUjian('${linkRaw}', '${mapel}', '${guru}', '${rawDate}', '${jam}')" class="btn-exam btn-active">
+                            Buka Tautan
+                        </button>`;
+                }
+            }
+
+            temporaryHtmlBuffer += `
+                <tr>
+                    <td>
+                        <div class="info-group">
+                            <div class="info-title">${mapel}</div>
+                            <div class="info-row info-guru">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                ${guru}
+                            </div>
+                            <div class="badge-kelas">Kelas ${kelas}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="info-group">
+                            <div class="info-row">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                ${hari}, ${tanggalDisplay}
+                            </div>
+                            <div class="info-row">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                Pukul ${jam} WIT
+                            </div>
+                            <div class="info-row">
+                                ${buttonHtml}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = temporaryHtmlBuffer;
+
+        if (scrollWrapper === window) {
+            window.scrollTo(0, currentScrollY);
+        } else {
+            scrollWrapper.scrollTop = currentScrollY;
+        }
+    }
+
+    function closePopUpModal() { 
+        const customModal = document.getElementById("customModal");
+        if(customModal) customModal.classList.remove("active"); 
+    }
+
+    function loadData() {
+        const formatWIT = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jayapura', year: 'numeric', month: '2-digit', day: '2-digit' });
+        const tanggalHariIni = formatWIT.format(new Date()); 
+
+        // Pemanggilan database dioptimasi dengan query filtering .where
+        db.collection("exams")
+          .where("tanggal", "==", tanggalHariIni)
+          .get()
+          .then((querySnapshot) => {
+              rawUjianRecords = [];
+              querySnapshot.forEach((doc) => {
+                  rawUjianRecords.push(doc.data());
+              });
+               
+              rawUjianRecords.sort((a, b) => {
+                  const jamA = formatJamBersih(a.jam || a.JamPelaksanaan || "00:00");
+                  const jamB = formatJamBersih(b.jam || b.JamPelaksanaan || "00:00");
+                  return jamA.localeCompare(jamB);
+              });
+
+              renderUjianTable(rawUjianRecords); 
+              document.getElementById("loadingStatus").style.display = "none";
+              document.getElementById("mainContent").style.display = "flex";
+
+              if (!realTimeTimerLoop) {
+                  realTimeTimerLoop = setInterval(() => {
+                      if (document.getElementById("mainContent").style.display === "flex") {
+                          renderUjianTable(rawUjianRecords);
+                      }
+                  }, 1000);
+              }
+
+          })
+          .catch((error) => {
+              showError("Gagal mengambil data dari Cloud Firestore. Cek koneksi Anda.");
+              document.getElementById("loadingStatus").style.display = "none";
+              console.error("Firestore DB Error:", error);
+          });
+    }
+
+    function showError(msg) {
+        const err = document.getElementById("errorMessage");
+        if (err) {
+            err.textContent = msg;
+            err.style.display = "block";
+            // Notifikasi hilang sendiri setelah 5 detik
+            setTimeout(() => {
+                err.style.display = "none";
+            }, 5000);
+        } else {
+            alert(msg);
+        }
+    }
+
+    function formatStringDate(dateStr) {
+        if(!dateStr) return "";
+        return dateStr.includes("T") ? dateStr.split("T")[0] : dateStr;
+    }
+
+    function formatToDisplayDate(dateStr) {
+        if (!dateStr || !dateStr.includes("-")) return dateStr;
+        const parts = dateStr.split("-");
+        if (parts.length === 3) return `${parts[2]}-${parts[1]}-${parts[0]}`;
+        return dateStr;
+    }
+
+    function formatJamBersih(jamStr) {
+        if (!jamStr || jamStr === "-") return "00:00";
+        let str = jamStr.toString().trim();
+        if (str.includes("T")) str = str.split("T")[1];
+        if (str.includes(":")) {
+            let parts = str.split(":");
+            let jam = parts[0].trim().padStart(2, '0');
+            let menit = parts[1].trim().substring(0, 2).padStart(2, '0');
+            return jam + ":" + menit;
+        }
+        return str;
+    }
+</script>
+</body>
+</html>
