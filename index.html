@@ -22,32 +22,10 @@
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
-        /* Dekorasi Background SVG Animasi */
+        /* Dekorasi Background SVG */
         .bg-pattern {
             background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
             background-size: 24px 24px;
-        }
-
-        /* Container Video Background YouTube agar full cover dan tanpa bar hitam */
-        .video-background-container {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .video-background-container iframe {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100vw;
-            height: 56.25vw; /* Rasio 16:9 */
-            min-height: 100vh;
-            min-width: 177.78vh; /* Rasio 16:9 */
-            transform: translate(-50%, -50%) scale(1.2); /* Zoom sedikit untuk menghilangkan kontrol/watermark */
-            pointer-events: none;
         }
     </style>
 </head>
@@ -55,38 +33,26 @@
 
     <div class="flex flex-col lg:flex-row w-full min-h-screen">
         
-        <!-- Panel Kiri: Video Background -->
-        <div class="lg:w-5/12 bg-slate-950 p-8 lg:p-16 flex flex-col justify-between relative overflow-hidden shadow-2xl z-10 rounded-b-[3rem] lg:rounded-none lg:rounded-r-[3rem]">
+        <!-- Panel Kiri: Gradasi Merah Marun ke Hitam -->
+        <div class="lg:w-5/12 bg-gradient-to-br from-[#7a0c19] via-[#3b040a] to-black p-8 lg:p-16 flex flex-col justify-between relative overflow-hidden shadow-2xl z-10 rounded-b-[3rem] lg:rounded-none lg:rounded-r-[3rem]">
             
-            <!-- Embed Video YouTube -->
-            <div class="video-background-container">
-                <iframe 
-                    src="https://www.youtube.com/embed/bYsvki2bLwE?autoplay=1&mute=1&loop=1&playlist=bYsvki2bLwE&controls=0&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1&playsinline=1" 
-                    title="Background Video"
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            </div>
-
-            <!-- Lapisan Gelap (Overlay) agar teks tetap kontras dan mudah dibaca -->
-            <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-[1px] z-[1]"></div>
-            <div class="absolute inset-0 bg-pattern opacity-20 z-[2]"></div>
-            <div class="absolute -top-24 -left-24 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl z-[2]"></div>
-            <div class="absolute bottom-10 right-10 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl z-[2]"></div>
+            <!-- Lapisan Pola & Efek Cahaya Halus -->
+            <div class="absolute inset-0 bg-pattern opacity-20 z-[1]"></div>
+            <div class="absolute -top-24 -left-24 w-64 h-64 bg-red-600/20 rounded-full blur-3xl z-[1]"></div>
+            <div class="absolute bottom-10 right-10 w-48 h-48 bg-rose-950/40 rounded-full blur-3xl z-[1]"></div>
 
             <!-- Konten Panel Kiri -->
             <div class="relative z-10 flex flex-col items-center lg:items-start text-center lg:text-left mt-8 lg:mt-0">
                 <img src="https://res.cloudinary.com/gheeeibs/image/upload/v1782942867/smansalogo_weddws.png" alt="Logo SMAN 1 Sentani" class="w-24 h-24 mb-6 drop-shadow-xl hover:scale-105 transition-transform duration-500">
                 
-                <span class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-blue-100 text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm">
+                <span class="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-rose-100 text-xs font-semibold tracking-wider uppercase mb-6 backdrop-blur-sm">
                     Tahun Ajaran Berjalan
                 </span>
 
                 <h1 class="font-poppins text-3xl md:text-5xl font-bold text-white mb-3 leading-tight drop-shadow-md">
                     Portal Evaluasi <br class="hidden lg:block"/> Digital
                 </h1>
-                <h2 class="text-lg md:text-xl text-blue-200 font-medium mb-6 drop-shadow-sm">
+                <h2 class="text-lg md:text-xl text-rose-200 font-medium mb-6 drop-shadow-sm">
                     SMA Negeri 1 Sentani
                 </h2>
                 
